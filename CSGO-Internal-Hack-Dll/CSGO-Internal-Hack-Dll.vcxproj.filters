@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ImGUI">
+      <UniqueIdentifier>{f886d3bf-30ad-428b-80a1-1a0d2120c033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DLL">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Hack">
+      <UniqueIdentifier>{cd9053a4-12bf-479a-a9a7-86131ff2250c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Game">
+      <UniqueIdentifier>{cab919c4-c6cc-4d8d-a3ab-4ea270eb5b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Util">
+      <UniqueIdentifier>{e471ebe5-12be-43a6-a685-39a35d0efaf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Function">
+      <UniqueIdentifier>{8cdfba99-e62e-4f0c-be16-fb47caee771c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Manager">
+      <UniqueIdentifier>{aeedd2a6-e3d3-44d9-b3f9-96065be70e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Memory">
+      <UniqueIdentifier>{f440dee4-5884-45b2-a68b-632444c70afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hack\Process">
+      <UniqueIdentifier>{3e81cfcb-f103-489b-9644-f208411695e4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>DLL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\ImGUI\imgui.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\ImGUI\imgui_demo.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\ImGUI\imgui_draw.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\ImGUI\imgui_widgets.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx9.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx10.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Hack\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Hack\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="StringManipulation.cpp">
+      <Filter>Hack\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RadarHack.cpp">
+      <Filter>Hack\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerBot.cpp">
+      <Filter>Hack\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Hack\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
+      <Filter>Hack\Process</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ImGUI\imconfig.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ImGUI\imgui.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx9.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx10.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ImGUI\imgui_internal.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ImGUI\imstb_rectpack.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ImGUI\imstb_textedit.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ImGUI\imstb_truetype.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="dllmain.h">
+      <Filter>DLL</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Hack\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDef.h">
+      <Filter>Hack\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStruct.h">
+      <Filter>Hack\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleColor.h">
+      <Filter>Hack\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Hack\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.h">
+      <Filter>Hack\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="StringManipulation.h">
+      <Filter>Hack\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RadarHack.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerBot.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Hack\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Hack\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Hack\Process</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Indicium-ImGui.ini">
+      <Filter>ImGUI</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Indicium-ImGui.rc">
+      <Filter>ImGUI</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
