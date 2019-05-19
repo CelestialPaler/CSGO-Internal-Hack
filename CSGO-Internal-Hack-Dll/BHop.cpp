@@ -22,12 +22,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "BHop.h"
 
-#include "Logger.h"
-#include "StringManipulation.h"
-#include "GameData.h"
-#include "GameStruct.h"
-#include "GameDef.h"
+void BHop()
+{
+	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+	if (clientAddr == NULL) { return; }
 
-void RadarHack();
+	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+	if (localPlayerAddr == NULL) { return; }
+
+	INT airState = *(INT*)((DWORD)localPlayerAddr + hazedumper::netvars::m_fFlags);
+
+	if (GetAsyncKeyState(VK_SPACE) & 1)
+	{
+		if (airState == 257)
+		{
+			INPUT input;
+			WORD vkey = VK_SPACE;
+			input.type = INPUT_KEYBOARD;
+			input.ki.wScan = MapVirtualKey(vkey, MAPVK_VK_TO_VSC);
+			input.ki.time = 0;
+			input.ki.dwExtraInfo = 0;
+			input.ki.wVk = vkey;
+			input.ki.dwFlags = 0;
+			SendInput(1, &input, sizeof(INPUT));
+
+			input.ki.dwFlags = KEYEVENTF_KEYUP;
+			SendInput(1, &input, sizeof(INPUT));
+		}
+	}
+}

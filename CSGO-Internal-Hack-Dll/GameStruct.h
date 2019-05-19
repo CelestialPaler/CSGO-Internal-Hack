@@ -75,4 +75,8 @@ public:
 	int aimID;
 	// 正在瞄准的实体的阵营
 	int aimTeam;
+	// 数据是否合法
+	bool isValid;
+	// 当前武器ID
+	short weaponID;
 };

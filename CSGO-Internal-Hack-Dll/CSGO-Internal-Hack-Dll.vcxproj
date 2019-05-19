@@ -80,6 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)bin\MinHook;$(SolutionDir)bin\Indicium\x86;$(SolutionDir)bin\Detours;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -161,16 +163,18 @@
     <ClCompile Include="..\include\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="..\include\ImGUI\imgui_draw.cpp" />
     <ClCompile Include="..\include\ImGUI\imgui_widgets.cpp" />
+    <ClCompile Include="BHop.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ESP.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="imgui_impl_dx10.cpp" />
     <ClCompile Include="imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui_impl_dx9.cpp" />
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="Process.cpp" />
+    <ClCompile Include="PlayerInfoReader.cpp" />
     <ClCompile Include="RadarHack.cpp" />
+    <ClCompile Include="SkinChanger.cpp" />
     <ClCompile Include="StringManipulation.cpp" />
     <ClCompile Include="TriggerBot.cpp" />
   </ItemGroup>
@@ -181,8 +185,10 @@
     <ClInclude Include="..\include\ImGUI\imstb_rectpack.h" />
     <ClInclude Include="..\include\ImGUI\imstb_textedit.h" />
     <ClInclude Include="..\include\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="BHop.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="dllmain.h" />
+    <ClInclude Include="ESP.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameDef.h" />
     <ClInclude Include="GameStruct.h" />
@@ -191,11 +197,10 @@
     <ClInclude Include="imgui_impl_dx9.h" />
     <ClInclude Include="imgui_impl_win32.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Manager.h" />
-    <ClInclude Include="Memory.h" />
-    <ClInclude Include="Process.h" />
+    <ClInclude Include="PlayerInfoReader.h" />
     <ClInclude Include="RadarHack.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SkinChanger.h" />
     <ClInclude Include="StepTimer.h" />
     <ClInclude Include="StringManipulation.h" />
     <ClInclude Include="TriggerBot.h" />
@@ -205,6 +210,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Indicium-ImGui.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Indicium-Supra\Indicium-Supra.vcxproj">
+      <Project>{db383579-da7f-48c0-ab1f-7c4c93544e2c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

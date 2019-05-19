@@ -37,7 +37,10 @@ namespace FunctionEnableFlag
 	bool bBHop = false;
 	bool bGlow = false;
 	bool bWall = false;
+	bool bMenu = true;
 	bool bNULL = false;
+	bool bReadLocalPlayerInfo = true;
+	bool bReadOtherPlayerInfo = true;
 }
 
 namespace ThreadExistFlag

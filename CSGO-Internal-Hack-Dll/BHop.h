@@ -24,67 +24,10 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <thread>
-
 #include "Logger.h"
-#include "Process.h"
-#include "GameStruct.h"
+#include "StringManipulation.h"
 #include "GameData.h"
+#include "GameStruct.h"
+#include "GameDef.h"
 
-#include "TriggerBot.h"
-#include "RadarHack.h"
-
-class Manager
-{
-public:
-	// 构造函数
-	Manager() {};
-	// 禁止复制初始化与赋值操作
-	Manager(const Manager&) = delete;
-	Manager& operator = (const Manager&) = delete;
-	// 析构函数
-	~Manager() {};
-
-public:
-	// 主函数
-	void Run(void);
-
-	// 初始化函数
-	void Initialize(void);
-
-private:
-	static void GeneralThreadFunc(void);
-	static void OverlayThreadFunc(void);
-	static void TriggerBotThreadFunc(void);
-	static void RadarHackThreadFunc(void);
-
-public:
-	// 键盘输入处理
-	void HandleKeyBoardInput(void);
-	// 鼠标输入处理
-	void HandleMouseInput() {}
-	// 更新配置文件
-	void UpdateFromConfigFile() {}
-
-private:
-	// 开关外挂功能
-	void Toggle(bool& _enable)
-	{
-		_enable = !_enable;
-		if (true)
-		{
-			if (_enable)
-			{
-				Beep(500, 100);
-				Beep(600, 100);
-			}
-			else
-			{
-				Beep(600, 100);
-				Beep(500, 100);
-			}
-		}
-	}
-};
+void BHop(void);

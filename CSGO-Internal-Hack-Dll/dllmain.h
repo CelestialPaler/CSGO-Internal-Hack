@@ -39,7 +39,12 @@ SOFTWARE.
 #include "GameDef.h"
 #include "GameStruct.h"
 #include "StringManipulation.h"
-#include "Manager.h"
+
+#include "TriggerBot.h"
+#include "RadarHack.h"
+#include "BHop.h"
+#include "SkinChanger.h"
+#include "PlayerInfoReader.h"
 
 #if defined _M_X64
 #pragma comment(lib, "MinHook.x64.lib")

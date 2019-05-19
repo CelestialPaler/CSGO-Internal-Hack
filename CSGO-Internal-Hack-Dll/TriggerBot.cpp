@@ -26,23 +26,28 @@
 
 void TriggerBot(void)
 {
-	Process* proc = Process::GetInstance();
-	QWORD clientAddr = proc->moduleBaseAddr[L"client_panorama.dll"];
-	DWORD localPlayerAddr = proc->ReadUint32(clientAddr + hazedumper::signatures::dwLocalPlayer);
-
-	unsigned int aimID = proc->ReadUint32(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
-	unsigned int localTeam = proc->ReadUint32(localPlayerAddr + hazedumper::netvars::m_iTeamNum);
-
-	if (aimID >= 1 && aimID <= 64)
+	if (GetAsyncKeyState(VK_MBUTTON) & 0x8000)
 	{
-		DWORD targetPlayerAimAddr = proc->ReadUint32(clientAddr + hazedumper::signatures::dwEntityList + (QWORD)((aimID - 1) * 0x10));
-		unsigned int aimTeam = proc->ReadUint32(targetPlayerAimAddr + hazedumper::netvars::m_iTeamNum);
+		DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+		if (clientAddr == NULL) { return; }
 
-		if (localTeam != aimTeam)
+		DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+		if (localPlayerAddr == NULL) { return; }
+
+		INT localPlayerTeam = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iTeamNum);
+		INT aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
+
+		if (aimID >= 1 && aimID <= 64)
 		{
-			mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, NULL, NULL);
-			Sleep(10);
-			mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, NULL, NULL);
+			DWORD aimedPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (QWORD)((aimID - 1) * (int)0x10));
+			if (aimedPlayerAddr == NULL) { return; }
+			int aimedPlayerTeam = *(DWORD*)(aimedPlayerAddr + hazedumper::netvars::m_iTeamNum);
+			if (localPlayerTeam != aimedPlayerTeam)
+			{
+				mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, NULL, NULL);
+				Sleep(10);
+				mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, NULL, NULL);
+			}
 		}
 	}
 }

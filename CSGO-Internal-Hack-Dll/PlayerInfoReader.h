@@ -30,4 +30,5 @@
 #include "GameStruct.h"
 #include "GameDef.h"
 
-void RadarHack();
+void ReadLocalPlayerInfo(void);
+void ReadOtherPlayerInfo(void);

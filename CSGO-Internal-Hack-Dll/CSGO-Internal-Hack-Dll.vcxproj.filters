@@ -20,15 +20,6 @@
     <Filter Include="Hack\Function">
       <UniqueIdentifier>{8cdfba99-e62e-4f0c-be16-fb47caee771c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hack\Manager">
-      <UniqueIdentifier>{aeedd2a6-e3d3-44d9-b3f9-96065be70e6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hack\Memory">
-      <UniqueIdentifier>{f440dee4-5884-45b2-a68b-632444c70afe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hack\Process">
-      <UniqueIdentifier>{3e81cfcb-f103-489b-9644-f208411695e4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -73,11 +64,17 @@
     <ClCompile Include="TriggerBot.cpp">
       <Filter>Hack\Function</Filter>
     </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>Hack\Manager</Filter>
+    <ClCompile Include="PlayerInfoReader.cpp">
+      <Filter>Hack\Function</Filter>
     </ClCompile>
-    <ClCompile Include="Process.cpp">
-      <Filter>Hack\Process</Filter>
+    <ClCompile Include="BHop.cpp">
+      <Filter>Hack\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="ESP.cpp">
+      <Filter>Hack\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinChanger.cpp">
+      <Filter>Hack\Function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,14 +141,17 @@
     <ClInclude Include="TriggerBot.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Hack\Manager</Filter>
+    <ClInclude Include="PlayerInfoReader.h">
+      <Filter>Hack\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Memory.h">
-      <Filter>Hack\Memory</Filter>
+    <ClInclude Include="BHop.h">
+      <Filter>Hack\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Process.h">
-      <Filter>Hack\Process</Filter>
+    <ClInclude Include="ESP.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinChanger.h">
+      <Filter>Hack\Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

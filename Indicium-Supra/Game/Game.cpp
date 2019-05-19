@@ -354,14 +354,17 @@ DWORD WINAPI IndiciumMainThread(LPVOID Params)
     }
     catch (DetourException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "Hooking D3D9Ex failed: " << ex.what();
     }
     catch (ModuleNotFoundException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(warning) << "Module not found: " << ex.what();
     }
     catch (RuntimeException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "D3D9(Ex) runtime error: " << ex.what();
     }
 
@@ -617,14 +620,17 @@ DWORD WINAPI IndiciumMainThread(LPVOID Params)
     }
     catch (DetourException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "Hooking D3D11 failed: " << ex.what();
     }
     catch (ModuleNotFoundException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(warning) << "Module not found: " << ex.what();
     }
     catch (RuntimeException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "D3D11 runtime error: " << ex.what();
     }
 

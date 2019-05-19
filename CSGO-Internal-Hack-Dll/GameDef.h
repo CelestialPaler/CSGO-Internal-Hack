@@ -167,3 +167,54 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t set_abs_origin = 0x1CA7F0;
 	} // namespace signatures
 } // namespace hazedumper
+
+
+// 所有武器的物品ID
+namespace WeaponID
+{
+	const INT DesertEagle = 1;
+	const INT DualBarettas = 2;
+	const INT FiveSeven = 3;
+	const INT Glock = 4;
+	const INT AK47 = 7;
+	const INT AUG = 8;
+	const INT AWP = 9;
+	const INT FAMAS = 10;
+	const INT G3SG1 = 11;
+	const INT GailAR = 13;
+	const INT M249 = 14;
+	const INT M4A4 = 16;
+	const INT MAC10 = 17;
+	const INT P90 = 19;
+	const INT MPSSD = 23;
+	const INT UMP45 = 24;
+	const INT XM1014 = 25;
+	const INT PPBizon = 26;
+	const INT MAG7 = 27;
+	const INT Negev = 28;
+	const INT SawedOff = 29;
+	const INT Tec9 = 30;
+	const INT Zeus = 31;
+	const INT P2000 = 32;
+	const INT MP7 = 33;
+	const INT MP9 = 34;
+	const INT Nova = 35;
+	const INT P250 = 36;
+	const INT SCAR20 = 38;
+	const INT SG553 = 39;
+	const INT SSG08 = 40;
+	const INT Knife1 = 41;
+	const INT Knife2 = 42;
+	const INT Flashbang = 43;
+	const INT HE = 44;
+	const INT SG = 45;
+	const INT Molotov = 46;
+	const INT Decoy = 47;
+	const INT IG = 48;
+	const INT C4 = 49;
+	const INT Knife3 = 59;
+	const INT M4A1S = 60;
+	const INT USPS = 61;
+	const INT CZ75Auto = 63;
+	const INT R8Revolver = 64;
+}

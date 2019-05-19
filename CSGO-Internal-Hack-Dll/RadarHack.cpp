@@ -26,21 +26,20 @@
 
 void RadarHack()
 {
-	Process* proc = Process::GetInstance();
-	QWORD clientAddr = proc->moduleBaseAddr[L"client_panorama.dll"];
+	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+	if (clientAddr == NULL) { return; }
 
-	for (size_t i = 1; i < 64; i++)
+	for (size_t i = 1; i < 20; i++)
 	{
-		DWORD targetPlayerAddr = proc->ReadDWORD(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(i * 0x10));
-		if (targetPlayerAddr != NULL)
+		DWORD targetPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (QWORD)((i - 1) * (int)0x10));
+		if (targetPlayerAddr == NULL) { return; }
+		BOOL targetPlayerIsSpotted = *(BOOL*)(targetPlayerAddr + hazedumper::netvars::m_bSpotted);
+		if (targetPlayerIsSpotted == FALSE)
 		{
-			BOOL targetPlayerIsSpotted = proc->ReadBool(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted);
-			if (targetPlayerIsSpotted == FALSE)
-				do
-				{
-					proc->WriteBool(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted, TRUE);
-				} while (!proc->ReadBool(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted));
+			do
+			{
+				*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted) = TRUE;
+			} while (!*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted));
 		}
 	}
-	Sleep(10);
 }

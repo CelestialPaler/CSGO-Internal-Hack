@@ -98,10 +98,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\Indicium\$(PlatformShortName)\</OutDir>
     <IncludePath>$(SolutionDir)include;$(MSBuildProjectDirectory);$(IncludePath)</IncludePath>
     <LibraryPath>
     </LibraryPath>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)include;$(MSBuildProjectDirectory);$(IncludePath)</IncludePath>

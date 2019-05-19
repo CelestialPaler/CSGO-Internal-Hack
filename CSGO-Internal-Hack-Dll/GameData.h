@@ -46,7 +46,10 @@ namespace FunctionEnableFlag
 	extern bool bBHop;
 	extern bool bGlow;
 	extern bool bWall;
+	extern bool bMenu;
 	extern bool bNULL;
+	extern bool bReadLocalPlayerInfo;
+	extern bool bReadOtherPlayerInfo;
 }
 
 namespace ThreadExistFlag

@@ -24,20 +24,6 @@ SOFTWARE.
 
 #include "dllmain.h"
 
-//
-// Boost
-//
-//#include <boost/log/core.hpp>
-//#include <boost/log/trivial.hpp>
-//#include <boost/log/expressions.hpp>
-//#include <boost/log/utility/setup/file.hpp>
-//#include <boost/log/utility/setup/common_attributes.hpp>
-//#include <boost/log/attributes/named_scope.hpp>
-//
-//namespace logging = boost::log;
-//namespace keywords = boost::log::keywords;
-//namespace attrs = boost::log::attributes;
-
 // 
 // ImGui includes
 // 
@@ -52,12 +38,6 @@ t_WindowProc OriginalWindowProc = nullptr;
 PINDICIUM_ENGINE engine = nullptr;
 
 #define WNDPROC_HOOK
-
-void ManagerThreadFunc()
-{
-	Manager manager;
-	manager.Run();
-}
 
 /**
  * \fn  BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
@@ -124,11 +104,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 			// 
 			// TODO: cover failure
-			// 
-
-			Process* proc = Process::GetInstance();
-			proc->Attach(targetProcName);
-
+			//
 			err = IndiciumEngineInit(engine, EvtIndiciumGameHooked);
 		}
 
@@ -218,6 +194,7 @@ void EvtIndiciumD3D9Present(
 {
 	static auto initialized = false;
 	static bool show_overlay = true;
+	static bool show_console = true;
 	static std::once_flag init;
 
 	//
@@ -241,18 +218,33 @@ void EvtIndiciumD3D9Present(
 
 		HookWindowProc(params.hFocusWindow);
 
-		initialized = true;
+		{
+			for (size_t i = 0; i < 9; i++)
+				teammates.push_back(std::make_unique<Player>());
+			for (size_t i = 0; i < 10; i++)
+				enemy.push_back(std::make_unique<Player>());
+		}
 
+
+		initialized = true;
 	}, pDevice);
 
 	if (!initialized)
 		return;
 
-	if (FunctionEnableFlag::bTriggerBot)
-		TriggerBot();
-
-	if (FunctionEnableFlag::bRadarHack)
-		RadarHack();
+	// 外挂程序
+	{
+		if (FunctionEnableFlag::bReadLocalPlayerInfo)
+			ReadLocalPlayerInfo();
+		if (FunctionEnableFlag::bReadOtherPlayerInfo)
+			ReadOtherPlayerInfo();
+		if (FunctionEnableFlag::bBHop)
+			BHop();
+		if (FunctionEnableFlag::bTriggerBot)
+			TriggerBot();
+		if (FunctionEnableFlag::bRadarHack)
+			RadarHack();
+	}
 
 	TOGGLE_STATE(VK_F9, show_overlay);
 	if (!show_overlay) 
@@ -625,35 +617,243 @@ LRESULT WINAPI DetourWindowProc(
 
 #pragma region Main content rendering
 
-float menuAlpha = 0.75;
+void ShowLocalPlayerInfo()
+{
+	ImGui::Separator();
+	ImGui::Text("LocalPlayer Info:");
+
+	std::stringstream ss;
+	ss << "  BaseAddr : " << localPlayer->dwBaseAddr;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  Health : " << localPlayer->health;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  Team : " << localPlayer->team;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  ID : " << localPlayer->id;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  Coords : (" << std::setw(4) << (float)localPlayer->bodyGameCoords.x << "," << (float)localPlayer->bodyGameCoords.y << "," << (float)localPlayer->bodyGameCoords.z << ")";
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  AimID : " << localPlayer->aimID;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  WeaponID : " << localPlayer->weaponID;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+}
+
+void ShowOtherPlayerInfo()
+{
+	ImGui::Separator();
+	ImGui::Text("OtherPlayer Info:");
+	for (size_t i = 0; i < teammates.size(); i++)
+	{
+		if (!teammates.at(i)->isValid)
+			continue;
+
+		ImGui::Separator();
+		std::stringstream ss;
+		ss << "  BaseAddr : " << teammates.at(i)->dwBaseAddr;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Health : " << teammates.at(i)->health;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  Team : " << teammates.at(i)->team;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  ID : " << teammates.at(i)->id;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Coords : (" << std::setw(4) << (float)teammates.at(i)->bodyGameCoords.x << "," << (float)teammates.at(i)->bodyGameCoords.y << "," << (float)teammates.at(i)->bodyGameCoords.z << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+	}
+
+	for (size_t i = 0; i < enemy.size(); i++)
+	{
+		if (!enemy.at(i)->isValid)
+			continue;
+
+		ImGui::Separator();
+		std::stringstream ss;
+		ss << "  BaseAddr : " << enemy.at(i)->dwBaseAddr;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Health : " << enemy.at(i)->health;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  Team : " << enemy.at(i)->team;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  ID : " << enemy.at(i)->id;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Coords : (" << std::setw(4) << (float)enemy.at(i)->bodyGameCoords.x << "," << (float)enemy.at(i)->bodyGameCoords.y << "," << (float)enemy.at(i)->bodyGameCoords.z << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+	}
+}
+
+void ShowSkinInfo()
+{
+	Skin skin = ReadSkinInfo();
+	ImGui::Text("Skin Info:");
+	ImGui::Separator();
+	std::stringstream ss;
+	ss << "  HID : " << skin.itemIDHigh;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  LID : " << skin.itemIDLow;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  PaintKit : " << skin.paintKit;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  StatTrak : " << skin.statTrakCount;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  Quality : " << skin.quality;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  Wear : " << skin.wear;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ImGui::SameLine();
+	ss << "  Seed : " << skin.seed;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+}
+
+float menuAlpha = 0.8;
+float menuAlphaPre = 0;
+float colorTeammate[4] = { 0,1,0,1 };
+float colorEnemy[4] = { 1,0,0,1 };
+int triggerDelay = 2;
 void RenderScene()
 {
 	static std::once_flag flag;
 	std::call_once(flag, []() { IndiciumEngineLogInfo("++ RenderScene called"); });
 
 	ImGui::ShowMetricsWindow();
+
+	// 主窗口
 	{
-		ImGui::SetNextWindowPos(ImVec2(1400, 200));
 		ImGui::Begin("CSGO Internal Hack Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("Copyright (c) 2019 Celestial Tech All rights reserved.");
-		std::stringstream ss;
-		ss << "Dev Version : " << Util::StringManipulation::WstringToString(devVersion);
-		ImGui::Spacing();
-		ImGui::Text(ss.str().c_str());
-		ImGui::Checkbox("F1 - Overlay", &FunctionEnableFlag::bOverlay);
-		ImGui::Checkbox("F2 - TriggerBot", &FunctionEnableFlag::bTriggerBot);
-		ImGui::Checkbox("F3 - AimBot", &FunctionEnableFlag::bAimBot);
-		ImGui::Checkbox("F4 - ESP", &FunctionEnableFlag::bESP);
-		ImGui::Checkbox("F5 - Wall", &FunctionEnableFlag::bWall);
-		ImGui::Checkbox("F6 - RadarHack", &FunctionEnableFlag::bRadarHack);
-		ImGui::Checkbox("F7 - BHop", &FunctionEnableFlag::bBHop);
-		ImGui::Checkbox("F8 - Glow", &FunctionEnableFlag::bGlow);
-		ImGui::Checkbox("F9 - Menu", &FunctionEnableFlag::bNULL);
-		ImGui::SliderFloat("Menu Alpha", &menuAlpha, 0.0f, 1.0f);
-		ImGui::GetStyle().Alpha = menuAlpha;
+
+		// 窗口透明度
+		if (menuAlpha != menuAlphaPre)
+		{
+			ImGui::GetStyle().Alpha = menuAlpha;
+			menuAlphaPre = menuAlpha;
+		}
+
+		if (ImGui::CollapsingHeader("Info"))
+		{
+			std::stringstream ss;
+			ss << "  Dev Version : " << Util::StringManipulation::WstringToString(devVersion);
+			ImGui::Text(ss.str().c_str());
+			ss.str("");
+			__time64_t sysTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+			struct tm pTime;
+			localtime_s(&pTime, &sysTime);
+			char timeInString[60] = { 0 };
+			sprintf_s(timeInString, "%d-%02d-%02d %02d:%02d:%02d",
+				(int)pTime.tm_year + 1900,
+				(int)pTime.tm_mon + 1,
+				(int)pTime.tm_mday,
+				(int)pTime.tm_hour,
+				(int)pTime.tm_min,
+				(int)pTime.tm_sec);
+			ss << "  System Time : " << timeInString;
+			ImGui::Text(ss.str().c_str());
+		}
+		if (ImGui::CollapsingHeader("Hacks"))
+		{
+			ImGui::Checkbox("  F1 - Overlay", &FunctionEnableFlag::bOverlay);
+			ImGui::Checkbox("  F2 - TriggerBot", &FunctionEnableFlag::bTriggerBot);
+			ImGui::Checkbox("  F3 - AimBot", &FunctionEnableFlag::bAimBot);
+			ImGui::Checkbox("  F4 - ESP", &FunctionEnableFlag::bESP);
+			ImGui::Checkbox("  F5 - Wall", &FunctionEnableFlag::bWall);
+			ImGui::Checkbox("  F6 - RadarHack", &FunctionEnableFlag::bRadarHack);
+			ImGui::Checkbox("  F7 - BHop", &FunctionEnableFlag::bBHop);
+			ImGui::Checkbox("  F8 - Glow", &FunctionEnableFlag::bGlow);
+			ImGui::Checkbox("  F9 - Menu", &FunctionEnableFlag::bMenu);
+		}
+		if (ImGui::CollapsingHeader("Misc"))
+		{
+			ImGui::Separator();
+			ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
+			ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
+			ImGui::Separator();
+			if (ImGui::Button("SkinChanger")) { SkinChanger(); }
+			ImGui::SameLine();
+			if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
+		}
+		if (ImGui::CollapsingHeader("Setting"))
+		{
+			ImGui::Separator();
+			ImGui::Text("  Menu Transparency");
+			ImGui::SliderFloat("Alpha", &menuAlpha, 0.0f, 1.0f);
+
+			ImGui::Separator();
+			ImGui::Text("  WallHack Color");
+			ImGui::ColorEdit4("Teanmate", colorTeammate, ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::ColorEdit4("Enemy", colorEnemy, ImGuiColorEditFlags_PickerHueWheel);
+
+			ImGui::Separator();
+			ImGui::InputInt("  Trigger Delay", &triggerDelay);
+			ImGui::SameLine();
+			ImGui::Text(" ms");
+		}
+		if (ImGui::CollapsingHeader("Debug"))
+		{
+			if (localPlayer->isValid)
+			{
+				ShowLocalPlayerInfo();
+				ShowSkinInfo();
+			}
+			if (teammates.at(0)->isValid)
+				ShowOtherPlayerInfo();
+		}
 		ImGui::End();
 	}
-
+	
 	ImGui::Render();
 }
 
