@@ -9,6 +9,16 @@
 #include "GameStruct.h"
 #include "GameDef.h"
 
+namespace hazedumper {
+	namespace netvars {
+		constexpr ::std::ptrdiff_t m_hViewModel = 0x32F8;
+		constexpr ::std::ptrdiff_t m_iViewModelIndex = 0x3220;
+		constexpr ::std::ptrdiff_t m_nModelIndex = 0x258;
+		constexpr ::std::ptrdiff_t precache_bayonet_ct = 89;
+		constexpr ::std::ptrdiff_t precache_bayonet_t = 65;
+	}
+}
+
 struct Skin
 {
 	Skin(int _paintKit, int _seed, int _statTrackCount, int _qualiy, std::string _name, float _wear)

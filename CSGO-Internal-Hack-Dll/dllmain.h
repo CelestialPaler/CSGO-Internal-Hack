@@ -45,6 +45,7 @@ SOFTWARE.
 #include "BHop.h"
 #include "SkinChanger.h"
 #include "PlayerInfoReader.h"
+#include "Glow.h"
 
 #if defined _M_X64
 #pragma comment(lib, "MinHook.x64.lib")

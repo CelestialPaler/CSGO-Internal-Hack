@@ -80,7 +80,10 @@ void ReadLocalPlayerInfo(void)
 	localPlayer->aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
 
 	DWORD localPlayerActiveWeapon = *(DWORD*)(localPlayerAddr + (QWORD)hazedumper::netvars::m_hActiveWeapon);
+	if (localPlayerActiveWeapon == NULL) { localPlayer->isValid = false; return; }
+
 	DWORD localPlayerActiveWeaponAddr = *(DWORD*)(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(((int)(localPlayerActiveWeapon & 0xFFF) - 1) * 0x10));
+	if (localPlayerActiveWeaponAddr == NULL) { localPlayer->isValid = false; return; }
 
 	localPlayer->weaponID = *(SHORT*)(localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iItemDefinitionIndex);
 
@@ -117,6 +120,7 @@ void ReadOtherPlayerInfo(void)
 		tempPlayer->health = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iHealth);
 		tempPlayer->team = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iTeamNum);
 		tempPlayer->id = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iAccountID);
+		tempPlayer->isDormant = *(BOOL*)(otherPlayerAddr + hazedumper::signatures ::m_bDormant);
 
 		// 读取身体绝对空间坐标
 		tempPlayer->bodyGameCoords.x = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);

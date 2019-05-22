@@ -79,4 +79,21 @@ public:
 	bool isValid;
 	// 当前武器ID
 	short weaponID;
+	// 是否dormant
+	bool isDormant;
+};
+
+struct GlowObject
+{
+	DWORD dwEntityAddr;
+	float r;
+	float g;
+	float b;
+	float a;
+	uint8_t padding1[16];
+	bool m_bRenderWhenOccluded;
+	bool m_bRenderWhenUnoccluded;
+	bool m_bFullBloom;
+	int GlowStyle;
+	uint8_t padding2[10];
 };

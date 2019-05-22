@@ -27,6 +27,14 @@ std::vector<std::unique_ptr<Player>> teammates;
 // 所有的敌人
 std::vector<std::unique_ptr<Player>> enemy;
 
+// 发光实体
+std::vector<std::unique_ptr<GlowObject>> glowObjects;
+int glowObjectCount;
+float glowColorTeammates[4] = { 0,1,0,1 };
+float glowColorEnemy[4] = { 1,0,0,1 };
+float glowColorWeapons[4] = { 0,0,1,1 };
+float glowColorC4[4] = { 1,1,1,1 };
+
 namespace FunctionEnableFlag
 {
 	bool bOverlay = false;
@@ -36,11 +44,17 @@ namespace FunctionEnableFlag
 	bool bRadarHack = false;
 	bool bBHop = false;
 	bool bGlow = false;
+	bool bGlowTeammates = false;
+	bool bGlowEnemy = false;
+	bool bGlowWeapons = false;
 	bool bWall = false;
 	bool bMenu = true;
 	bool bNULL = false;
-	bool bReadLocalPlayerInfo = true;
-	bool bReadOtherPlayerInfo = true;
+	bool bSkinChanger = false;
+	bool bReadLocalPlayerInfo = false;
+	bool bReadOtherPlayerInfo = false;
+	bool bReadGlowObjectInfo = false;
+	bool bReadSkinInfo = false;
 }
 
 namespace ThreadExistFlag

@@ -10,6 +10,26 @@ void ForceFullUpdate(void)
 	*(int*)(StatePtr + 0x174) = -1;
 }
 
+void ChangeWeaponSKin(DWORD _weaponEntity, int _paintkit, int _seed, int _statTrack, int _quality, int _wear, std::string _nameTag)
+{
+	int UID = *(INT*)(_weaponEntity + hazedumper::netvars::m_OriginalOwnerXuidLow);
+
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackPaintKit) = _paintkit;
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackSeed) = _seed;
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackStatTrak) = _statTrack;
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_iEntityQuality) = _quality;
+	*(FLOAT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_flFallbackWear) = _wear;
+
+	for (size_t i = 0; i < _nameTag.size(); i++)
+		* (CHAR*)(_weaponEntity + (QWORD)hazedumper::netvars::m_szCustomName + i) = _nameTag[i];
+
+
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_iAccountID) = UID;
+
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh) = 1;
+	*(INT*)(_weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh + 4) = 1;
+}
+
 void SkinChanger(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
@@ -21,47 +41,22 @@ void SkinChanger(void)
 	for (size_t i = 0; i < 8; i++)
 	{
 		DWORD weaponIndex = *(DWORD*)(localPlayerAddr + (QWORD)hazedumper::netvars::m_hMyWeapons + ((i - 1) * 0x4));
-
-		DWORD weaponEntity = *(DWORD*)(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(((int)(weaponIndex & 0xFFF) - 1) * 0x10));
+		weaponIndex &= 0xFFF;
+		DWORD weaponEntity = *(DWORD*)(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (weaponIndex - 1) * 0x10);
 		if (weaponEntity <= 0) { continue; }
 
 		int weaponID = *(SHORT*)(weaponEntity + hazedumper::netvars::m_iItemDefinitionIndex);
-		int UID = *(INT*)(weaponEntity + hazedumper::netvars::m_OriginalOwnerXuidLow);
 
-		if (weaponID == WeaponID::AUG)
+		switch (weaponID)
 		{
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackPaintKit) = 455;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackSeed) = 1;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackStatTrak) = 1234;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iEntityQuality) = 4;
-
-			char name[] = "Celestial Paler";
-			for (size_t i = 0; i < (sizeof(name) / sizeof(char)); i++)
-				* (CHAR*)(weaponEntity + (QWORD)hazedumper::netvars::m_szCustomName + i) = name[i];
-
-			*(FLOAT*)(weaponEntity + (QWORD)hazedumper::netvars::m_flFallbackWear) = 0.001f;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iAccountID) = UID;
-
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh) = 1;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh + 4) = 1;
-		}
-
-		if (weaponID == WeaponID::AK47)
-		{
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackPaintKit) = 180;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackSeed) = 1;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_nFallbackStatTrak) = 1234;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iEntityQuality) = 4;
-
-			char name[] = "Celestial Paler";
-			for (size_t i = 0; i < (sizeof(name) / sizeof(char)); i++)
-				* (CHAR*)(weaponEntity + (QWORD)hazedumper::netvars::m_szCustomName + i) = name[i];
-
-			*(FLOAT*)(weaponEntity + (QWORD)hazedumper::netvars::m_flFallbackWear) = 0.001f;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iAccountID) = UID;
-
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh) = 1;
-			*(INT*)(weaponEntity + (QWORD)hazedumper::netvars::m_iItemIDHigh + 4) = 1;
+		case WeaponID::AK47:
+			ChangeWeaponSKin(weaponEntity, 180, 0, 999, 4, 0.1, "Celestial Tech");
+			break;
+		case WeaponID::AUG:
+			ChangeWeaponSKin(weaponEntity, 455, 0, 999, 4, 0.1, "Celestial Tech");
+			break;
+		default:
+			break;
 		}
 	}
 }

@@ -519,14 +519,17 @@ DWORD WINAPI IndiciumMainThread(LPVOID Params)
     }
     catch (DetourException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "Hooking D3D10 failed: " << ex.what();
     }
     catch (ModuleNotFoundException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(warning) << "Module not found: " << ex.what();
     }
     catch (RuntimeException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "D3D10 runtime error: " << ex.what();
     }
 
@@ -724,14 +727,17 @@ DWORD WINAPI IndiciumMainThread(LPVOID Params)
     }
     catch (DetourException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "Hooking D3D12 failed: " << ex.what();
     }
     catch (ModuleNotFoundException& ex)
     {
+		ex;
 		// BOOST_LOG_TRIVIAL(warning) << "Module not found: " << ex.what();
     }
     catch (RuntimeException& ex)
     {
+		ex;
 		//BOOST_LOG_TRIVIAL(error) << "D3D12 runtime error: " << ex.what();
     }
 
@@ -795,6 +801,7 @@ DWORD WINAPI IndiciumMainThread(LPVOID Params)
     }
     catch (DetourException& pex)
     {
+		pex;
 		//BOOST_LOG_TRIVIAL(error) << "Unhooking failed: " << pex.what();
     }
 

@@ -33,13 +33,17 @@ void RadarHack()
 	{
 		DWORD targetPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (QWORD)((i - 1) * (int)0x10));
 		if (targetPlayerAddr == NULL) { return; }
-		BOOL targetPlayerIsSpotted = *(BOOL*)(targetPlayerAddr + hazedumper::netvars::m_bSpotted);
-		if (targetPlayerIsSpotted == FALSE)
+		BOOL isDormant = *(BOOL*)(targetPlayerAddr + hazedumper::signatures::m_bDormant);
+		if (!isDormant)
 		{
-			do
+			BOOL targetPlayerIsSpotted = *(BOOL*)(targetPlayerAddr + hazedumper::netvars::m_bSpotted);
+			if (targetPlayerIsSpotted == FALSE)
 			{
-				*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted) = TRUE;
-			} while (!*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted));
-		}
+				do
+				{
+					*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted) = TRUE;
+				} while (!*(BOOL*)(targetPlayerAddr + (QWORD)hazedumper::netvars::m_bSpotted));
+			}
+		}	
 	}
 }

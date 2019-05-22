@@ -100,8 +100,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\Indicium\$(PlatformShortName)\</OutDir>
     <IncludePath>$(SolutionDir)include;$(MSBuildProjectDirectory);$(IncludePath)</IncludePath>
-    <LibraryPath>
-    </LibraryPath>
+    <LibraryPath>$(WindowsSdkDir)\lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -158,7 +157,7 @@
       <PreprocessorDefinitions>INDICIUM_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;IS_INDICIUM_SUPRA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ClCompile>
     <Link>

@@ -36,6 +36,14 @@ extern std::vector<std::unique_ptr<Player>> teammates;
 // 所有的敌人
 extern std::vector<std::unique_ptr<Player>> enemy;
 
+// 发光实体
+extern std::vector<std::unique_ptr<GlowObject>> glowObjects;
+extern int glowObjectCount;
+extern float glowColorTeammates[4];
+extern float glowColorEnemy[4];
+extern float glowColorWeapons[4];
+extern float glowColorC4[4];
+
 namespace FunctionEnableFlag
 {
 	extern bool bOverlay;
@@ -48,8 +56,11 @@ namespace FunctionEnableFlag
 	extern bool bWall;
 	extern bool bMenu;
 	extern bool bNULL;
+	extern bool bSkinChanger;
 	extern bool bReadLocalPlayerInfo;
 	extern bool bReadOtherPlayerInfo;
+	extern bool bReadGlowObjectInfo;
+	extern bool bReadSkinInfo;
 }
 
 namespace ThreadExistFlag

@@ -153,10 +153,19 @@
     <ClInclude Include="SkinChanger.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
+    <ClInclude Include="Glow.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Indicium-ImGui.ini">
       <Filter>ImGUI</Filter>
+    </None>
+    <None Include="..\Release\Eject.bat">
+      <Filter>DLL</Filter>
+    </None>
+    <None Include="..\Release\Inject.bat">
+      <Filter>DLL</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

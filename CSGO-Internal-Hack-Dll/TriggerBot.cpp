@@ -39,7 +39,7 @@ void TriggerBot(void)
 
 		if (aimID >= 1 && aimID <= 64)
 		{
-			DWORD aimedPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (QWORD)((aimID - 1) * (int)0x10));
+			DWORD aimedPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (aimID - 1) * 0x10);
 			if (aimedPlayerAddr == NULL) { return; }
 			int aimedPlayerTeam = *(DWORD*)(aimedPlayerAddr + hazedumper::netvars::m_iTeamNum);
 			if (localPlayerTeam != aimedPlayerTeam)

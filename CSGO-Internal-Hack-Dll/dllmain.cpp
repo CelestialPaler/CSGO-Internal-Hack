@@ -219,10 +219,12 @@ void EvtIndiciumD3D9Present(
 		HookWindowProc(params.hFocusWindow);
 
 		{
-			for (size_t i = 0; i < 9; i++)
+			for (size_t i = 0; i < 19; i++)
 				teammates.push_back(std::make_unique<Player>());
-			for (size_t i = 0; i < 10; i++)
+			for (size_t i = 0; i < 20; i++)
 				enemy.push_back(std::make_unique<Player>());
+			for (size_t i = 0; i < 128; i++)
+				glowObjects.push_back(std::make_unique<GlowObject>());
 		}
 
 
@@ -238,22 +240,28 @@ void EvtIndiciumD3D9Present(
 			ReadLocalPlayerInfo();
 		if (FunctionEnableFlag::bReadOtherPlayerInfo)
 			ReadOtherPlayerInfo();
+		if (FunctionEnableFlag::bReadGlowObjectInfo)
+			ReadGlowObjectInfo();
 		if (FunctionEnableFlag::bBHop)
 			BHop();
 		if (FunctionEnableFlag::bTriggerBot)
 			TriggerBot();
 		if (FunctionEnableFlag::bRadarHack)
 			RadarHack();
+		if (FunctionEnableFlag::bSkinChanger)
+			SkinChanger();
+		if (FunctionEnableFlag::bGlow)
+			Glow();
 	}
 
-	TOGGLE_STATE(VK_F9, show_overlay);
-	if (!show_overlay) 
+	TOGGLE_STATE(VK_F9, FunctionEnableFlag::bMenu);
+	if (!FunctionEnableFlag::bMenu)
 		return;
 
     // Start the Dear ImGui frame
     ImGui_ImplDX9_NewFrame();
     ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
+	ImGui::NewFrame();
 
 	RenderScene();
 
@@ -285,8 +293,8 @@ void EvtIndiciumD3D9PresentEx(
 	DWORD                   dwFlags
 )
 {
-	static auto initialized = false;
-	static bool show_overlay = true;
+		static auto initialized = false;
+		static bool show_overlay = true;
 	static std::once_flag init;
 
 	//
@@ -621,9 +629,9 @@ void ShowLocalPlayerInfo()
 {
 	ImGui::Separator();
 	ImGui::Text("LocalPlayer Info:");
-
+	ImGui::Separator();
 	std::stringstream ss;
-	ss << "  BaseAddr : " << localPlayer->dwBaseAddr;
+	ss << "  BaseAddr : 0x" << std::hex << std::uppercase << localPlayer->dwBaseAddr << std::dec;
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
@@ -666,11 +674,16 @@ void ShowOtherPlayerInfo()
 
 		ImGui::Separator();
 		std::stringstream ss;
-		ss << "  BaseAddr : " << teammates.at(i)->dwBaseAddr;
+		ss << "  BaseAddr : 0x" << std::hex << std::uppercase << teammates.at(i)->dwBaseAddr;
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << "  Health : " << teammates.at(i)->health;
+		ImGui::SameLine();
+		ss << "  Dormant : " << (teammates.at(i)->isDormant ? "True" : "False");
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Health : " << std::dec << teammates.at(i)->health;
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
@@ -696,11 +709,16 @@ void ShowOtherPlayerInfo()
 
 		ImGui::Separator();
 		std::stringstream ss;
-		ss << "  BaseAddr : " << enemy.at(i)->dwBaseAddr;
+		ss << "  BaseAddr : 0x" << std::hex << std::uppercase << enemy.at(i)->dwBaseAddr;
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << "  Health : " << enemy.at(i)->health;
+		ImGui::SameLine();
+		ss << "  Dormant : " << (enemy.at(i)->isDormant ? "True" : "False");
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Health : " << std::dec << enemy.at(i)->health;
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
@@ -722,6 +740,7 @@ void ShowOtherPlayerInfo()
 
 void ShowSkinInfo()
 {
+	ImGui::Separator();
 	Skin skin = ReadSkinInfo();
 	ImGui::Text("Skin Info:");
 	ImGui::Separator();
@@ -759,6 +778,42 @@ void ShowSkinInfo()
 	ss.str("");
 }
 
+void ShowGlowObjectInfo(void)
+{
+	ImGui::Separator();
+	ImGui::Text("Glow Info : ");
+	ImGui::Separator();
+	std::stringstream ss;
+
+	ss << "  Total Count : " << std::dec << glowObjectCount;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	for (size_t i = 0; i < glowObjectCount; i++)
+	{
+		if (glowObjects.at(i)->dwEntityAddr == NULL) { continue; };
+		ImGui::Separator();
+
+		ss << "  Entity Addr : 0x" << std::hex << std::uppercase << glowObjects.at(i)->dwEntityAddr << std::dec;
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  RGBA : (" << std::setw(3)<< glowObjects.at(i)->r << "," << glowObjects.at(i)->g << "," << glowObjects.at(i)->b << "," << glowObjects.at(i)->a << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Occluded : " << (glowObjects.at(i)->m_bRenderWhenOccluded ? "True" : "False");
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ImGui::SameLine();
+		ss << "  Unoccluded : " << (glowObjects.at(i)->m_bRenderWhenUnoccluded ? "True" : "False");
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+	}
+}
+
 float menuAlpha = 0.8;
 float menuAlphaPre = 0;
 float colorTeammate[4] = { 0,1,0,1 };
@@ -769,9 +824,8 @@ void RenderScene()
 	static std::once_flag flag;
 	std::call_once(flag, []() { IndiciumEngineLogInfo("++ RenderScene called"); });
 
-	ImGui::ShowMetricsWindow();
-
 	// Ö÷´°¿Ú
+	if (true)
 	{
 		ImGui::Begin("CSGO Internal Hack Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("Copyright (c) 2019 Celestial Tech All rights reserved.");
@@ -805,51 +859,56 @@ void RenderScene()
 		}
 		if (ImGui::CollapsingHeader("Hacks"))
 		{
-			ImGui::Checkbox("  F1 - Overlay", &FunctionEnableFlag::bOverlay);
-			ImGui::Checkbox("  F2 - TriggerBot", &FunctionEnableFlag::bTriggerBot);
-			ImGui::Checkbox("  F3 - AimBot", &FunctionEnableFlag::bAimBot);
-			ImGui::Checkbox("  F4 - ESP", &FunctionEnableFlag::bESP);
-			ImGui::Checkbox("  F5 - Wall", &FunctionEnableFlag::bWall);
-			ImGui::Checkbox("  F6 - RadarHack", &FunctionEnableFlag::bRadarHack);
-			ImGui::Checkbox("  F7 - BHop", &FunctionEnableFlag::bBHop);
-			ImGui::Checkbox("  F8 - Glow", &FunctionEnableFlag::bGlow);
-			ImGui::Checkbox("  F9 - Menu", &FunctionEnableFlag::bMenu);
+			ImGui::Checkbox("  Overlay", &FunctionEnableFlag::bOverlay);
+			ImGui::Checkbox("  TriggerBot", &FunctionEnableFlag::bTriggerBot);
+			ImGui::Checkbox("  AimBot", &FunctionEnableFlag::bAimBot);
+			ImGui::Checkbox("  ESP", &FunctionEnableFlag::bESP);
+			ImGui::Checkbox("  Wall", &FunctionEnableFlag::bWall);
+			ImGui::Checkbox("  RadarHack", &FunctionEnableFlag::bRadarHack);
+			ImGui::Checkbox("  BHop", &FunctionEnableFlag::bBHop);
+			ImGui::Checkbox("  Glow", &FunctionEnableFlag::bGlow);
+			ImGui::Checkbox("  SkinChanger", &FunctionEnableFlag::bSkinChanger);
+			ImGui::Checkbox("  Menu", &FunctionEnableFlag::bMenu);
 		}
 		if (ImGui::CollapsingHeader("Misc"))
 		{
 			ImGui::Separator();
 			ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
 			ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
+			ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
+			ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
 			ImGui::Separator();
 			if (ImGui::Button("SkinChanger")) { SkinChanger(); }
 			ImGui::SameLine();
 			if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
+			if (ImGui::Button("GlowOnce")) { Glow(); }
 		}
 		if (ImGui::CollapsingHeader("Setting"))
 		{
 			ImGui::Separator();
-			ImGui::Text("  Menu Transparency");
+			ImGui::Text("  Menu Transparency : ");
 			ImGui::SliderFloat("Alpha", &menuAlpha, 0.0f, 1.0f);
 
 			ImGui::Separator();
-			ImGui::Text("  WallHack Color");
-			ImGui::ColorEdit4("Teanmate", colorTeammate, ImGuiColorEditFlags_PickerHueWheel);
-			ImGui::ColorEdit4("Enemy", colorEnemy, ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::Text("  Glow Color : ");
+			ImGui::ColorEdit4("Teanmate", glowColorTeammates, ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::ColorEdit4("Enemy", glowColorEnemy, ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::ColorEdit4("Weapons", glowColorWeapons, ImGuiColorEditFlags_PickerHueWheel);
+			ImGui::ColorEdit4("C4", glowColorC4, ImGuiColorEditFlags_PickerHueWheel);
 
 			ImGui::Separator();
-			ImGui::InputInt("  Trigger Delay", &triggerDelay);
-			ImGui::SameLine();
-			ImGui::Text(" ms");
+			ImGui::InputInt("  Trigger Delay : ", &triggerDelay);
 		}
 		if (ImGui::CollapsingHeader("Debug"))
 		{
-			if (localPlayer->isValid)
-			{
+			if (FunctionEnableFlag::bReadLocalPlayerInfo)
 				ShowLocalPlayerInfo();
+			if (FunctionEnableFlag::bReadSkinInfo)
 				ShowSkinInfo();
-			}
-			if (teammates.at(0)->isValid)
+			if (FunctionEnableFlag::bReadOtherPlayerInfo)
 				ShowOtherPlayerInfo();
+			if (FunctionEnableFlag::bReadGlowObjectInfo)
+				ShowGlowObjectInfo();
 		}
 		ImGui::End();
 	}
