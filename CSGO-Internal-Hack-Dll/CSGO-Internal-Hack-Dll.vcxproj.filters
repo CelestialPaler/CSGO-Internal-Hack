@@ -20,6 +20,9 @@
     <Filter Include="Hack\Function">
       <UniqueIdentifier>{8cdfba99-e62e-4f0c-be16-fb47caee771c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{ebd39a7e-43c9-421a-aff0-e19ded1e03cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="Glow.h">
       <Filter>Hack\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -39,10 +39,12 @@ extern std::vector<std::unique_ptr<Player>> enemy;
 // 发光实体
 extern std::vector<std::unique_ptr<GlowObject>> glowObjects;
 extern int glowObjectCount;
+extern int glowObjectCountMax;
 extern float glowColorTeammates[4];
 extern float glowColorEnemy[4];
 extern float glowColorWeapons[4];
 extern float glowColorC4[4];
+extern float glowColorDefault[4];
 
 namespace FunctionEnableFlag
 {
@@ -53,7 +55,11 @@ namespace FunctionEnableFlag
 	extern bool bRadarHack;
 	extern bool bBHop;
 	extern bool bGlow;
-	extern bool bWall;
+	extern bool bGlowTeammates;
+	extern bool bGlowEnemy;
+	extern bool bGlowWeapons;
+	extern bool bGlowC4;
+	extern bool bGlowDefault;
 	extern bool bMenu;
 	extern bool bNULL;
 	extern bool bSkinChanger;

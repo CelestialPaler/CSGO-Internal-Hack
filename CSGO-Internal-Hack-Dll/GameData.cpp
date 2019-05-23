@@ -1,7 +1,7 @@
 #include "GameData.h"
 
 // 当前开发版本
-const std::wstring devVersion = L"0.6b";
+const std::wstring devVersion = L"0.7a";
 
 // 目标进程ID
 DWORD targetPID;
@@ -30,10 +30,12 @@ std::vector<std::unique_ptr<Player>> enemy;
 // 发光实体
 std::vector<std::unique_ptr<GlowObject>> glowObjects;
 int glowObjectCount;
+int glowObjectCountMax;
 float glowColorTeammates[4] = { 0,1,0,1 };
 float glowColorEnemy[4] = { 1,0,0,1 };
 float glowColorWeapons[4] = { 0,0,1,1 };
-float glowColorC4[4] = { 1,1,1,1 };
+float glowColorC4[4] = { 1,0,1,1 };
+float glowColorDefault[4] = { 1,1,1,1 };
 
 namespace FunctionEnableFlag
 {
@@ -44,10 +46,11 @@ namespace FunctionEnableFlag
 	bool bRadarHack = false;
 	bool bBHop = false;
 	bool bGlow = false;
-	bool bGlowTeammates = false;
-	bool bGlowEnemy = false;
-	bool bGlowWeapons = false;
-	bool bWall = false;
+	bool bGlowTeammates = true;
+	bool bGlowEnemy = true;
+	bool bGlowWeapons = true;
+	bool bGlowDefault = false;
+	bool bGlowC4 = true;
 	bool bMenu = true;
 	bool bNULL = false;
 	bool bSkinChanger = false;

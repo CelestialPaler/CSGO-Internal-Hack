@@ -200,6 +200,7 @@
     <ClInclude Include="imgui_impl_dx9.h" />
     <ClInclude Include="imgui_impl_win32.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="PlayerInfoReader.h" />
     <ClInclude Include="RadarHack.h" />
     <ClInclude Include="resource.h" />
