@@ -13,31 +13,33 @@ void ReadGlowObjectInfo(void)
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 	if (clientAddr == NULL) { return; }
 
-	DWORD glowObjectArrayAddr = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager);
-	if (glowObjectArrayAddr == NULL) { return; }
+	DWORD glowArray = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager);
+	if (glowArray == NULL) { return; }
 
 	glowObjectCount = *(INT*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager + 0x4);
 	glowObjectCountMax = *(INT*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager + 0x4);
 
 	for (size_t i = 0; i < glowObjectCount; i++)
 	{
-		DWORD entityBaseAddr = *(DWORD*)(glowObjectArrayAddr + i * 0x38);
-		if (entityBaseAddr == NULL) { continue; }
+		DWORD entityAddr = glowArray + (i * sizeof(GlowObject));
+		if (entityAddr == NULL) { continue; }
 
-		BOOL entityDormant = *(BOOL*)(glowObjectArrayAddr + (DWORD)hazedumper::signatures::m_bDormant);
+		BOOL entityDormant = *(BOOL*)(entityAddr + (DWORD)hazedumper::signatures::m_bDormant);
 		if (entityDormant) { continue; }
 
-		std::unique_ptr<GlowObject> tempGlowObject = std::make_unique<GlowObject>();
-
-		std::memcpy(tempGlowObject.get(), (void*)(glowObjectArrayAddr + (i * sizeof(GlowObject))), sizeof(GlowObject));
-
-		glowObjects.at(i).swap(tempGlowObject);
+		std::memcpy((void*)glowObjects.at(i).get(), (void*)(entityAddr), sizeof(GlowObject));
 	}
 }
 
 void Glow(void)
 {
-	if (FunctionEnableFlag::bReadLocalPlayerInfo == false) FunctionEnableFlag::bReadLocalPlayerInfo = true;
+	if (FunctionEnableFlag::bReadLocalPlayerInfo == false)
+	{
+		FunctionEnableFlag::bReadLocalPlayerInfo = true;
+		return;
+	}
+
+	if (localPlayer->isValid == false) { return; }
 
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 	if (clientAddr == NULL) { return; }
@@ -49,26 +51,26 @@ void Glow(void)
 
 	GlowObject tempObj;
 
-	for (int i = 0; i < glowObjectCount; i++)
+	for (size_t i = 0; i < glowObjectCount; i++)
 	{
 		DWORD entityAddr = glowArray + (i * sizeof(GlowObject));
 		if (entityAddr == NULL) { continue; }
 
 		std::memcpy(&tempObj, (void*)(entityAddr), sizeof(GlowObject));
 		if (tempObj.dwEntityAddr == NULL) { continue; }
+		if (tempObj.m_bRenderWhenOccluded == true) { continue; }
+		if (tempObj.r == 0 && tempObj.g == 0 && tempObj.b == 0) { continue; }
 
-		DWORD vt = *(DWORD*)(tempObj.dwEntityAddr + 0x8);
-		if (vt == NULL) { continue; }
-		DWORD fn = *(DWORD*)(vt + 2 * 0x4);
-		if (fn == NULL) { continue; }
-		DWORD cls = *(DWORD*)(fn + 0x1);
+		DWORD vmt = *(DWORD*)(tempObj.dwEntityAddr + 0x8);
+		if (vmt == NULL) { continue; }
+		DWORD func = *(DWORD*)(vmt + 2 * 0x4);
+		if (func == NULL) { continue; }
+		DWORD cls = *(DWORD*)(func + 0x1);
 		if (cls == NULL) { continue; }
 		DWORD clsn = *(DWORD*)(cls + 0x8);
 		if (clsn == NULL) { continue; }
 		INT classID = *(INT*)(cls + 0x14);
 		if (classID == NULL) { continue; }
-
-		glowObjects.at(i)->dwEntityAddr = classID;
 
 		if (classID == ClassID::CCSPlayer)
 		{

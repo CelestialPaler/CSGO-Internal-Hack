@@ -1,5 +1,8 @@
 #pragma once
 
+#include <chrono>
+#include <thread>
+
 #include "GameData.h"
 #include "GameDef.h"
 #include "GameStruct.h"
@@ -238,7 +241,7 @@ void ShowGlowObjectInfo(void)
 		if (glowObjects.at(i)->dwEntityAddr == NULL) { continue; };
 		ImGui::Separator();
 
-		ss << "  Entity Addr : " << std::dec << std::uppercase << (int)glowObjects.at(i)->dwEntityAddr << std::dec;
+		ss << "  Entity Addr : 0x" << std::hex << std::uppercase << (int)glowObjects.at(i)->dwEntityAddr << std::dec;
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
@@ -318,7 +321,7 @@ void ShowMainWindow(void)
 		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
 		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
 		ImGui::Separator();
-		if (ImGui::Button("SkinChanger")) { SkinChanger(); }
+		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
 		ImGui::SameLine();
 		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
 		if (ImGui::Button("GlowOnce")) { Glow(); }
@@ -378,6 +381,14 @@ void ShowMainWindow(void)
 
 			ImGui::TreePop();
 		}
+
+		if (ImGui::TreeNode("Skin Setting"))
+		{
+			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
+			static int item_current = 0;
+			ImGui::Combo("combo", &item_current, items, IM_ARRAYSIZE(items));
+			ImGui::TreePop();
+		}
 	}
 	if (ImGui::CollapsingHeader("Debug"))
 	{
@@ -413,7 +424,14 @@ void Hack(void)
 	if (FunctionEnableFlag::bRadarHack)
 		RadarHack();
 	if (FunctionEnableFlag::bSkinChanger)
-		SkinChanger();
+	{
+		if (!ThreadExistFlag::bSkinChanger)
+		{
+			CreateThread(NULL, 0, SkinChangerWrapper, 0, 0, NULL);
+			ThreadExistFlag::bSkinChanger = true;
+		}
+	}
+
 	if (FunctionEnableFlag::bGlow)
 		Glow();
 

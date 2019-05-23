@@ -62,11 +62,6 @@ namespace FunctionEnableFlag
 
 namespace ThreadExistFlag
 {
-	bool bGeneral = false;
-	bool bOverlay = false;
-	bool bTriggerBot = false;
-	bool bAimBot = false;
-	bool bESP = false;
-	bool bRadarHack = false;
+	bool bSkinChanger = false;
 	bool bNULL = false;
 }

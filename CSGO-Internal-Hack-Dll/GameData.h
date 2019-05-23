@@ -71,11 +71,6 @@ namespace FunctionEnableFlag
 
 namespace ThreadExistFlag
 {
-	extern bool bGeneral;
-	extern bool bOverlay;
-	extern bool bTriggerBot;
-	extern bool bAimBot;
-	extern bool bESP;
-	extern bool bRadarHack;
+	extern bool bSkinChanger;
 	extern bool bNULL;
 }
