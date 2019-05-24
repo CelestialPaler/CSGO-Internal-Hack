@@ -167,16 +167,58 @@ void SkinChangerB(void)
 		switch (weaponID)
 		{
 		case WeaponID::AK47: // 血腥运动
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 639, 0, 4396, 4, 0.01f, "Hammann-AK47");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Bloodsport"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
 		case WeaponID::AUG: // 秋叶原
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 455, 0, 4396, 4, 0.01f, "Hammann-AUG");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Akihabara Accept"], 0, 4396, 4, 0.01f, "Hammann-AUG");
 			break;
-		case WeaponID::AWP: // 龙驹
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 344, 0, 4396, 4, 0.01f, "Hammann-AWP");
+		case WeaponID::AWP: // 龙狙
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Dragon Lore"], 0, 4396, 4, 0.01f, "Hammann-AWP");
+			break;
+		case WeaponID::CZ75Auto: // 战术猫 Dva
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Tacticat"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
 		case WeaponID::DesertEagle: // 红色代号
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 711, 0, 4396, 4, 0.01f, "Hammann-Deagle");
+			break;
+		case WeaponID::FAMAS: // 滚筒
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Roll Cage"], 0, 4396, 4, 0.01f, "Hammann-FAMAS");
+			break;
+		case WeaponID::FiveSeven: // 野兽
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Hyper Beast"], 0, 4396, 4, 0.01f, "Hammann-FiveSeven");
+			break;
+		case WeaponID::GailAR: // 糖棍儿
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Sugar Rush"], 0, 4396, 4, 0.01f, "Hammann-GailAR");
+			break;
+		case WeaponID::Glock:// 渐变之色
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Fade"], 0, 4396, 4, 0.01f, "Hammann-Glock"); // 《---
+			break;
+		case WeaponID::M249:// 奴巴拉战士
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Nebula Crusader"], 0, 4396, 4, 0.01f, "Hammann-M249");
+			break;
+		case WeaponID::M4A1S: // CF金红
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 548, 0, 4396, 4, 0.01f, "Hammann-M4A1S");
+			break;
+		case WeaponID::M4A4: // 暗金咆哮 全场尖叫 
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Howl"], 0, 4396, 4, 0.01f, "Hammann-M4A4");
+			break;
+		case WeaponID::Negev:// 大喇叭
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Loudmouth"], 0, 4396, 4, 0.01f, "Hammann-Negev");
+			break;
+		case WeaponID::P2000:// 火元素
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Fire Elemental"], 0, 4396, 4, 0.01f, "Hammann-P2000");
+			break;
+		case WeaponID::P250:// 鳄鱼
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["See Ya Later"], 0, 4396, 4, 0.01f, "Hammann-P250");
+			break;
+		case WeaponID::P90:// 阿西莫夫
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Asiimov"], 0, 4396, 4, 0.01f, "Hammann-P90");
+			break;
+		case WeaponID::PPBizon:// 阿努比斯审判
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Judgement of Anubis"], 0, 4396, 4, 0.01f, "Hammann-PPBizon");
+			break;
+		case WeaponID::SG553:// 大马士革钢
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Damascus Steel"], 0, 4396, 4, 0.01f, "Hammann-SG553");
 			break;
 		case WeaponID::USPS:// 小姐姐
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 653, 0, 4396, 4, 0.01f, "Hammann-USPS");
@@ -184,12 +226,8 @@ void SkinChangerB(void)
 		case WeaponID::SSG08:// 红龙
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 624, 0, 4396, 4, 0.01f, "Hammann-SSG08");
 			break;
-		case WeaponID::M4A1S: // CF
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 548, 0, 4396, 4, 0.01f, "Hammann-M4A1S");
-			break;
-		case WeaponID::Glock:// 废土
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 586, 0, 4396, 4, 0.01f, "Hammann-Glock");
-			break;
+
+
 		default:
 			break;
 		}

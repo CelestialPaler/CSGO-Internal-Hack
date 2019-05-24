@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <Windows.h>
 #include <mutex>
+#include <map>
 
 #include "GameStruct.h"
 
@@ -45,6 +46,11 @@ extern float glowColorEnemy[4];
 extern float glowColorWeapons[4];
 extern float glowColorC4[4];
 extern float glowColorDefault[4];
+
+// ∆§∑Ù–≈œ¢
+extern std::map<std::string, std::vector<std::string>> weapons;
+extern std::map<std::string, int> skins;
+extern int skinLoadedCount;
 
 namespace FunctionEnableFlag
 {

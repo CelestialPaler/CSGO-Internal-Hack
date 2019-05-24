@@ -2,6 +2,10 @@
 
 #include <chrono>
 #include <thread>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <set>
 
 #include "GameData.h"
 #include "GameDef.h"
@@ -20,6 +24,8 @@
 #include <Indicium/Engine/IndiciumDirect3D9.h>
 #include <Indicium/Engine/IndiciumDirect3D10.h>
 #include <Indicium/Engine/IndiciumDirect3D11.h>
+
+#include <d3d9.h>
 
 /**
  * \fn	TOGGLE_STATE(int key, bool& toggle)
@@ -56,6 +62,19 @@ TOGGLE_STATE(int key, bool& toggle)
 	}
 }
 
+static void HelpMarker(const char* desc)
+{
+	ImGui::TextDisabled("(?)");
+	if (ImGui::IsItemHovered())
+	{
+		ImGui::BeginTooltip();
+		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+		ImGui::TextUnformatted(desc);
+		ImGui::PopTextWrapPos();
+		ImGui::EndTooltip();
+	}
+}
+
 #pragma region Game Data Init
 
 void GameDataInit(void)
@@ -66,6 +85,28 @@ void GameDataInit(void)
 		enemy.push_back(std::make_unique<Player>());
 	for (size_t i = 0; i < 256; i++)
 		glowObjects.push_back(std::make_unique<GlowObject>());
+
+	std::ifstream skinIDFile("C:\\Users\\sun11\\Desktop\\SkinID.csv");
+	std::string line;
+	std::string weaponName;
+
+	while (getline(skinIDFile, line))
+	{
+		if (line.empty()) { continue; }
+		skinLoadedCount++;
+
+		std::vector<std::string> tempCSVData;
+		tempCSVData = Util::StringManipulation::SplitString(line, ",");
+
+		if (weapons.find(tempCSVData.at(1))== weapons.end())// 不存在则添加
+		{
+			weapons.emplace(tempCSVData.at(1), std::vector<std::string>());
+		}
+		
+		weapons.at(tempCSVData.at(1)).push_back(tempCSVData.at(2));
+
+		skins.emplace(tempCSVData.at(2), std::atoi(tempCSVData.at(3).c_str()));
+	}
 }
 
 #pragma endregion
@@ -271,8 +312,8 @@ int triggerDelay = 2;
 // 主窗口
 void ShowMainWindow(void)
 {
-	ImGui::Begin("CSGO Internal Hack Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Text("Copyright (c) 2019 Celestial Tech All rights reserved.");
+	ImGui::Begin("CSGO Internal Hack", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Text("Copyright (c) 2019 Celestial Tech  All rights reserved.");
 
 	// 窗口透明度
 	if (menuAlpha != menuAlphaPre)
@@ -285,9 +326,7 @@ void ShowMainWindow(void)
 	if (ImGui::CollapsingHeader("Info", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		std::stringstream ss;
-		ss << "  Dev Version : " << Util::StringManipulation::WstringToString(devVersion);
-		ImGui::Text(ss.str().c_str());
-		ss.str("");
+
 		__time64_t sysTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 		struct tm pTime;
 		localtime_s(&pTime, &sysTime);
@@ -301,34 +340,42 @@ void ShowMainWindow(void)
 			(int)pTime.tm_sec);
 		ss << "  System Time : " << timeInString;
 		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Dev Version : " << Util::StringManipulation::WstringToString(devVersion);
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Author : " << "Celestial Paler";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Website : " << "www.tianshicangxie.com";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
 	}
 	if (ImGui::CollapsingHeader("Hacks"))
 	{
 		ImGui::Checkbox("F1 - Menu", &FunctionEnableFlag::bMenu);
+		ImGui::SameLine(); HelpMarker("Show the main menu.");
 		ImGui::Checkbox("F2 - TriggerBot", &FunctionEnableFlag::bTriggerBot);
+		ImGui::SameLine(); HelpMarker("Automatically trigger(fire) your weapon if your crosshair is pointing to an enemy.");
 		ImGui::Checkbox("F3 - AimBot", &FunctionEnableFlag::bAimBot);
+		ImGui::SameLine(); HelpMarker("Aim assistant such as:\n   - FOV-snap\n   - Head Lock\n   - Anti-recoil");
 		ImGui::Checkbox("F4 - Glow", &FunctionEnableFlag::bGlow);
+		ImGui::SameLine(); HelpMarker("All the entities in game will glow in X-ray style.");
 		ImGui::Checkbox("F5 - ESP", &FunctionEnableFlag::bESP);
+		ImGui::SameLine(); HelpMarker("Comming soon.");
 		ImGui::Checkbox("F6 - RadarHack", &FunctionEnableFlag::bRadarHack);
+		ImGui::SameLine(); HelpMarker("Show all the enemy nearby you on the in-game radar.");
 		ImGui::Checkbox("F7 - BHop", &FunctionEnableFlag::bBHop);
+		ImGui::SameLine(); HelpMarker("Automatically perform bunny hop when you hold space.");
 		ImGui::Checkbox("F8 - SkinChanger", &FunctionEnableFlag::bSkinChanger);
-	}
-	if (ImGui::CollapsingHeader("Misc"))
-	{
-		ImGui::Separator();
-		ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
-		ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
-		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
-		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
-		ImGui::Separator();
-		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
-		ImGui::SameLine();
-		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
-		if (ImGui::Button("GlowOnce")) { Glow(); }
+		ImGui::SameLine(); HelpMarker("Change your skin as you wish without limitation.\n   - Weapon & Knife & Glove\n   - StatTrack & Sticker & Nametag\n   - Seed & Worn");
 	}
 	if (ImGui::CollapsingHeader("Setting"))
 	{
-		if (ImGui::TreeNode("Transparency"))
+		if (ImGui::TreeNode("Menu Setting"))
 		{
 			ImGui::Separator();
 			ImGui::Text("  Menu Transparency : ");
@@ -384,14 +431,65 @@ void ShowMainWindow(void)
 
 		if (ImGui::TreeNode("Skin Setting"))
 		{
-			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
-			static int item_current = 0;
-			ImGui::Combo("combo", &item_current, items, IM_ARRAYSIZE(items));
+			ImGui::Separator();
+			static std::vector<std::string> tempSkinInfo;
+
+			static const char* items_weapon[512];
+			size_t i = 0;
+			for (auto const& weapon : weapons)
+				items_weapon[i++] = weapon.first.c_str();
+			static int item_current_weapon = 0;
+	
+			if (ImGui::Combo("Weapon", &item_current_weapon, items_weapon, weapons.size()))
+			{
+				// 更换武器
+				tempSkinInfo = weapons.at(items_weapon[item_current_weapon]);
+			}
+
+			static const char* items_skin[512];
+			size_t j = 0;
+			for (auto const& skin : tempSkinInfo)
+				items_skin[j++] = skin.c_str();
+			static int item_current_skin = 0;
+
+			if (ImGui::Combo("Skin", &item_current_skin, items_skin, tempSkinInfo.size()))
+			{
+				// 更换皮肤
+			}
+			ImGui::Separator();
+
+			static float worn = 0.1;
+			static int seed = 7254798721;
+			static int statTrack = 999;
+			static char name[64] = "Hammann";
+
+			ImGui::SliderFloat("Worn", &worn, 0.0f, 1.0f);
+			ImGui::InputText("Nametag", name, sizeof(name));
+			ImGui::InputInt("Seed", &seed, 1, 100);
+			ImGui::InputInt("StatTrack", &statTrack, 1, 100);
+
+			if (ImGui::Button("Apply")) { ; }
+			ImGui::SameLine();
+			if (ImGui::Button("Save to config")) { ; }
+
 			ImGui::TreePop();
 		}
 	}
+
 	if (ImGui::CollapsingHeader("Debug"))
 	{
+		ImGui::Separator();
+		ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
+		ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
+		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
+		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
+		ImGui::Separator();
+		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
+		ImGui::SameLine();
+		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
+		ImGui::SameLine();
+		if (ImGui::Button("GlowOnce")) { Glow(); }
+		ImGui::Separator();
 		if (FunctionEnableFlag::bReadLocalPlayerInfo)
 			ShowLocalPlayerInfo();
 		if (FunctionEnableFlag::bReadSkinInfo)

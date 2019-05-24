@@ -37,6 +37,11 @@ float glowColorWeapons[4] = { 0,0,1,1 };
 float glowColorC4[4] = { 1,0,1,1 };
 float glowColorDefault[4] = { 1,1,1,1 };
 
+// ∆§∑Ù–≈œ¢
+std::map<std::string, std::vector<std::string>> weapons;
+std::map<std::string, int> skins;
+int skinLoadedCount = 0;
+
 namespace FunctionEnableFlag
 {
 	bool bOverlay = false;
@@ -48,9 +53,9 @@ namespace FunctionEnableFlag
 	bool bGlow = false;
 	bool bGlowTeammates = true;
 	bool bGlowEnemy = true;
-	bool bGlowWeapons = true;
+	bool bGlowWeapons = false;
 	bool bGlowDefault = false;
-	bool bGlowC4 = true;
+	bool bGlowC4 = false;
 	bool bMenu = true;
 	bool bNULL = false;
 	bool bSkinChanger = false;
