@@ -561,9 +561,6 @@ void Hack(void)
 		}
 	}
 
-	if (FunctionEnableFlag::bGlow)
-		GlowA();
-
 	TOGGLE_STATE(VK_F1, FunctionEnableFlag::bMenu);
 	TOGGLE_STATE(VK_F2, FunctionEnableFlag::bTriggerBot);
 	TOGGLE_STATE(VK_F3, FunctionEnableFlag::bAimBot);

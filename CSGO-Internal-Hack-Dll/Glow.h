@@ -226,12 +226,63 @@ void GlowC(void)
 	}
 }
 
+void GlowD(void)
+{
+	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+	if (clientAddr == NULL) { return; }
+
+	DWORD glowObj = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager);
+	if (glowObj == NULL) { return; }
+
+	for (int x = 0; x < 32; x++)
+	{
+		DWORD player = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + x * 0x10);
+		if (player == 0)
+			continue;
+
+		bool dormant =*(bool*)(player + (DWORD)hazedumper::signatures::m_bDormant);
+		if (dormant)
+			continue;
+
+		DWORD team = *(DWORD*)(player + (DWORD)hazedumper::netvars::m_iTeamNum);
+		if (team != 2 && team != 3)
+			continue;
+
+		DWORD currentGlowIndex = *(DWORD*)(player + (DWORD)hazedumper::netvars::m_iGlowIndex);
+
+		if (team != localPlayer->team)
+		{
+			if (FunctionEnableFlag::bGlowEnemy)
+			{
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorEnemy[0];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorEnemy[1];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorEnemy[2];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorEnemy[3];
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x24) = true;
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x25) = false;
+			}
+		}
+		else
+		{
+			if (FunctionEnableFlag::bGlowTeammates)
+			{
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorTeammates[0];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorTeammates[1];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorTeammates[2];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorTeammates[3];
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x24) = true;
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x25) = false;
+			}
+		}
+	}
+}
+
 DWORD WINAPI GlowWrapper(LPVOID lpParam)
 {
 	while (FunctionEnableFlag::bGlow)
 	{
-		GlowC();
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		GlowD();
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 	ThreadExistFlag::bGlow = false;
 	return 0;
