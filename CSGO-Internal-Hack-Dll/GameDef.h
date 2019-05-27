@@ -28,7 +28,7 @@
 #pragma once
 #include <cstddef>
 
-// 2019-05-23 14:08:47.494327500 UTC
+// 2019-05-26 09:14:38.312640 UTC
 
 namespace hazedumper {
 	namespace netvars {

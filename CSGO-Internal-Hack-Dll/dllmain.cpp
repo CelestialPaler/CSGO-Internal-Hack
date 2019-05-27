@@ -111,6 +111,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 		break;
 	case DLL_PROCESS_DETACH:
 
+		// πÿ±’Õ‚π“
+		HackStop();
+
 		if (engine)
 		{
 			IndiciumEngineShutdown(engine, EvtIndiciumGameUnhooked);

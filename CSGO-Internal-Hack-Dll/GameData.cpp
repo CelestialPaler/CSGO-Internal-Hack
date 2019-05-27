@@ -68,5 +68,6 @@ namespace FunctionEnableFlag
 namespace ThreadExistFlag
 {
 	bool bSkinChanger = false;
+	bool bGlow = false;
 	bool bNULL = false;
 }

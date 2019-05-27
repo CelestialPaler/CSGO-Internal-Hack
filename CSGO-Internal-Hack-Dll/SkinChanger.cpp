@@ -39,6 +39,7 @@ DWORD WINAPI SkinChangerWrapper(LPVOID lpParam)
 		SkinChangerB();
 		//std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 	}
+	ThreadExistFlag::bSkinChanger = false;
 	return 0;
 }
 
@@ -190,13 +191,13 @@ void SkinChangerB(void)
 		case WeaponID::GailAR: // 糖棍儿
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Sugar Rush"], 0, 4396, 4, 0.01f, "Hammann-GailAR");
 			break;
-		case WeaponID::Glock:// 渐变之色
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Fade"], 0, 4396, 4, 0.01f, "Hammann-Glock"); // 《---
+		case WeaponID::Glock:// 水元素
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Water Elemental"], 0, 4396, 4, 0.01f, "Hammann-Glock"); 
 			break;
-		case WeaponID::M249:// 奴巴拉战士
+		case WeaponID::M249:// 铠甲勇士
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Nebula Crusader"], 0, 4396, 4, 0.01f, "Hammann-M249");
 			break;
-		case WeaponID::M4A1S: // CF金红
+		case WeaponID::M4A1S: // CF金红 蛇走狂龙
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 548, 0, 4396, 4, 0.01f, "Hammann-M4A1S");
 			break;
 		case WeaponID::M4A4: // 暗金咆哮 全场尖叫 
@@ -217,8 +218,8 @@ void SkinChangerB(void)
 		case WeaponID::PPBizon:// 阿努比斯审判
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Judgement of Anubis"], 0, 4396, 4, 0.01f, "Hammann-PPBizon");
 			break;
-		case WeaponID::SG553:// 大马士革钢
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Damascus Steel"], 0, 4396, 4, 0.01f, "Hammann-SG553");
+		case WeaponID::SG553:// 电子脉冲
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Pulse"], 0, 4396, 4, 0.01f, "Hammann-SG553");
 			break;
 		case WeaponID::USPS:// 小姐姐
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 653, 0, 4396, 4, 0.01f, "Hammann-USPS");
@@ -226,8 +227,6 @@ void SkinChangerB(void)
 		case WeaponID::SSG08:// 红龙
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 624, 0, 4396, 4, 0.01f, "Hammann-SSG08");
 			break;
-
-
 		default:
 			break;
 		}

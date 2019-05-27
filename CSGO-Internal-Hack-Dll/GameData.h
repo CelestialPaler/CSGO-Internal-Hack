@@ -78,5 +78,6 @@ namespace FunctionEnableFlag
 namespace ThreadExistFlag
 {
 	extern bool bSkinChanger;
+	extern bool bGlow;
 	extern bool bNULL;
 }

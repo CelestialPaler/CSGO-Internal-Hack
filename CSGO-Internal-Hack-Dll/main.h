@@ -75,6 +75,29 @@ static void HelpMarker(const char* desc)
 	}
 }
 
+#pragma region Hack Stop
+
+void HackStop(void)
+{
+	FunctionEnableFlag::bAimBot = false;
+	FunctionEnableFlag::bBHop = false;
+	FunctionEnableFlag::bESP = false;
+	FunctionEnableFlag::bGlow = false;
+	FunctionEnableFlag::bMenu = false;
+	FunctionEnableFlag::bOverlay = false;
+	FunctionEnableFlag::bRadarHack = false;
+	FunctionEnableFlag::bReadGlowObjectInfo = false;
+	FunctionEnableFlag::bReadLocalPlayerInfo = false;
+	FunctionEnableFlag::bReadOtherPlayerInfo = false;
+	FunctionEnableFlag::bReadSkinInfo = false;
+	FunctionEnableFlag::bSkinChanger = false;
+	FunctionEnableFlag::bTriggerBot = false;
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+}
+
+#pragma endregion
+
 #pragma region Game Data Init
 
 void GameDataInit(void)
@@ -488,7 +511,7 @@ void ShowMainWindow(void)
 		ImGui::SameLine();
 		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
 		ImGui::SameLine();
-		if (ImGui::Button("GlowOnce")) { Glow(); }
+		if (ImGui::Button("GlowOnce")) { GlowA(); }
 		ImGui::Separator();
 		if (FunctionEnableFlag::bReadLocalPlayerInfo)
 			ShowLocalPlayerInfo();
@@ -529,9 +552,17 @@ void Hack(void)
 			ThreadExistFlag::bSkinChanger = true;
 		}
 	}
+	if (FunctionEnableFlag::bGlow)
+	{
+		if (!ThreadExistFlag::bGlow)
+		{
+			CreateThread(NULL, 0, GlowWrapper, 0, 0, NULL);
+			ThreadExistFlag::bGlow = true;
+		}
+	}
 
 	if (FunctionEnableFlag::bGlow)
-		Glow();
+		GlowA();
 
 	TOGGLE_STATE(VK_F1, FunctionEnableFlag::bMenu);
 	TOGGLE_STATE(VK_F2, FunctionEnableFlag::bTriggerBot);
