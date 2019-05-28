@@ -52,6 +52,9 @@ extern std::map<std::string, std::vector<std::string>> weapons;
 extern std::map<std::string, int> skins;
 extern int skinLoadedCount;
 
+extern Vec2 angleDelta;
+extern size_t nearestEnemy;
+
 namespace FunctionEnableFlag
 {
 	extern bool bOverlay;
@@ -73,11 +76,13 @@ namespace FunctionEnableFlag
 	extern bool bReadOtherPlayerInfo;
 	extern bool bReadGlowObjectInfo;
 	extern bool bReadSkinInfo;
+	extern bool bReadAimInfo;
 }
 
 namespace ThreadExistFlag
 {
 	extern bool bSkinChanger;
 	extern bool bGlow;
+	extern bool bAimBot;
 	extern bool bNULL;
 }

@@ -42,6 +42,10 @@ std::map<std::string, std::vector<std::string>> weapons;
 std::map<std::string, int> skins;
 int skinLoadedCount = 0;
 
+//
+Vec2 angleDelta;
+size_t nearestEnemy;
+
 namespace FunctionEnableFlag
 {
 	bool bOverlay = false;
@@ -63,11 +67,13 @@ namespace FunctionEnableFlag
 	bool bReadOtherPlayerInfo = false;
 	bool bReadGlowObjectInfo = false;
 	bool bReadSkinInfo = false;
+	bool bReadAimInfo = false;
 }
 
 namespace ThreadExistFlag
 {
 	bool bSkinChanger = false;
 	bool bGlow = false;
+	bool bAimBot = false;
 	bool bNULL = false;
 }

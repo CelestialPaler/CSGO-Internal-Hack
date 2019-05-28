@@ -165,6 +165,7 @@
     <ClCompile Include="..\include\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="..\include\ImGUI\imgui_draw.cpp" />
     <ClCompile Include="..\include\ImGUI\imgui_widgets.cpp" />
+    <ClCompile Include="AimBot.cpp" />
     <ClCompile Include="BHop.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ESP.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="..\include\ImGUI\imstb_rectpack.h" />
     <ClInclude Include="..\include\ImGUI\imstb_textedit.h" />
     <ClInclude Include="..\include\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="AimBot.h" />
     <ClInclude Include="BHop.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="dllmain.h" />

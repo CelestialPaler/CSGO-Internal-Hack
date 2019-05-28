@@ -237,16 +237,13 @@ void GlowD(void)
 	for (int x = 0; x < 32; x++)
 	{
 		DWORD player = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + x * 0x10);
-		if (player == 0)
-			continue;
+		if (player == 0) { continue; }
 
 		bool dormant =*(bool*)(player + (DWORD)hazedumper::signatures::m_bDormant);
-		if (dormant)
-			continue;
+		if (dormant) { continue; }
 
 		DWORD team = *(DWORD*)(player + (DWORD)hazedumper::netvars::m_iTeamNum);
-		if (team != 2 && team != 3)
-			continue;
+		if (team != 2 && team != 3) { continue; }
 
 		DWORD currentGlowIndex = *(DWORD*)(player + (DWORD)hazedumper::netvars::m_iGlowIndex);
 

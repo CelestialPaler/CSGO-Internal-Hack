@@ -18,6 +18,7 @@
 #include "SkinChanger.h"
 #include "PlayerInfoReader.h"
 #include "Glow.h"
+#include "AimBot.h"
 
 #include "..//include/ImGUI/imgui.h"
 #include <Indicium/Engine/IndiciumCore.h>
@@ -160,7 +161,15 @@ void ShowLocalPlayerInfo(void)
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
-	ss << "  Coords : (" << std::setw(4) << (float)localPlayer->bodyGameCoords.x << "," << (float)localPlayer->bodyGameCoords.y << "," << (float)localPlayer->bodyGameCoords.z << ")";
+	ss << "  Body Coords : (" << std::setprecision(4) << std::fixed << (float)localPlayer->bodyGameCoords.x << "," << (float)localPlayer->bodyGameCoords.y << "," << (float)localPlayer->bodyGameCoords.z << ")";
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  Head Coords : (" << std::setprecision(4) << std::fixed << (float)localPlayer->headGameCoords.x << "," << (float)localPlayer->headGameCoords.y << "," << (float)localPlayer->headGameCoords.z << ")";
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)localPlayer->angleH << "," << (float)localPlayer->angleV << ")";
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
@@ -208,7 +217,11 @@ void ShowOtherPlayerInfo(void)
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << "  Coords : (" << std::setw(4) << (float)teammates.at(i)->bodyGameCoords.x << "," << (float)teammates.at(i)->bodyGameCoords.y << "," << (float)teammates.at(i)->bodyGameCoords.z << ")";
+		ss << " Body Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->bodyGameCoords.x << "," << (float)teammates.at(i)->bodyGameCoords.y << "," << (float)teammates.at(i)->bodyGameCoords.z << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << " Head Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->headGameCoords.x << "," << (float)teammates.at(i)->headGameCoords.y << "," << (float)teammates.at(i)->headGameCoords.z << ")";
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 	}
@@ -243,10 +256,30 @@ void ShowOtherPlayerInfo(void)
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << "  Coords : (" << std::setw(4) << (float)enemy.at(i)->bodyGameCoords.x << "," << (float)enemy.at(i)->bodyGameCoords.y << "," << (float)enemy.at(i)->bodyGameCoords.z << ")";
+		ss << "  Body Coords : (" << std::setprecision(4) << std::fixed << (float)enemy.at(i)->bodyGameCoords.x << "," << (float)enemy.at(i)->bodyGameCoords.y << "," << (float)enemy.at(i)->bodyGameCoords.z << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Head Coords : (" << std::setprecision(4) << std::fixed << (float)enemy.at(i)->headGameCoords.x << "," << (float)enemy.at(i)->headGameCoords.y << "," << (float)enemy.at(i)->headGameCoords.z << ")";
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 	}
+}
+
+void ShowAimInfo(void)
+{
+	ImGui::Separator();
+	Skin skin = ReadSkinInfo();
+	ImGui::Text("Aim Info:");
+	ImGui::Separator();
+	std::stringstream ss;
+	ss << "  Angle Delta: (" << std::setprecision(4) << std::fixed << (float)angleDelta.x << "," << (float)angleDelta.y << ")";
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  Nearest Enemy: " << nearestEnemy;
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
 }
 
 void ShowSkinInfo(void)
@@ -506,6 +539,7 @@ void ShowMainWindow(void)
 		ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
 		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
 		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
+		ImGui::Checkbox("  Read Aim Info", &FunctionEnableFlag::bReadAimInfo);
 		ImGui::Separator();
 		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
 		ImGui::SameLine();
@@ -521,6 +555,8 @@ void ShowMainWindow(void)
 			ShowOtherPlayerInfo();
 		if (FunctionEnableFlag::bReadGlowObjectInfo)
 			ShowGlowObjectInfo();
+		if (FunctionEnableFlag::bReadAimInfo)
+			ShowAimInfo();
 	}
 	ImGui::End();
 }
@@ -558,6 +594,14 @@ void Hack(void)
 		{
 			CreateThread(NULL, 0, GlowWrapper, 0, 0, NULL);
 			ThreadExistFlag::bGlow = true;
+		}
+	}
+	if (FunctionEnableFlag::bAimBot)
+	{
+		if (!ThreadExistFlag::bAimBot)
+		{
+			CreateThread(NULL, 0, AimBotWrapper, 0, 0, NULL);
+			ThreadExistFlag::bAimBot = true;
 		}
 	}
 

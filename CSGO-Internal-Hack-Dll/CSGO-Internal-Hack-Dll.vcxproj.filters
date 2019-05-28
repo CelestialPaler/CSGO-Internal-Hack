@@ -79,6 +79,9 @@
     <ClCompile Include="SkinChanger.cpp">
       <Filter>Hack\Function</Filter>
     </ClCompile>
+    <ClCompile Include="AimBot.cpp">
+      <Filter>Hack\Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ImGUI\imconfig.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="AimBot.h">
+      <Filter>Hack\Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

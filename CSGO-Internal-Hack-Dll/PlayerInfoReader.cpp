@@ -66,6 +66,9 @@ void ReadLocalPlayerInfo(void)
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 	if (clientAddr == NULL) { localPlayer->isValid = false; return; }
 
+	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
+	if (engineAddr == NULL) { localPlayer->isValid = false; return; }
+
 	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
 	if (localPlayerAddr == NULL) { localPlayer->isValid = false; return; }
 
@@ -76,6 +79,17 @@ void ReadLocalPlayerInfo(void)
 	localPlayer->bodyGameCoords.x = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
 	localPlayer->bodyGameCoords.y = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 1);
 	localPlayer->bodyGameCoords.z = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 2);
+
+	DWORD boneMatrixAddr = *(DWORD*)(localPlayerAddr + hazedumper::netvars::m_dwBoneMatrix);
+
+	int boneID = 8;
+	localPlayer->headGameCoords.x = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x0c);
+	localPlayer->headGameCoords.y = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x1c);
+	localPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
+
+	DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
+	localPlayer->angleH = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
+	localPlayer->angleV = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1);
 
 	localPlayer->aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
 
@@ -107,7 +121,7 @@ void ReadOtherPlayerInfo(void)
 	/// 从1开始，排除本地玩家
 	for (size_t i = 1; i < 20; i++)
 	{
-		DWORD otherPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwEntityList + (QWORD)i * 0x10);
+		DWORD otherPlayerAddr = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (QWORD)i * 0x10);
 
 		// 若玩家不存在
 		if (otherPlayerAddr == NULL) break;
@@ -127,6 +141,13 @@ void ReadOtherPlayerInfo(void)
 		tempPlayer->bodyGameCoords.y = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 1);
 		tempPlayer->bodyGameCoords.z = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 2);
 
+		DWORD boneMatrixAddr = *(DWORD*)(otherPlayerAddr + hazedumper::netvars::m_dwBoneMatrix);
+
+		int boneID = 8;
+		tempPlayer->headGameCoords.x = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x0c);
+		tempPlayer->headGameCoords.y = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x1c);
+		tempPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
+
 		// 计算身体相对屏幕坐标
 		if (WorldProjectToScreen(tempPlayer->bodyGameCoords, tempPlayer->bodyScrCoords))
 		{
@@ -138,6 +159,19 @@ void ReadOtherPlayerInfo(void)
 			// 如果投影失败，就归零处理
 			tempPlayer->bodyScrCoords.x = 0;
 			tempPlayer->bodyScrCoords.y = 0;
+		}
+
+		// 计算头相对屏幕坐标
+		if (WorldProjectToScreen(tempPlayer->headGameCoords, tempPlayer->headScrCoords))
+		{
+			tempPlayer->headGameCoords.x -= targetRect.left;
+			tempPlayer->headGameCoords.y -= targetRect.top;
+		}
+		else
+		{
+			// 如果投影失败，就归零处理
+			tempPlayer->headScrCoords.x = 0;
+			tempPlayer->headScrCoords.y = 0;
 		}
 
 		// 计算与玩家的距离
