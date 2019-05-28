@@ -46,28 +46,44 @@ int skinLoadedCount = 0;
 Vec2 angleDelta;
 size_t nearestEnemy;
 
+float aimLockFov = 10;
+float aimLockHorizontalSensitivity = 0.5;
+float aimLockVerticalSensitivity = 0.5;
+
 namespace FunctionEnableFlag
 {
 	bool bOverlay = false;
 	bool bTriggerBot = false;
+
 	bool bAimBot = false;
+	bool bAimBotFOV = false;
+
 	bool bESP = false;
 	bool bRadarHack = false;
 	bool bBHop = false;
+
 	bool bGlow = false;
 	bool bGlowTeammates = true;
 	bool bGlowEnemy = true;
 	bool bGlowWeapons = false;
 	bool bGlowDefault = false;
 	bool bGlowC4 = false;
+
 	bool bMenu = true;
 	bool bNULL = false;
 	bool bSkinChanger = false;
+
 	bool bReadLocalPlayerInfo = false;
 	bool bReadOtherPlayerInfo = false;
 	bool bReadGlowObjectInfo = false;
 	bool bReadSkinInfo = false;
 	bool bReadAimInfo = false;
+
+	bool bShowLocalPlayerInfo = false;
+	bool bShowOtherPlayerInfo = false;
+	bool bShowGlowObjectInfo = false;
+	bool bShowSkinInfo = false;
+	bool bShowAimInfo = false;
 }
 
 namespace ThreadExistFlag

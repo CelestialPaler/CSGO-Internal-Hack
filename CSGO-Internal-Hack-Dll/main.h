@@ -169,7 +169,7 @@ void ShowLocalPlayerInfo(void)
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
-	ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)localPlayer->angleH << "," << (float)localPlayer->angleV << ")";
+	ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)localPlayer->aimAngle.x << "," << (float)localPlayer->aimAngle.y << ")";
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
@@ -217,11 +217,19 @@ void ShowOtherPlayerInfo(void)
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << " Body Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->bodyGameCoords.x << "," << (float)teammates.at(i)->bodyGameCoords.y << "," << (float)teammates.at(i)->bodyGameCoords.z << ")";
+		ss << "  Body Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->bodyGameCoords.x << "," << (float)teammates.at(i)->bodyGameCoords.y << "," << (float)teammates.at(i)->bodyGameCoords.z << ")";
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 
-		ss << " Head Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->headGameCoords.x << "," << (float)teammates.at(i)->headGameCoords.y << "," << (float)teammates.at(i)->headGameCoords.z << ")";
+		ss << "  Head Coords : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->headGameCoords.x << "," << (float)teammates.at(i)->headGameCoords.y << "," << (float)teammates.at(i)->headGameCoords.z << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->aimAngle.x << "," << (float)teammates.at(i)->aimAngle.y << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Delta Angle : (" << std::setprecision(4) << std::fixed << (float)teammates.at(i)->angleDelta.x << "," << (float)teammates.at(i)->angleDelta.y << ")";
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 	}
@@ -263,6 +271,13 @@ void ShowOtherPlayerInfo(void)
 		ss << "  Head Coords : (" << std::setprecision(4) << std::fixed << (float)enemy.at(i)->headGameCoords.x << "," << (float)enemy.at(i)->headGameCoords.y << "," << (float)enemy.at(i)->headGameCoords.z << ")";
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
+
+		ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)enemy.at(i)->aimAngle.x << "," << (float)enemy.at(i)->aimAngle.y << ")";
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Delta Angle : (" << std::setprecision(4) << std::fixed << (float)enemy.at(i)->angleDelta.x << "," << (float)enemy.at(i)->angleDelta.y << ")";
+		ImGui::Text(ss.str().c_str());
 	}
 }
 
@@ -485,6 +500,23 @@ void ShowMainWindow(void)
 			ImGui::TreePop();
 		}
 
+		if (ImGui::TreeNode("AimBot Setting"))
+		{
+			ImGui::Separator();
+			ImGui::Checkbox("Enable FOV", &FunctionEnableFlag::bAimBotFOV);
+			ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
+			if (ImGui::SliderFloat("Horizontal Sensitivity", &aimLockHorizontalSensitivity, 0.0f, 1.0f))
+			{
+				aimLockVerticalSensitivity = 1 - aimLockHorizontalSensitivity;
+			}
+			if (ImGui::SliderFloat("Vertical Sensitivity", &aimLockVerticalSensitivity, 0.0f, 1.0f))
+			{
+				float aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
+			}
+
+			ImGui::TreePop();
+		}
+
 		if (ImGui::TreeNode("Skin Setting"))
 		{
 			ImGui::Separator();
@@ -539,7 +571,13 @@ void ShowMainWindow(void)
 		ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
 		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
 		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
-		ImGui::Checkbox("  Read Aim Info", &FunctionEnableFlag::bReadAimInfo);
+
+		ImGui::Checkbox("  Show Aim Info", &FunctionEnableFlag::bShowAimInfo);
+		ImGui::Checkbox("  Show LocalPlayer Info", &FunctionEnableFlag::bShowLocalPlayerInfo);
+		ImGui::Checkbox("  Show OtherPlayer Info", &FunctionEnableFlag::bShowOtherPlayerInfo);
+		ImGui::Checkbox("  Show Skin Info", &FunctionEnableFlag::bShowSkinInfo);
+		ImGui::Checkbox("  Show Glow Object Info", &FunctionEnableFlag::bShowGlowObjectInfo);
+
 		ImGui::Separator();
 		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
 		ImGui::SameLine();
@@ -547,15 +585,16 @@ void ShowMainWindow(void)
 		ImGui::SameLine();
 		if (ImGui::Button("GlowOnce")) { GlowA(); }
 		ImGui::Separator();
-		if (FunctionEnableFlag::bReadLocalPlayerInfo)
+
+		if (FunctionEnableFlag::bShowLocalPlayerInfo)
 			ShowLocalPlayerInfo();
-		if (FunctionEnableFlag::bReadSkinInfo)
-			ShowSkinInfo();
-		if (FunctionEnableFlag::bReadOtherPlayerInfo)
+		if (FunctionEnableFlag::bShowOtherPlayerInfo)
 			ShowOtherPlayerInfo();
-		if (FunctionEnableFlag::bReadGlowObjectInfo)
+		if (FunctionEnableFlag::bShowSkinInfo)
+			ShowSkinInfo();
+		if (FunctionEnableFlag::bShowGlowObjectInfo)
 			ShowGlowObjectInfo();
-		if (FunctionEnableFlag::bReadAimInfo)
+		if (FunctionEnableFlag::bShowAimInfo)
 			ShowAimInfo();
 	}
 	ImGui::End();
@@ -574,12 +613,14 @@ void Hack(void)
 		ReadOtherPlayerInfo();
 	if (FunctionEnableFlag::bReadGlowObjectInfo)
 		ReadGlowObjectInfo();
+
 	if (FunctionEnableFlag::bBHop)
 		BHop();
 	if (FunctionEnableFlag::bTriggerBot)
 		TriggerBot();
 	if (FunctionEnableFlag::bRadarHack)
 		RadarHack();
+
 	if (FunctionEnableFlag::bSkinChanger)
 	{
 		if (!ThreadExistFlag::bSkinChanger)
@@ -588,6 +629,7 @@ void Hack(void)
 			ThreadExistFlag::bSkinChanger = true;
 		}
 	}
+
 	if (FunctionEnableFlag::bGlow)
 	{
 		if (!ThreadExistFlag::bGlow)
@@ -596,6 +638,7 @@ void Hack(void)
 			ThreadExistFlag::bGlow = true;
 		}
 	}
+
 	if (FunctionEnableFlag::bAimBot)
 	{
 		if (!ThreadExistFlag::bAimBot)

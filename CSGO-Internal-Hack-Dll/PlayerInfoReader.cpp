@@ -88,8 +88,8 @@ void ReadLocalPlayerInfo(void)
 	localPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
 
 	DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
-	localPlayer->angleH = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
-	localPlayer->angleV = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1);
+	localPlayer->aimAngle.x = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
+	localPlayer->aimAngle.y = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1);
 
 	localPlayer->aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
 
@@ -108,6 +108,9 @@ void ReadOtherPlayerInfo(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 	if (clientAddr == NULL) return;
+
+	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
+	if (engineAddr == NULL) { localPlayer->isValid = false; return; }
 
 	// 表示下一个需要写入数据的玩家
 	int teammateIndex = 0, enemyIndex = 0;

@@ -56,8 +56,8 @@ public:
 	// 头游戏空间坐标
 	Vec3 headGameCoords;
 
-	float angleV;
-	float angleH;
+	Vec2 aimAngle;
+	Vec2 angleDelta;
 
 	// 地址
 	/// 该玩家信息在内存中的基地址

@@ -184,8 +184,9 @@ void GlowB(void)
 		INT glowIndex = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iGlowIndex);
 		INT health = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iHealth);
 		INT playerTeamNum = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iTeamNum);
+		INT localTeam = *(INT*)(localPlayerAddr + (QWORD)hazedumper::netvars::m_iTeamNum);
 
-		if (playerTeamNum == localPlayer->team || playerTeamNum == 0) {
+		if (playerTeamNum == localTeam || playerTeamNum == 0) {
 			continue;
 		}
 

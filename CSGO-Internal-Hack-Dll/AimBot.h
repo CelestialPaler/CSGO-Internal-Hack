@@ -53,12 +53,11 @@ float Distance(Vec3 src, Vec3 dst)
 	return Magnitude(diff);
 }
 
-Vec3 CalcAngle(Vec3 src, Vec3 dst)
+Vec2 CalcAngle(Vec3 src, Vec3 dst)
 {
-	Vec3 angles;
+	Vec2 angles;
 	angles.x = ((float)atan2(dst.x - src.x, dst.y - src.y)) / PI * 180.0f;
 	angles.y = (asin((dst.z - src.z) / Distance(src, dst))) * 180.0f / PI;
-	angles.z = 0.0f;
 	return angles;
 }
 
@@ -66,35 +65,44 @@ void AimBot(void)
 {
 	ReadLocalPlayerInfo();
 	ReadOtherPlayerInfo();
-	nearestEnemy = 0; 
+
+	for (size_t i = 0; i < enemy.size(); i++)
+	{
+		if (enemy.at(i)->isValid)
+		{
+			Vec2 angle = CalcAngle(localPlayer->headGameCoords, enemy.at(i)->headGameCoords);
+			enemy.at(i)->angleDelta.x = -angle.y;
+			enemy.at(i)->angleDelta.y = 90 - angle.x;
+		}
+	}
+
+	nearestEnemy = 0;
 	bool isTargetExist = false;
 
-	for (size_t i = 1; i < enemy.size(); i++)
+	for (size_t i = 0; i < enemy.size(); i++)
 	{
 		if (enemy.at(i)->isValid)
 		{
 			if (enemy.at(i)->health > 0)
 			{
-				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
-					nearestEnemy = i;
-				isTargetExist = true;
+				if (!FunctionEnableFlag::bAimBotFOV || (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov)))
+				{
+					if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
+						nearestEnemy = i;
+					isTargetExist = true;
+				}
 			}
 		}
 	}
 
 	if (isTargetExist)
 	{
-		Vec3 angle = CalcAngle(localPlayer->headGameCoords, enemy.at(nearestEnemy)->headGameCoords);
-
-		angleDelta.x = angle.x;
-		angleDelta.y = angle.y;
-
 		DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
 		if (engineAddr == NULL) { return; }
 
 		DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
-		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = -angle.y;
-		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = 90 - angle.x;
+		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = enemy.at(nearestEnemy)->angleDelta.x;
+		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = enemy.at(nearestEnemy)-> angleDelta.y;
 	}
 }
 

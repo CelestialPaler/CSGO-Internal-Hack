@@ -55,28 +55,44 @@ extern int skinLoadedCount;
 extern Vec2 angleDelta;
 extern size_t nearestEnemy;
 
+extern float aimLockFov;
+extern float aimLockHorizontalSensitivity;
+extern float aimLockVerticalSensitivity;
+
 namespace FunctionEnableFlag
 {
 	extern bool bOverlay;
 	extern bool bTriggerBot;
+
 	extern bool bAimBot;
+	extern bool bAimBotFOV;
+
 	extern bool bESP;
 	extern bool bRadarHack;
 	extern bool bBHop;
+
 	extern bool bGlow;
 	extern bool bGlowTeammates;
 	extern bool bGlowEnemy;
 	extern bool bGlowWeapons;
 	extern bool bGlowC4;
 	extern bool bGlowDefault;
+	
 	extern bool bMenu;
 	extern bool bNULL;
 	extern bool bSkinChanger;
+
 	extern bool bReadLocalPlayerInfo;
 	extern bool bReadOtherPlayerInfo;
 	extern bool bReadGlowObjectInfo;
 	extern bool bReadSkinInfo;
 	extern bool bReadAimInfo;
+
+	extern bool bShowLocalPlayerInfo;
+	extern bool bShowOtherPlayerInfo;
+	extern bool bShowGlowObjectInfo;
+	extern bool bShowSkinInfo;
+	extern bool bShowAimInfo;
 }
 
 namespace ThreadExistFlag
