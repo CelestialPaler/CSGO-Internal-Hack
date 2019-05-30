@@ -103,7 +103,7 @@ void AimBot(void)
 	{
 		for (auto i : validTargets)
 		{
-			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y) * aimLockHorizontalSensitivity) < sqrt(aimLockFov)
+			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y) * aimLockHorizontalSensitivity) < sqrt(aimLockFov) 
 				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y - 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov)
 				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y + 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
 			{
