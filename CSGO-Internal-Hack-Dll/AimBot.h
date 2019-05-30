@@ -77,6 +77,7 @@ void AimBot(void)
 	}
 
 	nearestEnemy = 0;
+	std::vector<int> validTargets;
 	bool isTargetExist = false;
 
 	for (size_t i = 0; i < enemy.size(); i++)
@@ -85,12 +86,50 @@ void AimBot(void)
 		{
 			if (enemy.at(i)->health > 0)
 			{
-				if (!FunctionEnableFlag::bAimBotFOV || (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov)))
+				validTargets.push_back(i);
+			}
+		}
+	}
+
+	if (FunctionEnableFlag::bAimBotStaticFOV)
+	{
+		for (size_t i = 0; i < validTargets.size(); i++)
+		{
+			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
+				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(360 + enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
+				)
+			{
+				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
 				{
-					if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
-						nearestEnemy = i;
+					nearestEnemy = i;
 					isTargetExist = true;
 				}
+			}
+		}
+	}
+	else if (FunctionEnableFlag::bAimBotDynamicFOV)
+	{
+		for (size_t i = 0; i < validTargets.size(); i++)
+		{
+			float dfov = aimLockFov + (enemy.at(i)->distance - aimLockDistanceBase) * aimLockDistanceSensitivity;
+			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(0)))
+			{
+				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
+				{
+					nearestEnemy = i;
+					isTargetExist = true;
+				}
+			}
+		}
+	}
+	else if(FunctionEnableFlag::bAimBotSima)
+	{
+		for (size_t i = 0; i < validTargets.size(); i++)
+		{
+			if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
+			{
+				nearestEnemy = i;
+				isTargetExist = true;
 			}
 		}
 	}

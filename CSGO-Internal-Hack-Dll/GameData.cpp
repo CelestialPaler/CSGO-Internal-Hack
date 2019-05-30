@@ -42,13 +42,16 @@ std::map<std::string, std::vector<std::string>> weapons;
 std::map<std::string, int> skins;
 int skinLoadedCount = 0;
 
-//
+int triggerDelay = 2;
+
 Vec2 angleDelta;
 size_t nearestEnemy;
 
-float aimLockFov = 10;
-float aimLockHorizontalSensitivity = 0.5;
-float aimLockVerticalSensitivity = 0.5;
+float aimLockFov = 22;
+float aimLockHorizontalSensitivity = 0.9;
+float aimLockVerticalSensitivity = 0.1;
+float aimLockDistanceSensitivity = 0.5;
+int aimLockDistanceBase = 10;
 
 namespace FunctionEnableFlag
 {
@@ -56,7 +59,9 @@ namespace FunctionEnableFlag
 	bool bTriggerBot = false;
 
 	bool bAimBot = false;
-	bool bAimBotFOV = false;
+	bool bAimBotStaticFOV = true;
+	bool bAimBotDynamicFOV = false;
+	bool bAimBotSima = false;
 
 	bool bESP = false;
 	bool bRadarHack = false;

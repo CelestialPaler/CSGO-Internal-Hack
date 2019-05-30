@@ -41,6 +41,8 @@ SOFTWARE.
 #pragma comment(lib, "MinHook.x86.lib")
 #endif
 
+#pragma comment ( lib, "detours.lib")  
+
 #include <Indicium/Engine/IndiciumCore.h>
 #include <Indicium/Engine/IndiciumDirect3D9.h>
 #include <Indicium/Engine/IndiciumDirect3D10.h>

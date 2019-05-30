@@ -44,6 +44,7 @@ void TriggerBot(void)
 			int aimedPlayerTeam = *(DWORD*)(aimedPlayerAddr + hazedumper::netvars::m_iTeamNum);
 			if (localPlayerTeam != aimedPlayerTeam)
 			{
+				Sleep(triggerDelay);
 				mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, NULL, NULL);
 				Sleep(10);
 				mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, NULL, NULL);

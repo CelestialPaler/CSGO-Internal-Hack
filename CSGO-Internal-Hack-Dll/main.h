@@ -379,7 +379,7 @@ void ShowGlowObjectInfo(void)
 
 float menuAlpha = 0.8;
 float menuAlphaPre = 0;
-int triggerDelay = 2;
+
 // Ö÷´°¿Ú
 void ShowMainWindow(void)
 {
@@ -503,16 +503,23 @@ void ShowMainWindow(void)
 		if (ImGui::TreeNode("AimBot Setting"))
 		{
 			ImGui::Separator();
-			ImGui::Checkbox("Enable FOV", &FunctionEnableFlag::bAimBotFOV);
+			ImGui::Checkbox("Static FOV", &FunctionEnableFlag::bAimBotStaticFOV);
 			ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
+			ImGui::Separator();
+			ImGui::Checkbox("Dynamic FOV", &FunctionEnableFlag::bAimBotDynamicFOV);
+			ImGui::SliderInt("Distance Base", &aimLockDistanceBase, 1, 100);
+			ImGui::SliderFloat("Distance Sensitivity", &aimLockDistanceSensitivity, 0.0f, 1.0f);
+			ImGui::Separator();
 			if (ImGui::SliderFloat("Horizontal Sensitivity", &aimLockHorizontalSensitivity, 0.0f, 1.0f))
 			{
 				aimLockVerticalSensitivity = 1 - aimLockHorizontalSensitivity;
 			}
 			if (ImGui::SliderFloat("Vertical Sensitivity", &aimLockVerticalSensitivity, 0.0f, 1.0f))
 			{
-				float aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
+			    aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
 			}
+			ImGui::Separator();
+			ImGui::Checkbox("nmsl", &FunctionEnableFlag::bAimBotSima);
 
 			ImGui::TreePop();
 		}

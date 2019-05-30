@@ -25,9 +25,10 @@ SOFTWARE.
 #pragma once
 
 #include "Windows.h"
-#include <detours.h>
+#include "..//../include/Detours/detours.h"
 #include "Exceptions.hpp"
 
+#pragma comment ( lib,"detours.lib" )  
 
 enum class CallConvention
 {

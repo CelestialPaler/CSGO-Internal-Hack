@@ -52,12 +52,16 @@ extern std::map<std::string, std::vector<std::string>> weapons;
 extern std::map<std::string, int> skins;
 extern int skinLoadedCount;
 
+extern int triggerDelay;
+
 extern Vec2 angleDelta;
 extern size_t nearestEnemy;
 
 extern float aimLockFov;
 extern float aimLockHorizontalSensitivity;
 extern float aimLockVerticalSensitivity;
+extern float aimLockDistanceSensitivity;
+extern int aimLockDistanceBase;
 
 namespace FunctionEnableFlag
 {
@@ -65,7 +69,9 @@ namespace FunctionEnableFlag
 	extern bool bTriggerBot;
 
 	extern bool bAimBot;
-	extern bool bAimBotFOV;
+	extern bool bAimBotStaticFOV;
+	extern bool bAimBotDynamicFOV;
+	extern bool bAimBotSima;
 
 	extern bool bESP;
 	extern bool bRadarHack;
