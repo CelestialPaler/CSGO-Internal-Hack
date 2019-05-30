@@ -235,6 +235,11 @@ void GlowD(void)
 	DWORD glowObj = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager);
 	if (glowObj == NULL) { return; }
 
+	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+	if (localPlayerAddr == NULL) { return; }
+
+	INT localPlayerTeam = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iTeamNum);
+
 	for (int x = 0; x < 32; x++)
 	{
 		DWORD player = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + x * 0x10);
@@ -248,9 +253,21 @@ void GlowD(void)
 
 		DWORD currentGlowIndex = *(DWORD*)(player + (DWORD)hazedumper::netvars::m_iGlowIndex);
 
-		if (team != localPlayer->team)
+		if (team == localPlayerTeam)
 		{
 			if (FunctionEnableFlag::bGlowEnemy)
+			{
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorTeammates[0];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorTeammates[1];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorTeammates[2];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorTeammates[3];
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x24) = true;
+				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x25) = false;
+			}
+		}
+		else if(team == localPlayerTeam + 1 || team == localPlayerTeam - 1)
+		{
+			if (FunctionEnableFlag::bGlowTeammates)
 			{
 				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorEnemy[0];
 				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorEnemy[1];
@@ -262,12 +279,12 @@ void GlowD(void)
 		}
 		else
 		{
-			if (FunctionEnableFlag::bGlowTeammates)
+			if (FunctionEnableFlag::bGlowWeapons)
 			{
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorTeammates[0];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorTeammates[1];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorTeammates[2];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorTeammates[3];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorWeapons[0];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorWeapons[1];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorWeapons[2];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorWeapons[3];
 				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x24) = true;
 				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x25) = false;
 			}

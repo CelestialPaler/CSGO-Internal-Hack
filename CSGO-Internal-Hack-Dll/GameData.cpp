@@ -1,33 +1,57 @@
+ï»¿// CTHackFramework 														      
+//	A framework for general game hacking								      
+// Copyright Â© 2019 Celestial Tech All rights reserved.
+//
+// The MIT License (MIT)
+// Copyright (c) 2019 Celestial Tech
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this softwareand associated documentation files(the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions :
+// 
+// The above copyright noticeand this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #include "GameData.h"
 
-// µ±Ç°¿ª·¢°æ±¾
-const std::wstring devVersion = L"0.7a";
+// å½“å‰å¼€å‘ç‰ˆæœ¬
+const std::wstring devVersion = L"0.8a";
 
-// Ä¿±ê½ø³ÌID
+// ç›®æ ‡è¿›ç¨‹ID
 DWORD targetPID;
-// Ä¿±ê½ø³ÌÃû³Æ
+// ç›®æ ‡è¿›ç¨‹åç§°
 const std::wstring targetProcName = L"csgo.exe"; //notepad.exe csgo.exe
-// Ä¿±ê´°¿ÚÃû³Æ
+// ç›®æ ‡çª—å£åç§°
 const std::wstring targetWndName = L"Counter-Strike: Global Offensive";//target.txt - Notepad Counter-Strike: Global Offensive
 
-// Ä¿±ê´°¿Ú¾ä±ú
+// ç›®æ ‡çª—å£å¥æŸ„
 HWND hTargetWnd;
 HWND hOverlayWnd;
-// Ä¿±ê´°¿ÚRect
+// ç›®æ ‡çª—å£Rect
 RECT targetRect;
-// Ä¿±ê´°¿Ú¿í¶È
+// ç›®æ ‡çª—å£å®½åº¦
 unsigned int targetWndWidth;
-// Ä¿±ê´°¿Ú³¤¶È
+// ç›®æ ‡çª—å£é•¿åº¦
 unsigned int targetWndHeight;
 
-// ±¾µØÍæ¼Ò£¨ÌìÊ¦²ÔĞ°£©
+// æœ¬åœ°ç©å®¶ï¼ˆå¤©å¸ˆè‹é‚ªï¼‰
 std::unique_ptr<Player> localPlayer = std::make_unique<Player>();
-// ËùÓĞµÄ¶ÓÓÑ
+// æ‰€æœ‰çš„é˜Ÿå‹
 std::vector<std::unique_ptr<Player>> teammates;
-// ËùÓĞµÄµĞÈË
+// æ‰€æœ‰çš„æ•Œäºº
 std::vector<std::unique_ptr<Player>> enemy;
 
-// ·¢¹âÊµÌå
+// å‘å…‰å®ä½“
 std::vector<std::unique_ptr<GlowObject>> glowObjects;
 int glowObjectCount;
 int glowObjectCountMax;
@@ -37,15 +61,15 @@ float glowColorWeapons[4] = { 0,0,1,1 };
 float glowColorC4[4] = { 1,0,1,1 };
 float glowColorDefault[4] = { 1,1,1,1 };
 
-// Æ¤·ôĞÅÏ¢
+// çš®è‚¤ä¿¡æ¯
 std::map<std::string, std::vector<std::string>> weapons;
 std::map<std::string, int> skins;
 int skinLoadedCount = 0;
 
 int triggerDelay = 2;
 
-Vec2 angleDelta;
 size_t nearestEnemy;
+int validTargetNum;
 
 float aimLockFov = 22;
 float aimLockHorizontalSensitivity = 0.9;

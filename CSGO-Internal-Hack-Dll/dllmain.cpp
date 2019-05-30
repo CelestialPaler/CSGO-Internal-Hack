@@ -147,6 +147,7 @@ void EvtIndiciumGameHooked(const INDICIUM_D3D_VERSION GameVersion)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.Fonts->AddFontFromFileTTF("simsun.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
 	//io.Fonts->AddFontFromFileTTF("", 20, NULL, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls

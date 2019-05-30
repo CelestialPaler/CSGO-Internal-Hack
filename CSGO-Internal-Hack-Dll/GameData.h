@@ -1,3 +1,27 @@
+ï»¿// CTHackFramework 														      
+//	A framework for general game hacking								      
+// Copyright Â© 2019 Celestial Tech All rights reserved.
+//
+// The MIT License (MIT)
+// Copyright (c) 2019 Celestial Tech
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this softwareand associated documentation files(the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions :
+// 
+// The above copyright noticeand this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #pragma once
 
 #include <string>
@@ -9,35 +33,35 @@
 
 #include "GameStruct.h"
 
-// µ±Ç°¿ª·¢°æ±¾
+// å½“å‰å¼€å‘ç‰ˆæœ¬
 extern const std::wstring devVersion;
 
-// Ä¿±ê½ø³ÌID
+// ç›®æ ‡è¿›ç¨‹ID
 extern DWORD targetPID;
-// Ä¿±ê½ø³ÌÃû³Æ
+// ç›®æ ‡è¿›ç¨‹åç§°
 extern const std::wstring targetProcName;
-// Ä¿±ê´°¿ÚÃû³Æ
+// ç›®æ ‡çª—å£åç§°
 extern const std::wstring targetWndName;
 
-// Ä¿±ê´°¿Ú¾ä±ú
+// ç›®æ ‡çª—å£å¥æŸ„
 extern HWND hTargetWnd;
 //
 extern HWND hOverlayWnd;
-// Ä¿±ê´°¿ÚRect
+// ç›®æ ‡çª—å£Rect
 extern RECT targetRect;
-// Ä¿±ê´°¿Ú¿í¶È
+// ç›®æ ‡çª—å£å®½åº¦
 extern unsigned int targetWndWidth;
-// Ä¿±ê´°¿Ú³¤¶È
+// ç›®æ ‡çª—å£é•¿åº¦
 extern unsigned int targetWndHeight;
 
-// ±¾µØÍæ¼Ò£¨ÌìÊ¦²ÔĞ°£©
+// æœ¬åœ°ç©å®¶ï¼ˆå¤©å¸ˆè‹é‚ªï¼‰
 extern std::unique_ptr<Player> localPlayer;
-// ËùÓĞµÄ¶ÓÓÑ
+// æ‰€æœ‰çš„é˜Ÿå‹
 extern std::vector<std::unique_ptr<Player>> teammates;
-// ËùÓĞµÄµĞÈË
+// æ‰€æœ‰çš„æ•Œäºº
 extern std::vector<std::unique_ptr<Player>> enemy;
 
-// ·¢¹âÊµÌå
+// å‘å…‰å®ä½“
 extern std::vector<std::unique_ptr<GlowObject>> glowObjects;
 extern int glowObjectCount;
 extern int glowObjectCountMax;
@@ -47,15 +71,15 @@ extern float glowColorWeapons[4];
 extern float glowColorC4[4];
 extern float glowColorDefault[4];
 
-// Æ¤·ôĞÅÏ¢
+// çš®è‚¤ä¿¡æ¯
 extern std::map<std::string, std::vector<std::string>> weapons;
 extern std::map<std::string, int> skins;
 extern int skinLoadedCount;
 
 extern int triggerDelay;
 
-extern Vec2 angleDelta;
 extern size_t nearestEnemy;
+extern int validTargetNum;
 
 extern float aimLockFov;
 extern float aimLockHorizontalSensitivity;

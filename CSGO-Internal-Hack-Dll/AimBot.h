@@ -76,7 +76,7 @@ void AimBot(void)
 		}
 	}
 
-	nearestEnemy = 0;
+
 	std::vector<int> validTargets;
 	bool isTargetExist = false;
 
@@ -84,20 +84,28 @@ void AimBot(void)
 	{
 		if (enemy.at(i)->isValid)
 		{
-			if (enemy.at(i)->health > 0)
+			if (!enemy.at(i)->isDormant)
 			{
-				validTargets.push_back(i);
+				if (enemy.at(i)->health > 0)
+				{
+					validTargets.push_back(i);
+				}
 			}
 		}
 	}
+	validTargetNum = validTargets.size();
+
+	if (validTargets.size() <= 0) { return; }
+
+	nearestEnemy = validTargets.at(0);
 
 	if (FunctionEnableFlag::bAimBotStaticFOV)
 	{
-		for (size_t i = 0; i < validTargets.size(); i++)
+		for (auto i : validTargets)
 		{
-			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
-				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(360 + enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
-				)
+			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y) * aimLockHorizontalSensitivity) < sqrt(aimLockFov)
+				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y - 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov)
+				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y + 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
 			{
 				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
 				{
@@ -109,7 +117,7 @@ void AimBot(void)
 	}
 	else if (FunctionEnableFlag::bAimBotDynamicFOV)
 	{
-		for (size_t i = 0; i < validTargets.size(); i++)
+		for (auto i : validTargets)
 		{
 			float dfov = aimLockFov + (enemy.at(i)->distance - aimLockDistanceBase) * aimLockDistanceSensitivity;
 			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(0)))
@@ -124,7 +132,7 @@ void AimBot(void)
 	}
 	else if(FunctionEnableFlag::bAimBotSima)
 	{
-		for (size_t i = 0; i < validTargets.size(); i++)
+		for (auto i : validTargets)
 		{
 			if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
 			{

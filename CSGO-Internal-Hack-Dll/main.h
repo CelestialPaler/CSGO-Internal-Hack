@@ -1,3 +1,27 @@
+Ôªø// CTHackFramework 														      
+//	A framework for general game hacking								      
+// Copyright ¬© 2019 Celestial Tech All rights reserved.
+//
+// The MIT License (MIT)
+// Copyright (c) 2019 Celestial Tech
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this softwareand associated documentation files(the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions :
+// 
+// The above copyright noticeand this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #pragma once
 
 #include <chrono>
@@ -33,7 +57,7 @@
  *
  * \brief	Overly complicated key toggle helper
  *
- * \author	Benjamin "Nefarius" Hˆglinger-Stelzer
+ * \author	Benjamin "Nefarius" HÈ∞Élinger-Stelzer
  * \date	7/09/2018
  *
  * \param 		  	key   	The key.
@@ -103,9 +127,9 @@ void HackStop(void)
 
 void GameDataInit(void)
 {
-	for (size_t i = 0; i < 19; i++)
+	for (size_t i = 0; i < 39; i++)
 		teammates.push_back(std::make_unique<Player>());
-	for (size_t i = 0; i < 20; i++)
+	for (size_t i = 0; i < 40; i++)
 		enemy.push_back(std::make_unique<Player>());
 	for (size_t i = 0; i < 256; i++)
 		glowObjects.push_back(std::make_unique<GlowObject>());
@@ -122,7 +146,7 @@ void GameDataInit(void)
 		std::vector<std::string> tempCSVData;
 		tempCSVData = Util::StringManipulation::SplitString(line, ",");
 
-		if (weapons.find(tempCSVData.at(1))== weapons.end())// ≤ª¥Ê‘⁄‘ÚÃÌº”
+		if (weapons.find(tempCSVData.at(1))== weapons.end())// ‰∏çÂ≠òÂú®ÂàôÊ∑ªÂä†
 		{
 			weapons.emplace(tempCSVData.at(1), std::vector<std::string>());
 		}
@@ -288,11 +312,11 @@ void ShowAimInfo(void)
 	ImGui::Text("Aim Info:");
 	ImGui::Separator();
 	std::stringstream ss;
-	ss << "  Angle Delta: (" << std::setprecision(4) << std::fixed << (float)angleDelta.x << "," << (float)angleDelta.y << ")";
+	ss << "  Valid Target Num : " << validTargetNum;
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
-	ss << "  Nearest Enemy: " << nearestEnemy;
+	ss << "  Nearest Enemy : " << nearestEnemy;
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 }
@@ -380,20 +404,20 @@ void ShowGlowObjectInfo(void)
 float menuAlpha = 0.8;
 float menuAlphaPre = 0;
 
-// ÷˜¥∞ø⁄
+// ‰∏ªÁ™óÂè£
 void ShowMainWindow(void)
 {
 	ImGui::Begin("CSGO Internal Hack", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text("Copyright (c) 2019 Celestial Tech  All rights reserved.");
 
-	// ¥∞ø⁄Õ∏√˜∂»
+	// Á™óÂè£ÈÄèÊòéÂ∫¶
 	if (menuAlpha != menuAlphaPre)
 	{
 		ImGui::GetStyle().Alpha = menuAlpha;
 		menuAlphaPre = menuAlpha;
 	}
 
-	// –≈œ¢
+	// ‰ø°ÊÅØ
 	if (ImGui::CollapsingHeader("Info", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		std::stringstream ss;
@@ -537,7 +561,7 @@ void ShowMainWindow(void)
 	
 			if (ImGui::Combo("Weapon", &item_current_weapon, items_weapon, weapons.size()))
 			{
-				// ∏¸ªªŒ‰∆˜
+				// Êõ¥Êç¢Ê≠¶Âô®
 				tempSkinInfo = weapons.at(items_weapon[item_current_weapon]);
 			}
 
@@ -549,7 +573,7 @@ void ShowMainWindow(void)
 
 			if (ImGui::Combo("Skin", &item_current_skin, items_skin, tempSkinInfo.size()))
 			{
-				// ∏¸ªª∆§∑Ù
+				// Êõ¥Êç¢ÁöÆËÇ§
 			}
 			ImGui::Separator();
 
@@ -611,7 +635,7 @@ void ShowMainWindow(void)
 
 #pragma region Hack logic
 
-// Õ‚π“
+// Â§ñÊåÇ
 void Hack(void)
 {
 	if (FunctionEnableFlag::bReadLocalPlayerInfo)
