@@ -104,7 +104,7 @@ Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll
     of your games. The framework takes care about pesky tasks like detecting the DirectX version the game was built for and supports
     runtime-hooking (no special launcher application required).
 </p>
-<p>&emsp;Check Indicium-Supra on github: <a href="https://github.com/nefarius/Indicium-Supra">Celestial Tech</a></p>
+<p>&emsp;Check Indicium-Supra on github: <a href="https://github.com/nefarius/Indicium-Supra">Indicium-Supra</a></p>
 
 <h2>About</h2>
     <p>It`s welcomed for anyone to contribute to this project. Feel free to upload your code and pull a request. More than anything, please share your idea and give me some precious advices. </p>
