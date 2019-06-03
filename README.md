@@ -94,7 +94,7 @@
 
 
    <p> Eject.bat</p>
-<p><b> &emsp; &emsp; &emsp;Injector -e csgo.exe -i CSGO-Internal-Hack-Dll.dll Indicium-Supra.dll </b></p>
+<p><b> &emsp; &emsp; &emsp;Injector -n csgo.exe -e CSGO-Internal-Hack-Dll.dll Indicium-Supra.dll </b></p>
 <p><b> &emsp; &emsp; &emsp;ping 192.0.2.2 -n 1 -w 1000 > nul</b></p>
 <p><b> &emsp; &emsp; &emsp;EXIT </b></p>
 
