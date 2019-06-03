@@ -74,9 +74,9 @@
 
  <b>&emsp;&emsp;&emsp;cd (PATH_TO_THE_FOLDER)</b>
 
- <p>&emsp;6. Use the injector to inject both dll in to csgo.exe. </p>
+ <p>&emsp;6. Use the injector to inject both dll in to csgo.exe. (Indicium-Supra.dll must be injected first)</p>
 
-<b>&emsp;&emsp;&emsp;Injector -e csgo.exe -i CSGO-Internal-Hack-Dll.dll Indicium-Supra.dll </b>
+<b>&emsp;&emsp;&emsp;Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll</b>
   
  <p>&emsp;7. An in-game overlay will appear.</p>
  <p>&emsp;8. Hacks on babe.</p>
