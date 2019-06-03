@@ -614,7 +614,7 @@ void ShowMainWindow(void)
 		ImGui::SameLine();
 		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
 		ImGui::SameLine();
-		if (ImGui::Button("GlowOnce Test")) { GlowA(); }
+		if (ImGui::Button("GlowOnce Test")) { GlowB(); }
 		ImGui::Separator();
 
 		if (FunctionEnableFlag::bShowLocalPlayerInfo)

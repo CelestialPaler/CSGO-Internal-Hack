@@ -43,12 +43,6 @@
     <ClCompile Include="imgui_impl_dx9.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_impl_dx10.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_dx11.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_impl_win32.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
@@ -88,12 +82,6 @@
       <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_dx9.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_dx10.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_dx11.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_win32.h">
@@ -153,13 +141,13 @@
     <ClInclude Include="SkinChanger.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Glow.h">
-      <Filter>Hack\Function</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="AimBot.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Glow.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
   </ItemGroup>

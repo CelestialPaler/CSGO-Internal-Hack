@@ -169,8 +169,6 @@
     <ClCompile Include="BHop.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameData.cpp" />
-    <ClCompile Include="imgui_impl_dx10.cpp" />
-    <ClCompile Include="imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui_impl_dx9.cpp" />
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -195,8 +193,6 @@
     <ClInclude Include="GameDef.h" />
     <ClInclude Include="GameStruct.h" />
     <ClInclude Include="Glow.h" />
-    <ClInclude Include="imgui_impl_dx10.h" />
-    <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="imgui_impl_dx9.h" />
     <ClInclude Include="imgui_impl_win32.h" />
     <ClInclude Include="Logger.h" />
