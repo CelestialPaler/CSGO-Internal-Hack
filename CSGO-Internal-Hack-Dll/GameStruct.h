@@ -28,14 +28,14 @@
 
 typedef uint64_t QWORD;
 
-/* 二维向量类 */
+/* Vec2 Class */
 struct Vec2
 {
 	float x;
 	float y;
 };
 
-/* 三维向量类 */
+/* Vec3 Class */
 struct Vec3
 {
 	float x;
@@ -43,47 +43,39 @@ struct Vec3
 	float z;
 };
 
-/* 玩家类 */
+/* Player Class */
 class Player
 {
 public:
-	// 身体屏幕空间坐标
+	// Entity coords in the screen space
 	Vec2 bodyScrCoords;
-	// 身体游戏空间坐标
+	// Entity coords in the gameworld
 	Vec3 bodyGameCoords;
-	// 头屏幕空间坐标
+	// Head coords in the screen space
 	Vec2 headScrCoords;
-	// 头游戏空间坐标
+	// Head coords in the gameworld
 	Vec3 headGameCoords;
 
 	Vec2 aimAngle;
 	Vec2 angleDelta;
 
-	// 地址
-	/// 该玩家信息在内存中的基地址
+	// Base Address of the player entity
 	DWORD dwBaseAddr;
-	// 是否被发现
 	bool isSpotted;
-	// 血量
 	unsigned int health;
-	// 阵营
 	unsigned int team;
-	// 与你之间的距离
+	// The distance between this player and "you" 
 	float distance;
-	// ID
 	unsigned int id;
-	// 是否开镜
 	bool isScoped;
-	// 正在瞄准的实体ID
 	int aimID;
-	// 正在瞄准的实体的阵营
 	int aimTeam;
-	// 数据是否合法
-	bool isValid;
-	// 当前武器ID
 	short weaponID;
-	// 是否dormant
 	bool isDormant;
+
+	// Set to true when the data of this player is correctly read.
+	// If fasle, the data is not valid.
+	bool isValid;
 };
 
 struct GlowObject

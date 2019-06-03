@@ -31,6 +31,7 @@ void ReadGlowObjectInfo(void)
 	}
 }
 
+// This funtion is not used cause there`s some bug in it, which will crash the game.
 void GlowA(void)
 {
 	while (FunctionEnableFlag::bReadLocalPlayerInfo == false && localPlayer->isValid == false)
@@ -158,76 +159,7 @@ void GlowA(void)
 	}
 }
 
-
-struct Color {
-	float red;
-	float green;
-	float blue;
-	float alpha;
-};
-
 void GlowB(void)
-{
-	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
-	if (clientAddr == NULL) { return; }
-
-	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
-	if (localPlayerAddr == NULL) { return; }
-
-	for (int i = 0; i < 60; i++) {
-		QWORD memoryAddress = *(QWORD*)(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + 0x20 * i);
-
-		if (memoryAddress <= 0x0) {
-			continue;
-		}
-
-		INT glowIndex = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iGlowIndex);
-		INT health = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iHealth);
-		INT playerTeamNum = *(INT*)(memoryAddress + (QWORD)hazedumper::netvars::m_iTeamNum);
-		INT localTeam = *(INT*)(localPlayerAddr + (QWORD)hazedumper::netvars::m_iTeamNum);
-
-		if (playerTeamNum == localTeam || playerTeamNum == 0) {
-			continue;
-		}
-
-		if (playerTeamNum == 0) {
-			continue;
-		}
-
-		if (health == 0) {
-			health = 100;
-		}
-
-		Color color = { float((100 - health) / 100.0), float((health) / 100.0), 0.0f, 0.8f };
-
-		DWORD glowArray = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwGlowObjectManager);
-
-		uint64_t glowBase = glowArray + (0x40 * glowIndex);
-
-		*(BOOL*)(glowBase + 0x28) =true;
-		*(Color*)(glowBase + 0x8) = color;
-	}
-}
-
-#define m_flDetectedByEnemySensorTime 0x3960
-
-void GlowC(void)
-{
-	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
-	if (clientAddr == NULL) { return; }
-
-	DWORD localPlayerAddr = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwLocalPlayer);
-	if (localPlayerAddr == NULL) { return; }
-
-	for (int i = 0; i <= 64; i++)
-	{
-		DWORD EntityList = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + i * 0x10);
-		*(FLOAT*)(EntityList + m_flDetectedByEnemySensorTime) = 134217722;
-		*(FLOAT*)(EntityList + (DWORD)hazedumper::netvars::m_bSpotted) = true;
-	}
-}
-
-void GlowD(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 	if (clientAddr == NULL) { return; }
@@ -296,7 +228,7 @@ DWORD WINAPI GlowWrapper(LPVOID lpParam)
 {
 	while (FunctionEnableFlag::bGlow)
 	{
-		GlowD();
+		GlowB();
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 	ThreadExistFlag::bGlow = false;

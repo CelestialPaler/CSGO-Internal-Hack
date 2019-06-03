@@ -73,9 +73,6 @@
     <ClCompile Include="BHop.cpp">
       <Filter>Hack\Function</Filter>
     </ClCompile>
-    <ClCompile Include="ESP.cpp">
-      <Filter>Hack\Function</Filter>
-    </ClCompile>
     <ClCompile Include="SkinChanger.cpp">
       <Filter>Hack\Function</Filter>
     </ClCompile>
@@ -151,9 +148,6 @@
       <Filter>Hack\Function</Filter>
     </ClInclude>
     <ClInclude Include="BHop.h">
-      <Filter>Hack\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="ESP.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
     <ClInclude Include="SkinChanger.h">

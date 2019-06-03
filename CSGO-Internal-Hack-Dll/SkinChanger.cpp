@@ -43,19 +43,20 @@ DWORD WINAPI SkinChangerWrapper(LPVOID lpParam)
 	return 0;
 }
 
-DWORD cachedPlayer = 0;
-DWORD modelIndex = 0;
-int knifeID = 0;
-short itemDef = 500;
-DWORD paintKit = 415;
-
-const int itemIDHigh = -1;
-const int entityQuality = 3;
-const float fallbackWear = 0.1f;
-const int statTrack = 4396;
-
+// This funtion is copy form SkinX, it will not be uesd in the code, just put it here as a reference.
 void SkinChangerA(void)
 {
+	DWORD cachedPlayer = 0;
+	DWORD modelIndex = 0;
+	int knifeID = 0;
+	short itemDef = 500;
+	DWORD paintKit = 415;
+
+	const int itemIDHigh = -1;
+	const int entityQuality = 3;
+	const float fallbackWear = 0.1f;
+	const int statTrack = 4396;
+
 	int knifeIDOffset = knifeID < 10 ? 0 : 1; /* precache offset id by 1 for new knives */
 
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
@@ -148,6 +149,7 @@ void SkinChangerA(void)
 	*(DWORD*)(knifeViewModel + (DWORD)hazedumper::netvars::m_nModelIndex) = modelIndex;
 }
 
+// It`s the function that does the skin changing stuff.
 void SkinChangerB(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
@@ -167,64 +169,64 @@ void SkinChangerB(void)
 
 		switch (weaponID)
 		{
-		case WeaponID::AK47: // ÑªÐÈÔË¶¯
+		case WeaponID::AK47:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Bloodsport"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
-		case WeaponID::AUG: // ÇïÒ¶Ô­
+		case WeaponID::AUG:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Akihabara Accept"], 0, 4396, 4, 0.01f, "Hammann-AUG");
 			break;
-		case WeaponID::AWP: // Áú¾Ñ
+		case WeaponID::AWP:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Dragon Lore"], 0, 4396, 4, 0.01f, "Hammann-AWP");
 			break;
-		case WeaponID::CZ75Auto: // Õ½ÊõÃ¨ Dva
+		case WeaponID::CZ75Auto:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Tacticat"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
-		case WeaponID::DesertEagle: // ºìÉ«´úºÅ
+		case WeaponID::DesertEagle:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 711, 0, 4396, 4, 0.01f, "Hammann-Deagle");
 			break;
-		case WeaponID::FAMAS: // ¹öÍ²
+		case WeaponID::FAMAS:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Roll Cage"], 0, 4396, 4, 0.01f, "Hammann-FAMAS");
 			break;
-		case WeaponID::FiveSeven: // Ò°ÊÞ
+		case WeaponID::FiveSeven:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Hyper Beast"], 0, 4396, 4, 0.01f, "Hammann-FiveSeven");
 			break;
-		case WeaponID::GailAR: // ÌÇ¹÷¶ù
+		case WeaponID::GailAR:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Sugar Rush"], 0, 4396, 4, 0.01f, "Hammann-GailAR");
 			break;
-		case WeaponID::Glock:// Ë®ÔªËØ
+		case WeaponID::Glock:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Water Elemental"], 0, 4396, 4, 0.01f, "Hammann-Glock"); 
 			break;
-		case WeaponID::M249:// îø¼×ÓÂÊ¿
+		case WeaponID::M249:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Nebula Crusader"], 0, 4396, 4, 0.01f, "Hammann-M249");
 			break;
-		case WeaponID::M4A1S: // CF½ðºì Éß×ß¿ñÁú
+		case WeaponID::M4A1S: 
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 548, 0, 4396, 4, 0.01f, "Hammann-M4A1S");
 			break;
-		case WeaponID::M4A4: // °µ½ðÅØÏø È«³¡¼â½Ð 
+		case WeaponID::M4A4: 
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Howl"], 0, 4396, 4, 0.01f, "Hammann-M4A4");
 			break;
-		case WeaponID::Negev:// ´óÀ®°È
+		case WeaponID::Negev:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Loudmouth"], 0, 4396, 4, 0.01f, "Hammann-Negev");
 			break;
-		case WeaponID::P2000:// »ðÔªËØ
+		case WeaponID::P2000:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Fire Elemental"], 0, 4396, 4, 0.01f, "Hammann-P2000");
 			break;
-		case WeaponID::P250:// öùÓã
+		case WeaponID::P250:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["See Ya Later"], 0, 4396, 4, 0.01f, "Hammann-P250");
 			break;
-		case WeaponID::P90:// °¢Î÷Äª·ò
+		case WeaponID::P90:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Asiimov"], 0, 4396, 4, 0.01f, "Hammann-P90");
 			break;
-		case WeaponID::PPBizon:// °¢Å¬±ÈË¹ÉóÅÐ
+		case WeaponID::PPBizon:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Judgement of Anubis"], 0, 4396, 4, 0.01f, "Hammann-PPBizon");
 			break;
-		case WeaponID::SG553:// µç×ÓÂö³å
+		case WeaponID::SG553:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Pulse"], 0, 4396, 4, 0.01f, "Hammann-SG553");
 			break;
-		case WeaponID::USPS:// Ð¡½ã½ã
+		case WeaponID::USPS:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 653, 0, 4396, 4, 0.01f, "Hammann-USPS");
 			break;
-		case WeaponID::SSG08:// ºìÁú
+		case WeaponID::SSG08:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 624, 0, 4396, 4, 0.01f, "Hammann-SSG08");
 			break;
 		default:

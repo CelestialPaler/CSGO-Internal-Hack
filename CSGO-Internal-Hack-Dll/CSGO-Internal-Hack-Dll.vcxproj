@@ -168,7 +168,6 @@
     <ClCompile Include="AimBot.cpp" />
     <ClCompile Include="BHop.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="ESP.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="imgui_impl_dx10.cpp" />
     <ClCompile Include="imgui_impl_dx11.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="BHop.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="dllmain.h" />
-    <ClInclude Include="ESP.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameDef.h" />
     <ClInclude Include="GameStruct.h" />

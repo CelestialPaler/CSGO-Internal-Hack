@@ -610,11 +610,11 @@ void ShowMainWindow(void)
 		ImGui::Checkbox("  Show Glow Object Info", &FunctionEnableFlag::bShowGlowObjectInfo);
 
 		ImGui::Separator();
-		if (ImGui::Button("SkinChanger")) { SkinChangerB(); }
+		if (ImGui::Button("SkinChanger Test")) { SkinChangerB(); }
 		ImGui::SameLine();
 		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
 		ImGui::SameLine();
-		if (ImGui::Button("GlowOnce")) { GlowA(); }
+		if (ImGui::Button("GlowOnce Test")) { GlowA(); }
 		ImGui::Separator();
 
 		if (FunctionEnableFlag::bShowLocalPlayerInfo)
@@ -635,7 +635,6 @@ void ShowMainWindow(void)
 
 #pragma region Hack logic
 
-// 外挂
 void Hack(void)
 {
 	if (FunctionEnableFlag::bReadLocalPlayerInfo)

@@ -112,7 +112,7 @@ void ReadOtherPlayerInfo(void)
 	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
 	if (engineAddr == NULL) { localPlayer->isValid = false; return; }
 
-	// 表示下一个需要写入数据的玩家
+	// Represents the next player
 	int teammateIndex = 0, enemyIndex = 0;
 
 	for (size_t i = 0; i < teammates.size(); i++)
@@ -120,26 +120,26 @@ void ReadOtherPlayerInfo(void)
 	for (size_t i = 0; i < enemy.size(); i++)
 		enemy.at(i)->isValid = false;
 
-	// 遍历所有玩家
-	/// 从1开始，排除本地玩家
+	// Traverse all the player
+	// Start form 1 to exclude localplayer
 	for (size_t i = 1; i < 20; i++)
 	{
 		DWORD otherPlayerAddr = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (QWORD)i * 0x10);
 
-		// 若玩家不存在
+		// if the player entity is not here
 		if (otherPlayerAddr == NULL) break;
 
-		// 创建临时玩家
+		// Create a temp player
 		std::unique_ptr<Player> tempPlayer = std::make_unique<Player>();
 
-		// 读取基本信息
+		// Read basic info
 		tempPlayer->dwBaseAddr = otherPlayerAddr;
 		tempPlayer->health = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iHealth);
 		tempPlayer->team = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iTeamNum);
 		tempPlayer->id = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iAccountID);
 		tempPlayer->isDormant = *(BOOL*)(otherPlayerAddr + hazedumper::signatures ::m_bDormant);
 
-		// 读取身体绝对空间坐标
+		// Read coords
 		tempPlayer->bodyGameCoords.x = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
 		tempPlayer->bodyGameCoords.y = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 1);
 		tempPlayer->bodyGameCoords.z = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 2);
@@ -151,7 +151,7 @@ void ReadOtherPlayerInfo(void)
 		tempPlayer->headGameCoords.y = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x1c);
 		tempPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
 
-		// 计算身体相对屏幕坐标
+		// Calculate coords
 		if (WorldProjectToScreen(tempPlayer->bodyGameCoords, tempPlayer->bodyScrCoords))
 		{
 			tempPlayer->bodyScrCoords.x -= targetRect.left;
@@ -159,12 +159,12 @@ void ReadOtherPlayerInfo(void)
 		}
 		else
 		{
-			// 如果投影失败，就归零处理
+			// in case of failure, set coords to 0
 			tempPlayer->bodyScrCoords.x = 0;
 			tempPlayer->bodyScrCoords.y = 0;
 		}
 
-		// 计算头相对屏幕坐标
+		// Calculate coords
 		if (WorldProjectToScreen(tempPlayer->headGameCoords, tempPlayer->headScrCoords))
 		{
 			tempPlayer->headGameCoords.x -= targetRect.left;
@@ -172,17 +172,17 @@ void ReadOtherPlayerInfo(void)
 		}
 		else
 		{
-			// 如果投影失败，就归零处理
+			// in case of failure, set coords to 0
 			tempPlayer->headScrCoords.x = 0;
 			tempPlayer->headScrCoords.y = 0;
 		}
 
-		// 计算与玩家的距离
+		// Calculate distance
 		tempPlayer->distance = CalculateDistance(tempPlayer->bodyGameCoords, localPlayer->bodyGameCoords);
 
 		tempPlayer->isValid = true;
 
-		// 判断是否是队友
+		// Check if it`s a teamate or not
 		if (tempPlayer->team != 0 && tempPlayer->team == localPlayer->team)
 			teammates.at(teammateIndex++).swap(tempPlayer);
 		else

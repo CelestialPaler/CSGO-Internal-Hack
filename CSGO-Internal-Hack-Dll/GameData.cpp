@@ -24,34 +24,34 @@
 
 #include "GameData.h"
 
-// 当前开发版本
+// Dev Version
 const std::wstring devVersion = L"0.8a";
 
-// 目标进程ID
+// Target process id
 DWORD targetPID;
-// 目标进程名称
-const std::wstring targetProcName = L"csgo.exe"; //notepad.exe csgo.exe
-// 目标窗口名称
-const std::wstring targetWndName = L"Counter-Strike: Global Offensive";//target.txt - Notepad Counter-Strike: Global Offensive
+// Target process name
+const std::wstring targetProcName = L"csgo.exe";
+// Target window name
+const std::wstring targetWndName = L"Counter-Strike: Global Offensive";
 
-// 目标窗口句柄
+// Target window handle
 HWND hTargetWnd;
-HWND hOverlayWnd;
-// 目标窗口Rect
+
+// Target window Rect
 RECT targetRect;
-// 目标窗口宽度
+// Target window width
 unsigned int targetWndWidth;
-// 目标窗口长度
+// Target window height
 unsigned int targetWndHeight;
 
-// 本地玩家（天师苍邪）
+// localpalyer
 std::unique_ptr<Player> localPlayer = std::make_unique<Player>();
-// 所有的队友
+// all the teamates
 std::vector<std::unique_ptr<Player>> teammates;
-// 所有的敌人
+// all the enemies
 std::vector<std::unique_ptr<Player>> enemy;
 
-// 发光实体
+// Glow objects
 std::vector<std::unique_ptr<GlowObject>> glowObjects;
 int glowObjectCount;
 int glowObjectCountMax;
@@ -61,13 +61,15 @@ float glowColorWeapons[4] = { 0,0,1,1 };
 float glowColorC4[4] = { 1,0,1,1 };
 float glowColorDefault[4] = { 1,1,1,1 };
 
-// 皮肤信息
+// Skin info
 std::map<std::string, std::vector<std::string>> weapons;
 std::map<std::string, int> skins;
 int skinLoadedCount = 0;
 
+// Trigger bot
 int triggerDelay = 2;
 
+// Aim bot
 size_t nearestEnemy;
 int validTargetNum;
 

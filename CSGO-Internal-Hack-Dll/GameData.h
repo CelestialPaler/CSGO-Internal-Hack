@@ -33,35 +33,34 @@
 
 #include "GameStruct.h"
 
-// 当前开发版本
+// Dev Version
 extern const std::wstring devVersion;
 
-// 目标进程ID
+// Target process id
 extern DWORD targetPID;
-// 目标进程名称
+// Target process name
 extern const std::wstring targetProcName;
-// 目标窗口名称
+// Target window name
 extern const std::wstring targetWndName;
 
-// 目标窗口句柄
+// Target window handle
 extern HWND hTargetWnd;
-//
-extern HWND hOverlayWnd;
-// 目标窗口Rect
+
+// Target window Rect
 extern RECT targetRect;
-// 目标窗口宽度
+// Target window width
 extern unsigned int targetWndWidth;
-// 目标窗口长度
+// Target window height
 extern unsigned int targetWndHeight;
 
-// 本地玩家（天师苍邪）
+// localpalyer
 extern std::unique_ptr<Player> localPlayer;
-// 所有的队友
+// all the teamates
 extern std::vector<std::unique_ptr<Player>> teammates;
-// 所有的敌人
+// all the enemies
 extern std::vector<std::unique_ptr<Player>> enemy;
 
-// 发光实体
+// Glow objects
 extern std::vector<std::unique_ptr<GlowObject>> glowObjects;
 extern int glowObjectCount;
 extern int glowObjectCountMax;
@@ -71,13 +70,15 @@ extern float glowColorWeapons[4];
 extern float glowColorC4[4];
 extern float glowColorDefault[4];
 
-// 皮肤信息
+// Skin info
 extern std::map<std::string, std::vector<std::string>> weapons;
 extern std::map<std::string, int> skins;
 extern int skinLoadedCount;
 
+// Trigger bot
 extern int triggerDelay;
 
+// Aim bot
 extern size_t nearestEnemy;
 extern int validTargetNum;
 
