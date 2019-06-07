@@ -10,10 +10,12 @@
         <ul>
             <li>Faster memory access</li>
             <p>&emsp;Within the process, you can access memory directly and freely cause target memory is also "your" memory, if you get the idea. </p>
+            <li>Call game function</li>
+            <p>&emsp;As a internal hack, your code is injected into the target process, so you can call the function from game.Such as some command like GiveWeapon, KillBot, and even functions that from game engine like UpdateTexture or LoadSound.</p>
             <li>The same privilege</li>
             <p>&emsp;Since target process consider your code as his code, your code will run with the same privilege as the targer process does.</p>
             <li>Concealment</li>
-            <p>&emsp;If done right, the hack code will not be detected by anti-cheat system that easy.</p>
+            <p>&emsp;If done right, the hack code will not be detected by anti-cheat system that easy.</p>          
         </ul>
     </p>
     <p>
@@ -64,24 +66,42 @@
     </ul>
 
 <h2>How to use</h2>
-<ul>
-<li>First, download the repo and extract, or using git command: </li>
+ <p>&emsp;1. Download the repo and extract it. </p>
+ <p>&emsp;2. Download all the dependency mentioned bellowpli>
+ <p>&emsp;3. Open with VS 2017 or higher and complie the code. Make sure to build as <b>release x86</b> configuration.</p>
+ <p>&emsp;4. Create a new folder, put Indicium-Supra.dll, CSGO-Internal-Hack-Dll.dll and Injector.exe in it. </p>
+ <p>&emsp;5. Open up CMD and use cd command to navigate to this folder. </p>
 
-```
-git https://github.com/CelestialTS/CSGO-Internal-Hack/
-```    
+ <b>&emsp;&emsp;&emsp;cd (PATH_TO_THE_FOLDER)</b>
 
-<li>Next, download all the dependency mentioned bellow. </li>
-<li>Then, open with VS 2017 or higher and complie the code.</li>
-<li>Use cmd to inject dll into the game.</li>
+ <p>&emsp;6. Use the injector to inject both dll in to csgo.exe. (Indicium-Supra.dll must be injected first)</p>
 
-```
-Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll 
-```  
+<b>&emsp;&emsp;&emsp;Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll</b>
+  
+ <p>&emsp;7. An in-game overlay will appear.</p>
+ <p>&emsp;8. Hacks on babe.</p>
+ 
+<h2>To be more convenient</h2>
+     <p>
+        &emsp;Write yourself a .bat script to automate the injection process. Put the .bat in the same folder.
+    </p> 
+    
+   <p> Inject.bat</p>
 
-<li>Configure the settings using in-game overlay.</li>
-<li>Hacks on babe.</li>
-</ul>
+<p><b> &emsp; &emsp; &emsp;Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll</b></p>
+<p><b> &emsp; &emsp; &emsp;ping 192.0.2.2 -n 1 -w 1000 > nul</b></p>
+<p><b> &emsp; &emsp; &emsp;EXIT </b></p>
+
+
+   <p> Eject.bat</p>
+<p><b> &emsp; &emsp; &emsp;Injector -n csgo.exe -e CSGO-Internal-Hack-Dll.dll Indicium-Supra.dll </b></p>
+<p><b> &emsp; &emsp; &emsp;ping 192.0.2.2 -n 1 -w 1000 > nul</b></p>
+<p><b> &emsp; &emsp; &emsp;EXIT </b></p>
+
+<h2>Troubleshoot</h2>
+<p>&emsp;1. If is says no pch.h found, just go to Project->Property->C/C++->Precompiled Header change to <b>Not Using Precompiled Headers</b>.</p>
+<p>&emsp;2. If some include path is broken, just follow the error and change the path.</p>
+<p>&emsp;3. If you use other injector, remember that <b>Inject Indicium-Supra.dll first and then inject CSGO-Internal-Hack-Dll.dll</b>.</p>
 
 <h2>Dependency</h2>
 <h4>Dear ImGui</h4>
