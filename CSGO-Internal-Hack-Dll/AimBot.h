@@ -33,31 +33,60 @@
 #include <algorithm>
 #define PI 3.1415927f
 
-Vec3 Subtract(Vec3 src, Vec3 dst)
-{
-	Vec3 diff;
-	diff.x = src.x - dst.x;
-	diff.y = src.y - dst.y;
-	diff.z = src.z - dst.z;
-	return diff;
-}
-
-float Magnitude(Vec3 vec)
-{
-	return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-}
-
-float Distance(Vec3 src, Vec3 dst)
-{
-	Vec3 diff = Subtract(src, dst);
-	return Magnitude(diff);
-}
+//Vec3 Subtract(Vec3 src, Vec3 dst)
+//{
+//	Vec3 diff;
+//	diff.x = src.x - dst.x;
+//	diff.y = src.y - dst.y;
+//	diff.z = src.z - dst.z;
+//	return diff;
+//}
+//
+//double GetDistanceToAngle(Vector3 AimAt, Vector3 CurrentAngle)
+//{
+//	AimAt.y += 180.f;
+//	CurrentAngle.y += 180.f;
+//	CurrentAngle.x += 90.f;
+//	AimAt.x += 90.f;
+//	float YDiff = max(AimAt.y, CurrentAngle.y) - min(AimAt.y, CurrentAngle.y);
+//	if (YDiff > 180.f)
+//		YDiff = 360.f - YDiff;
+//
+//	return sqrt(pow(YDiff, 2) + pow(AimAt.x - CurrentAngle.x, 2));
+//}
+//
+//float Magnitude(Vec3 vec)
+//{
+//	return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+//}
+//
+//float Distance(Vec3 src, Vec3 dst)
+//{
+//	Vec3 diff = Subtract(src, dst);
+//	return Magnitude(diff);
+//}
+//
+//Vec2 CalcAngle(Vec3 src, Vec3 dst)
+//{
+//	Vec2 angles;
+//	angles.x = ((float)atan2(dst.x - src.x, dst.y - src.y)) / PI * 180.0f;
+//	angles.y = (asin((dst.z - src.z) / Distance(src, dst))) * 180.0f / PI;
+//	return angles;
+//}
 
 Vec2 CalcAngle(Vec3 src, Vec3 dst)
 {
 	Vec2 angles;
-	angles.x = ((float)atan2(dst.x - src.x, dst.y - src.y)) / PI * 180.0f;
-	angles.y = (asin((dst.z - src.z) / Distance(src, dst))) * 180.0f / PI;
+	double delta[3] = { (src.x - dst.x), (src.y - dst.y), (src.z - dst.z) };
+	double hyp = sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
+	angles.x = (float)(asinf(delta[2] / hyp) * 57.295779513082f);
+	angles.y = (float)(atanf(delta[1] / delta[0]) * 57.295779513082f);
+
+	if (delta[0] >= 0.0)
+	{
+		angles.y += 180.0f;
+	}
+
 	return angles;
 }
 
@@ -71,8 +100,8 @@ void AimBot(void)
 		if (enemy.at(i)->isValid)
 		{
 			Vec2 angle = CalcAngle(localPlayer->headGameCoords, enemy.at(i)->headGameCoords);
-			enemy.at(i)->angleDelta.x = -angle.y;
-			enemy.at(i)->angleDelta.y = 90 - angle.x;
+			enemy.at(i)->angleDelta.x = angle.x;
+			enemy.at(i)->angleDelta.y = angle.y > 180 ? angle.y - 360 : angle.y;
 		}
 	}
 
@@ -103,9 +132,7 @@ void AimBot(void)
 	{
 		for (auto i : validTargets)
 		{
-			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y) * aimLockHorizontalSensitivity) < sqrt(aimLockFov) 
-				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y - 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov)
-				|| (sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y + 360) * aimLockHorizontalSensitivity) < sqrt(aimLockFov))
+			if ((pow(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x, 2) * aimLockHorizontalSensitivity + pow(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y, 2) * aimLockVerticalSensitivity) <= pow(aimLockFov, 2))
 			{
 				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
 				{
@@ -120,7 +147,7 @@ void AimBot(void)
 		for (auto i : validTargets)
 		{
 			float dfov = aimLockFov + (enemy.at(i)->distance - aimLockDistanceBase) * aimLockDistanceSensitivity;
-			if ((sqrt(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x) * aimLockVerticalSensitivity + sqrt(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y * aimLockHorizontalSensitivity) < sqrt(0)))
+			if ((pow(enemy.at(i)->angleDelta.x - localPlayer->aimAngle.x, 2) * aimLockHorizontalSensitivity + pow(enemy.at(i)->angleDelta.y - localPlayer->aimAngle.y, 2) * aimLockVerticalSensitivity) <= pow(dfov, 2))
 			{
 				if (enemy.at(i)->distance <= enemy.at(nearestEnemy)->distance)
 				{
@@ -144,12 +171,25 @@ void AimBot(void)
 
 	if (isTargetExist)
 	{
-		DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
-		if (engineAddr == NULL) { return; }
+		if (GetAsyncKeyState(VK_MBUTTON) & 0x8000)
+		{
+			DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
+			if (engineAddr == NULL) { return; }
 
-		DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
-		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = enemy.at(nearestEnemy)->angleDelta.x;
-		*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = enemy.at(nearestEnemy)-> angleDelta.y;
+			DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
+			if (FunctionEnableFlag::bAimBotSmooth)
+			{
+				float deltax = abs(enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x) > 180 ? enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x : enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x;
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = localPlayer->aimAngle.x + deltax * aimLockSmooth;
+				float deltay = abs(enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y) > 180 ? enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y : enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y;
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = localPlayer->aimAngle.y + deltay * aimLockSmooth;
+			}
+			else
+			{
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = enemy.at(nearestEnemy)->angleDelta.x;
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = enemy.at(nearestEnemy)->angleDelta.y;
+			}
+		}
 	}
 }
 

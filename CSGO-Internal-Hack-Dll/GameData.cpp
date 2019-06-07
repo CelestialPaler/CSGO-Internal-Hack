@@ -44,6 +44,10 @@ unsigned int targetWndWidth;
 // Target window height
 unsigned int targetWndHeight;
 
+DWORD localPlayerAddr = 0;
+DWORD clientAddr = 0;
+DWORD engineAddr = 0;
+
 // localpalyer
 std::unique_ptr<Player> localPlayer = std::make_unique<Player>();
 // all the teamates
@@ -78,6 +82,7 @@ float aimLockHorizontalSensitivity = 0.9;
 float aimLockVerticalSensitivity = 0.1;
 float aimLockDistanceSensitivity = 0.5;
 int aimLockDistanceBase = 10;
+float aimLockSmooth = 0.15;
 
 namespace FunctionEnableFlag
 {
@@ -88,6 +93,7 @@ namespace FunctionEnableFlag
 	bool bAimBotStaticFOV = true;
 	bool bAimBotDynamicFOV = false;
 	bool bAimBotSima = false;
+	bool bAimBotSmooth = false;
 
 	bool bESP = false;
 	bool bRadarHack = false;

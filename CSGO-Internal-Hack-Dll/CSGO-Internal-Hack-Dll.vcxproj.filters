@@ -70,9 +70,6 @@
     <ClCompile Include="SkinChanger.cpp">
       <Filter>Hack\Function</Filter>
     </ClCompile>
-    <ClCompile Include="AimBot.cpp">
-      <Filter>Hack\Function</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ImGUI\imconfig.h">

@@ -31,22 +31,23 @@ void TriggerBot(void)
 		DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
 		if (clientAddr == NULL) { return; }
 
-		DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
-		if (localPlayerAddr == NULL) { return; }
+		DWORD* localPlayerAddr = reinterpret_cast<DWORD*>(clientAddr + hazedumper::signatures::dwLocalPlayer);
+		if (localPlayerAddr == nullptr) { return; }
 
-		INT localPlayerTeam = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iTeamNum);
-		INT aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
+		INT* localPlayerTeam = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iTeamNum);
+		INT* aimID = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
 
-		if (aimID >= 1 && aimID <= 64)
+		if (*aimID >= 1 && *aimID <= 64)
 		{
-			DWORD aimedPlayerAddr = *(DWORD*)(clientAddr + hazedumper::signatures::dwEntityList + (aimID - 1) * 0x10);
-			if (aimedPlayerAddr == NULL) { return; }
-			int aimedPlayerTeam = *(DWORD*)(aimedPlayerAddr + hazedumper::netvars::m_iTeamNum);
-			if (localPlayerTeam != aimedPlayerTeam)
+			DWORD* aimedPlayerAddr = reinterpret_cast<DWORD*>(clientAddr + hazedumper::signatures::dwEntityList + (*aimID - 1) * 0x10);
+			if (aimedPlayerAddr == nullptr) { return; }
+			INT* aimedPlayerTeam = reinterpret_cast<INT*>(*aimedPlayerAddr + hazedumper::netvars::m_iTeamNum);
+			if (aimedPlayerTeam == nullptr) { return; }
+			if (*localPlayerTeam != *aimedPlayerTeam)
 			{
-				Sleep(triggerDelay);
+				std::this_thread::sleep_for(std::chrono::milliseconds(triggerDelay));
 				mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, NULL, NULL);
-				Sleep(10);
+				std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, NULL, NULL);
 			}
 		}

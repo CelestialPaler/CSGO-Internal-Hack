@@ -61,16 +61,28 @@ void ReadViewMatrix(void)
 	std::memcpy(viewMatrix, (void *)(clientAddr + (QWORD)hazedumper::signatures::dwViewMatrix), sizeof(BYTE) * 4 * 4 * 4);
 }
 
+void ReadGameInfo()
+{
+	clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+	if (clientAddr == NULL) { return; }
+
+	engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
+	if (engineAddr == NULL) { return; }
+
+	localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+	if (localPlayerAddr == NULL) { return; }
+}
+
 void ReadLocalPlayerInfo(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
-	if (clientAddr == NULL) { localPlayer->isValid = false; return; }
+	if (clientAddr == NULL) { return; }
 
 	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
-	if (engineAddr == NULL) { localPlayer->isValid = false; return; }
+	if (engineAddr == NULL) { return; }
 
 	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
-	if (localPlayerAddr == NULL) { localPlayer->isValid = false; return; }
+	if (localPlayerAddr == NULL) { return; }
 
 	localPlayer->dwBaseAddr = localPlayerAddr;
 	localPlayer->health = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iHealth);

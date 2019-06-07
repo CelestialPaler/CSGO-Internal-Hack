@@ -544,7 +544,8 @@ void ShowMainWindow(void)
 			}
 			ImGui::Separator();
 			ImGui::Checkbox("nmsl", &FunctionEnableFlag::bAimBotSima);
-
+			ImGui::Checkbox("Smooth", &FunctionEnableFlag::bAimBotSmooth);
+			ImGui::SliderFloat("Smooth Sensitivity", &aimLockSmooth, 0.0f, 1.0f);
 			ImGui::TreePop();
 		}
 

@@ -53,6 +53,10 @@ extern unsigned int targetWndWidth;
 // Target window height
 extern unsigned int targetWndHeight;
 
+extern DWORD localPlayerAddr;
+extern DWORD clientAddr;
+extern DWORD engineAddr;
+
 // localpalyer
 extern std::unique_ptr<Player> localPlayer;
 // all the teamates
@@ -88,6 +92,8 @@ extern float aimLockVerticalSensitivity;
 extern float aimLockDistanceSensitivity;
 extern int aimLockDistanceBase;
 
+extern float aimLockSmooth;
+
 namespace FunctionEnableFlag
 {
 	extern bool bOverlay;
@@ -97,6 +103,7 @@ namespace FunctionEnableFlag
 	extern bool bAimBotStaticFOV;
 	extern bool bAimBotDynamicFOV;
 	extern bool bAimBotSima;
+	extern bool bAimBotSmooth;
 
 	extern bool bESP;
 	extern bool bRadarHack;
