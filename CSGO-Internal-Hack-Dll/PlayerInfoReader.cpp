@@ -81,37 +81,75 @@ void ReadLocalPlayerInfo(void)
 	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
 	if (engineAddr == NULL) { return; }
 
-	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
-	if (localPlayerAddr == NULL) { return; }
+	DWORD* localPlayerAddr = reinterpret_cast<DWORD*>((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+	if (localPlayerAddr == nullptr) { return; }
 
-	localPlayer->dwBaseAddr = localPlayerAddr;
-	localPlayer->health = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iHealth);
-	localPlayer->team = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iTeamNum);
-	localPlayer->id = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iAccountID);
-	localPlayer->bodyGameCoords.x = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
-	localPlayer->bodyGameCoords.y = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 1);
-	localPlayer->bodyGameCoords.z = *(FLOAT*)(localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 2);
+	localPlayer->dwBaseAddr = *localPlayerAddr;
+	INT* healthAddr = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iHealth);
+	if (healthAddr == nullptr) { return; }
+	localPlayer->health = *healthAddr;
 
-	DWORD boneMatrixAddr = *(DWORD*)(localPlayerAddr + hazedumper::netvars::m_dwBoneMatrix);
+	INT* teamAddr = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iTeamNum);
+	if (teamAddr == nullptr) { return; }
+	localPlayer->team = *teamAddr;
+
+	INT* idAddr = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iAccountID);
+	if (idAddr == nullptr) { return; }
+	localPlayer->id = *teamAddr;
+
+	FLOAT* bodyGameCoordsAddr = reinterpret_cast<FLOAT*>(*localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
+	if (bodyGameCoordsAddr == nullptr) { return; }
+	localPlayer->bodyGameCoords.x = *bodyGameCoordsAddr;
+
+	bodyGameCoordsAddr = reinterpret_cast<FLOAT*>(*localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 1);
+	if (bodyGameCoordsAddr == nullptr) { return; }
+	localPlayer->bodyGameCoords.y = *bodyGameCoordsAddr;
+
+	bodyGameCoordsAddr = reinterpret_cast<FLOAT*>(*localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 2);
+	if (bodyGameCoordsAddr == nullptr) { return; }
+	localPlayer->bodyGameCoords.z = *bodyGameCoordsAddr;
+
+	DWORD* boneMatrixAddr = reinterpret_cast<DWORD*>(*localPlayerAddr + hazedumper::netvars::m_dwBoneMatrix);
+	if (boneMatrixAddr == nullptr) { return; }
 
 	int boneID = 8;
-	localPlayer->headGameCoords.x = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x0c);
-	localPlayer->headGameCoords.y = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x1c);
-	localPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
 
-	DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
-	localPlayer->aimAngle.x = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
-	localPlayer->aimAngle.y = *(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1);
+	FLOAT* headGameCoordsAddr = reinterpret_cast<FLOAT*>(*boneMatrixAddr + (0x30 * boneID) + 0x0c);
+	if (headGameCoordsAddr == nullptr) { return; }
+	localPlayer->headGameCoords.x = *headGameCoordsAddr;
 
-	localPlayer->aimID = *(INT*)(localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
+	headGameCoordsAddr = reinterpret_cast<FLOAT*>(*boneMatrixAddr + (0x30 * boneID) + 0x1c);
+	if (headGameCoordsAddr == nullptr) { return; }
+	localPlayer->headGameCoords.y = *headGameCoordsAddr;
 
-	DWORD localPlayerActiveWeapon = *(DWORD*)(localPlayerAddr + (QWORD)hazedumper::netvars::m_hActiveWeapon);
-	if (localPlayerActiveWeapon == NULL) { localPlayer->isValid = false; return; }
+	headGameCoordsAddr = reinterpret_cast<FLOAT*>(*boneMatrixAddr + (0x30 * boneID) + 0x2c);
+	if (headGameCoordsAddr == nullptr) { return; }
+	localPlayer->headGameCoords.z = *headGameCoordsAddr;
 
-	DWORD localPlayerActiveWeaponAddr = *(DWORD*)(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(((int)(localPlayerActiveWeapon & 0xFFF) - 1) * 0x10));
-	if (localPlayerActiveWeaponAddr == NULL) { localPlayer->isValid = false; return; }
+	DWORD* clientStateAddr = reinterpret_cast<DWORD*>(engineAddr + hazedumper::signatures::dwClientState);
+	if (clientStateAddr == nullptr) { return; }
 
-	localPlayer->weaponID = *(SHORT*)(localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iItemDefinitionIndex);
+	FLOAT* aimAngleAddr = reinterpret_cast<FLOAT*>(*clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
+	if (aimAngleAddr == nullptr) { return; }
+	localPlayer->aimAngle.x = *aimAngleAddr;
+
+	aimAngleAddr = reinterpret_cast<FLOAT*>(*clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1);
+	if (aimAngleAddr == nullptr) { return; }
+	localPlayer->aimAngle.y = *aimAngleAddr;
+
+	FLOAT* aimIDAddr = reinterpret_cast<FLOAT*>(*localPlayerAddr + hazedumper::netvars::m_iCrosshairId);
+	if (aimIDAddr == nullptr) { return; }
+	localPlayer->aimID = *aimIDAddr;
+
+	DWORD* localPlayerActiveWeapon = reinterpret_cast<DWORD*>(*localPlayerAddr + (QWORD)hazedumper::netvars::m_hActiveWeapon);
+	if (localPlayerActiveWeapon == nullptr) { return; }
+
+	DWORD* localPlayerActiveWeaponAddr = reinterpret_cast<DWORD*>(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(((int)(*localPlayerActiveWeapon & 0xFFF) - 1) * 0x10));
+	if (localPlayerActiveWeaponAddr == nullptr) { return; }
+
+	SHORT* weaponIDAddr = reinterpret_cast<SHORT*>(*localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iItemDefinitionIndex);
+	if (weaponIDAddr == nullptr) { return; }
+	localPlayer->weaponID = *weaponIDAddr;
 
 	localPlayer->isValid = true;
 }

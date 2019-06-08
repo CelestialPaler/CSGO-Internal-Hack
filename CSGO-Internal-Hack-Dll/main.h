@@ -524,30 +524,30 @@ void ShowMainWindow(void)
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNode("AimBot Setting"))
-		{
-			ImGui::Separator();
-			ImGui::Checkbox("Static FOV", &FunctionEnableFlag::bAimBotStaticFOV);
-			ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
-			ImGui::Separator();
-			ImGui::Checkbox("Dynamic FOV", &FunctionEnableFlag::bAimBotDynamicFOV);
-			ImGui::SliderInt("Distance Base", &aimLockDistanceBase, 1, 100);
-			ImGui::SliderFloat("Distance Sensitivity", &aimLockDistanceSensitivity, 0.0f, 1.0f);
-			ImGui::Separator();
-			if (ImGui::SliderFloat("Horizontal Sensitivity", &aimLockHorizontalSensitivity, 0.0f, 1.0f))
+			if (ImGui::TreeNode("AimBot Setting"))
 			{
-				aimLockVerticalSensitivity = 1 - aimLockHorizontalSensitivity;
+				ImGui::Separator();
+				ImGui::Checkbox("Static FOV", &FunctionEnableFlag::bAimBotStaticFOV);
+				ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
+				ImGui::Separator();
+				ImGui::Checkbox("Dynamic FOV", &FunctionEnableFlag::bAimBotDynamicFOV);
+				ImGui::SliderInt("Distance Base", &aimLockDistanceBase, 1, 100);
+				ImGui::SliderFloat("Distance Sensitivity", &aimLockDistanceSensitivity, 0.0f, 1.0f);
+				ImGui::Separator();
+				if (ImGui::SliderFloat("Horizontal Sensitivity", &aimLockHorizontalSensitivity, 0.0f, 1.0f))
+				{
+					aimLockVerticalSensitivity = 1 - aimLockHorizontalSensitivity;
+				}
+				if (ImGui::SliderFloat("Vertical Sensitivity", &aimLockVerticalSensitivity, 0.0f, 1.0f))
+				{
+					aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
+				}
+				ImGui::Separator();
+				ImGui::Checkbox("nmsl", &FunctionEnableFlag::bAimBotSima);
+				ImGui::Checkbox("Smooth", &FunctionEnableFlag::bAimBotSmooth);
+				ImGui::SliderFloat("Smooth Sensitivity", &aimLockSmooth, 0.0f, 1.0f);
+				ImGui::TreePop();
 			}
-			if (ImGui::SliderFloat("Vertical Sensitivity", &aimLockVerticalSensitivity, 0.0f, 1.0f))
-			{
-			    aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
-			}
-			ImGui::Separator();
-			ImGui::Checkbox("nmsl", &FunctionEnableFlag::bAimBotSima);
-			ImGui::Checkbox("Smooth", &FunctionEnableFlag::bAimBotSmooth);
-			ImGui::SliderFloat("Smooth Sensitivity", &aimLockSmooth, 0.0f, 1.0f);
-			ImGui::TreePop();
-		}
 
 		if (ImGui::TreeNode("Skin Setting"))
 		{
