@@ -524,15 +524,65 @@ void ShowMainWindow(void)
 			ImGui::TreePop();
 		}
 
-			if (ImGui::TreeNode("AimBot Setting"))
+		if (ImGui::TreeNode("AimBot Setting"))
 			{
 				ImGui::Separator();
-				ImGui::Checkbox("Static FOV", &FunctionEnableFlag::bAimBotStaticFOV);
-				ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
-				ImGui::Separator();
-				ImGui::Checkbox("Dynamic FOV", &FunctionEnableFlag::bAimBotDynamicFOV);
-				ImGui::SliderInt("Distance Base", &aimLockDistanceBase, 1, 100);
-				ImGui::SliderFloat("Distance Sensitivity", &aimLockDistanceSensitivity, 0.0f, 1.0f);
+				{
+					static int aimBotMode = 0;
+					ImGui::RadioButton("Static FOV", &aimBotMode, 0); ImGui::SameLine();
+					ImGui::RadioButton("Dynamic FOV", &aimBotMode, 1); ImGui::SameLine();
+					ImGui::RadioButton("AimLock", &aimBotMode, 2);
+
+					if (aimBotMode == 0)
+					{
+						FunctionEnableFlag::bAimBotStaticFOV = true;
+						FunctionEnableFlag::bAimBotDynamicFOV = false;
+						FunctionEnableFlag::bAimBotSima = false;
+					}
+					else if (aimBotMode == 1)
+					{
+						FunctionEnableFlag::bAimBotStaticFOV = false;
+						FunctionEnableFlag::bAimBotDynamicFOV = true;
+						FunctionEnableFlag::bAimBotSima = false;
+					}
+					else if (aimBotMode == 2)
+					{
+						FunctionEnableFlag::bAimBotStaticFOV = false;
+						FunctionEnableFlag::bAimBotDynamicFOV = false;
+						FunctionEnableFlag::bAimBotSima = true;
+					}
+					else
+					{
+						FunctionEnableFlag::bAimBotStaticFOV = false;
+						FunctionEnableFlag::bAimBotDynamicFOV = false;
+						FunctionEnableFlag::bAimBotSima = false;
+					}
+				}
+
+				if (FunctionEnableFlag::bAimBotStaticFOV)
+				{
+					ImGui::Separator();
+					ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
+					ImGui::Separator();
+				}
+				if (FunctionEnableFlag::bAimBotDynamicFOV)
+				{
+					ImGui::Separator();
+					ImGui::SliderFloat("FOV threshold", &aimLockFov, 0.0f, 180.0f);
+					ImGui::Separator();
+					ImGui::SliderInt("Distance Base", &aimLockDistanceBase, 1, 100);
+					ImGui::SliderFloat("Distance Sensitivity", &aimLockDistanceSensitivity, 0.0f, 1.0f);
+					ImGui::Separator();
+				}
+				if (FunctionEnableFlag::bAimBotSima)
+				{
+					ImGui::Separator();
+					ImGui::Text("Enjor your freakin aimlock dude.");
+					ImGui::Separator();
+				}
+
+				ImGui::Checkbox("Smooth", &FunctionEnableFlag::bAimBotSmooth);
+				ImGui::SliderFloat("Smooth Sensitivity", &aimLockSmooth, 0.0f, 1.0f);
 				ImGui::Separator();
 				if (ImGui::SliderFloat("Horizontal Sensitivity", &aimLockHorizontalSensitivity, 0.0f, 1.0f))
 				{
@@ -542,10 +592,7 @@ void ShowMainWindow(void)
 				{
 					aimLockHorizontalSensitivity = 1 - aimLockVerticalSensitivity;
 				}
-				ImGui::Separator();
-				ImGui::Checkbox("nmsl", &FunctionEnableFlag::bAimBotSima);
-				ImGui::Checkbox("Smooth", &FunctionEnableFlag::bAimBotSmooth);
-				ImGui::SliderFloat("Smooth Sensitivity", &aimLockSmooth, 0.0f, 1.0f);
+
 				ImGui::TreePop();
 			}
 

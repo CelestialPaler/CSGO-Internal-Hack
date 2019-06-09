@@ -78,8 +78,8 @@ size_t nearestEnemy;
 int validTargetNum;
 
 float aimLockFov = 22;
-float aimLockHorizontalSensitivity = 0.9;
-float aimLockVerticalSensitivity = 0.1;
+float aimLockHorizontalSensitivity = 0.65;
+float aimLockVerticalSensitivity = 0.35;
 float aimLockDistanceSensitivity = 0.5;
 int aimLockDistanceBase = 10;
 float aimLockSmooth = 0.15;
@@ -93,7 +93,7 @@ namespace FunctionEnableFlag
 	bool bAimBotStaticFOV = true;
 	bool bAimBotDynamicFOV = false;
 	bool bAimBotSima = false;
-	bool bAimBotSmooth = false;
+	bool bAimBotSmooth = true;
 
 	bool bESP = false;
 	bool bRadarHack = false;

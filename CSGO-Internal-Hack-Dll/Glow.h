@@ -211,12 +211,12 @@ void GlowB(void)
 		}
 		else
 		{
-			if (FunctionEnableFlag::bGlowWeapons)
+			if (FunctionEnableFlag::bGlowDefault)
 			{
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorWeapons[0];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorWeapons[1];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorWeapons[2];
-				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorWeapons[3];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x4) = glowColorDefault[0];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x8) = glowColorDefault[1];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0xC) = glowColorDefault[2];
+				*(float*)(glowObj + currentGlowIndex * 0x38 + 0x10) = glowColorDefault[3];
 				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x24) = true;
 				*(bool*)(glowObj + currentGlowIndex * 0x38 + 0x25) = false;
 			}

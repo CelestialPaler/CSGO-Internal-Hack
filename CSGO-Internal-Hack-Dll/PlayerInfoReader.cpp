@@ -93,9 +93,11 @@ void ReadLocalPlayerInfo(void)
 	if (teamAddr == nullptr) { return; }
 	localPlayer->team = *teamAddr;
 
-	INT* idAddr = reinterpret_cast<INT*>(*localPlayerAddr + hazedumper::netvars::m_iAccountID);
+	DWORD* clientStateAddr = reinterpret_cast<DWORD*>(engineAddr + hazedumper::signatures::dwClientState);
+	if (clientStateAddr == nullptr) { return; }
+	INT* idAddr = reinterpret_cast<INT*>(*clientStateAddr + hazedumper::signatures::dwClientState_GetLocalPlayer);
 	if (idAddr == nullptr) { return; }
-	localPlayer->id = *teamAddr;
+	localPlayer->id = *idAddr + 1;
 
 	FLOAT* bodyGameCoordsAddr = reinterpret_cast<FLOAT*>(*localPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
 	if (bodyGameCoordsAddr == nullptr) { return; }
@@ -126,9 +128,6 @@ void ReadLocalPlayerInfo(void)
 	if (headGameCoordsAddr == nullptr) { return; }
 	localPlayer->headGameCoords.z = *headGameCoordsAddr;
 
-	DWORD* clientStateAddr = reinterpret_cast<DWORD*>(engineAddr + hazedumper::signatures::dwClientState);
-	if (clientStateAddr == nullptr) { return; }
-
 	FLOAT* aimAngleAddr = reinterpret_cast<FLOAT*>(*clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0);
 	if (aimAngleAddr == nullptr) { return; }
 	localPlayer->aimAngle.x = *aimAngleAddr;
@@ -147,9 +146,9 @@ void ReadLocalPlayerInfo(void)
 	DWORD* localPlayerActiveWeaponAddr = reinterpret_cast<DWORD*>(clientAddr + (QWORD)hazedumper::signatures::dwEntityList + (QWORD)(((int)(*localPlayerActiveWeapon & 0xFFF) - 1) * 0x10));
 	if (localPlayerActiveWeaponAddr == nullptr) { return; }
 
-	SHORT* weaponIDAddr = reinterpret_cast<SHORT*>(*localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iItemDefinitionIndex);
-	if (weaponIDAddr == nullptr) { return; }
-	localPlayer->weaponID = *weaponIDAddr;
+	//SHORT* weaponIDAddr = reinterpret_cast<SHORT*>(*localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iItemDefinitionIndex);
+	//if (weaponIDAddr == nullptr) { return; }
+	//localPlayer->weaponID = *weaponIDAddr;
 
 	localPlayer->isValid = true;
 }
@@ -157,10 +156,10 @@ void ReadLocalPlayerInfo(void)
 void ReadOtherPlayerInfo(void)
 {
 	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
-	if (clientAddr == NULL) return;
+	if (clientAddr == NULL) { return; }
 
 	DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
-	if (engineAddr == NULL) { localPlayer->isValid = false; return; }
+	if (engineAddr == NULL) { return; }
 
 	// Represents the next player
 	int teammateIndex = 0, enemyIndex = 0;
@@ -172,7 +171,7 @@ void ReadOtherPlayerInfo(void)
 
 	// Traverse all the player
 	// Start form 1 to exclude localplayer
-	for (size_t i = 1; i < 20; i++)
+	for (size_t i = 1; i < teammates.size() + enemy.size(); i++)
 	{
 		DWORD otherPlayerAddr = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (QWORD)i * 0x10);
 
@@ -188,6 +187,10 @@ void ReadOtherPlayerInfo(void)
 		tempPlayer->team = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iTeamNum);
 		tempPlayer->id = *(INT*)(otherPlayerAddr + hazedumper::netvars::m_iAccountID);
 		tempPlayer->isDormant = *(BOOL*)(otherPlayerAddr + hazedumper::signatures ::m_bDormant);
+
+		LONG* spotAddr = reinterpret_cast<LONG*>(otherPlayerAddr + hazedumper::netvars::m_bSpottedByMask);
+		if (spotAddr == nullptr) { break; }
+		tempPlayer->isSpotted = bool((*spotAddr & (1 << (localPlayer->id - 1))) > 0);
 
 		// Read coords
 		tempPlayer->bodyGameCoords.x = *(FLOAT*)(otherPlayerAddr + hazedumper::netvars::m_vecOrigin + sizeof(float) * 0);
