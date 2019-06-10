@@ -84,6 +84,9 @@ float aimLockDistanceSensitivity = 0.5;
 int aimLockDistanceBase = 10;
 float aimLockSmooth = 0.15;
 
+// RCS
+float rcsSensitivity = 1.0;
+
 namespace FunctionEnableFlag
 {
 	bool bOverlay = false;
@@ -98,6 +101,8 @@ namespace FunctionEnableFlag
 	bool bESP = false;
 	bool bRadarHack = false;
 	bool bBHop = false;
+
+	bool bRCS = false;
 
 	bool bGlow = false;
 	bool bGlowTeammates = true;

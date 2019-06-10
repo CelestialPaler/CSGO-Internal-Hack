@@ -198,6 +198,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="PlayerInfoReader.h" />
     <ClInclude Include="RadarHack.h" />
+    <ClInclude Include="RCS.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinChanger.h" />
     <ClInclude Include="StepTimer.h" />

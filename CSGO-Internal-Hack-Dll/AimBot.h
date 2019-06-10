@@ -130,7 +130,6 @@ void AimBot(void)
 		{
 			DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
 			if (engineAddr == NULL) { return; }
-
 			if (FunctionEnableFlag::bAimBotSmooth)
 			{
 				DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);

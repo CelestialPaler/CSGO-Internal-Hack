@@ -147,6 +147,9 @@
     <ClInclude Include="Glow.h">
       <Filter>Hack\Function</Filter>
     </ClInclude>
+    <ClInclude Include="RCS.h">
+      <Filter>Hack\Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Indicium-ImGui.ini">

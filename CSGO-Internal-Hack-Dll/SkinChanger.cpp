@@ -170,19 +170,19 @@ void SkinChangerB(void)
 		switch (weaponID)
 		{
 		case WeaponID::AK47:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Bloodsport"], 0, 4396, 4, 0.01f, "Hammann-AK47");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["The Empress"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
 		case WeaponID::AUG:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Akihabara Accept"], 0, 4396, 4, 0.01f, "Hammann-AUG");
 			break;
 		case WeaponID::AWP:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Dragon Lore"], 0, 4396, 4, 0.01f, "Hammann-AWP");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Medusa"], 0, 4396, 4, 0.01f, "Hammann-AWP");
 			break;
 		case WeaponID::CZ75Auto:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Tacticat"], 0, 4396, 4, 0.01f, "Hammann-AK47");
 			break;
 		case WeaponID::DesertEagle:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 711, 0, 4396, 4, 0.01f, "Hammann-Deagle");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Blaze"], 0, 4396, 4, 0.01f, "Hammann-Deagle");
 			break;
 		case WeaponID::FAMAS:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Roll Cage"], 0, 4396, 4, 0.01f, "Hammann-FAMAS");
@@ -215,7 +215,7 @@ void SkinChangerB(void)
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["See Ya Later"], 0, 4396, 4, 0.01f, "Hammann-P250");
 			break;
 		case WeaponID::P90:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Asiimov"], 0, 4396, 4, 0.01f, "Hammann-P90");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Shallow Grave"], 0, 4396, 4, 0.01f, "Hammann-P90");
 			break;
 		case WeaponID::PPBizon:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Judgement of Anubis"], 0, 4396, 4, 0.01f, "Hammann-PPBizon");

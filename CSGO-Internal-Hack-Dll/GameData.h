@@ -94,6 +94,9 @@ extern int aimLockDistanceBase;
 
 extern float aimLockSmooth;
 
+// RCS
+extern float rcsSensitivity;;
+
 namespace FunctionEnableFlag
 {
 	extern bool bOverlay;
@@ -108,6 +111,7 @@ namespace FunctionEnableFlag
 	extern bool bESP;
 	extern bool bRadarHack;
 	extern bool bBHop;
+	extern bool bRCS;
 
 	extern bool bGlow;
 	extern bool bGlowTeammates;

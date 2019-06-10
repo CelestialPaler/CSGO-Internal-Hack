@@ -43,6 +43,7 @@
 #include "PlayerInfoReader.h"
 #include "Glow.h"
 #include "AimBot.h"
+#include "RCS.h"
 
 #include "..//include/ImGUI/imgui.h"
 #include <Indicium/Engine/IndiciumCore.h>
@@ -459,8 +460,8 @@ void ShowMainWindow(void)
 		ImGui::SameLine(); HelpMarker("Aim assistant such as:\n   - FOV-snap\n   - Head Lock\n   - Anti-recoil");
 		ImGui::Checkbox("F4 - Glow", &FunctionEnableFlag::bGlow);
 		ImGui::SameLine(); HelpMarker("All the entities in game will glow in X-ray style.");
-		ImGui::Checkbox("F5 - ESP", &FunctionEnableFlag::bESP);
-		ImGui::SameLine(); HelpMarker("Comming soon.");
+		ImGui::Checkbox("F5 - RCS", &FunctionEnableFlag::bRCS);
+		ImGui::SameLine(); HelpMarker("RCS, Recoil control system, will auto control the recoil of your weapon when spray.");
 		ImGui::Checkbox("F6 - RadarHack", &FunctionEnableFlag::bRadarHack);
 		ImGui::SameLine(); HelpMarker("Show all the enemy nearby you on the in-game radar.");
 		ImGui::Checkbox("F7 - BHop", &FunctionEnableFlag::bBHop);
@@ -519,6 +520,15 @@ void ShowMainWindow(void)
 			ImGui::Text("Trigger delay : ");
 			ImGui::SameLine();
 			ImGui::InputInt("ms", &triggerDelay);
+			ImGui::Separator();
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("RCS Setting"))
+		{
+			ImGui::Separator();
+			ImGui::SliderFloat("RCS Sensitivity", &rcsSensitivity, 0.f, 1.f);
 			ImGui::Separator();
 
 			ImGui::TreePop();
@@ -692,6 +702,9 @@ void Hack(void)
 	if (FunctionEnableFlag::bReadGlowObjectInfo)
 		ReadGlowObjectInfo();
 
+
+	if (FunctionEnableFlag::bRCS)
+		Recoil();
 	if (FunctionEnableFlag::bBHop)
 		BHop();
 	if (FunctionEnableFlag::bTriggerBot)
@@ -726,14 +739,14 @@ void Hack(void)
 		}
 	}
 
-	TOGGLE_STATE(VK_F1, FunctionEnableFlag::bMenu);
-	TOGGLE_STATE(VK_F2, FunctionEnableFlag::bTriggerBot);
-	TOGGLE_STATE(VK_F3, FunctionEnableFlag::bAimBot);
-	TOGGLE_STATE(VK_F4, FunctionEnableFlag::bGlow);
-	TOGGLE_STATE(VK_F5, FunctionEnableFlag::bESP);
-	TOGGLE_STATE(VK_F6, FunctionEnableFlag::bRadarHack);
-	TOGGLE_STATE(VK_F7, FunctionEnableFlag::bBHop);
-	TOGGLE_STATE(VK_F8, FunctionEnableFlag::bSkinChanger);
+	//TOGGLE_STATE(VK_F1, FunctionEnableFlag::bMenu);
+	//TOGGLE_STATE(VK_F2, FunctionEnableFlag::bTriggerBot);
+	//TOGGLE_STATE(VK_F3, FunctionEnableFlag::bAimBot);
+	//TOGGLE_STATE(VK_F4, FunctionEnableFlag::bGlow);
+	//TOGGLE_STATE(VK_F5, FunctionEnableFlag::bESP);
+	//TOGGLE_STATE(VK_F6, FunctionEnableFlag::bRadarHack);
+	//TOGGLE_STATE(VK_F7, FunctionEnableFlag::bBHop);
+	//TOGGLE_STATE(VK_F8, FunctionEnableFlag::bSkinChanger);
 }
 
 #pragma endregion 
