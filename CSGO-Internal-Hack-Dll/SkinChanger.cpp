@@ -221,7 +221,7 @@ void SkinChangerB(void)
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Judgement of Anubis"], 0, 4396, 4, 0.01f, "Hammann-PPBizon");
 			break;
 		case WeaponID::SG553:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Pulse"], 0, 4396, 4, 0.01f, "Hammann-SG553");
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Tiger Moth"], 0, 4396, 4, 0.01f, "Hammann-SG553");
 			break;
 		case WeaponID::USPS:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 653, 0, 4396, 4, 0.01f, "Hammann-USPS");

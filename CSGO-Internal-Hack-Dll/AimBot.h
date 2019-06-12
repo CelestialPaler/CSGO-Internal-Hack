@@ -126,7 +126,7 @@ void AimBot(void)
 
 	if (isTargetExist)
 	{
-		if (GetAsyncKeyState(VK_F2) & 0x8000)
+		if (GetAsyncKeyState(VK_F8) & 0x8000)
 		{
 			DWORD engineAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"engine.dll"));
 			if (engineAddr == NULL) { return; }
