@@ -565,8 +565,11 @@ void ShowMainWindow(void)
 					ImGui::RadioButton("AimLock", &aimBotMode, 2);
 
 					static const char* items_bone[32];
-					static int item_current_bone = 0;
-					if (ImGui::Combo("Aim Parts", &item_current_bone, items_bone, 14))
+					int i = 0;
+					for (auto const& bone : bones)
+						items_bone[i++] = bone.first.c_str();
+					static int item_current_bone = 8; // Default 
+					if (ImGui::Combo("Aim Parts", &item_current_bone, items_bone, bones.size()))
 					{
 						// 更换武器
 						aimLockParts = bones.at(items_bone[item_current_bone]);

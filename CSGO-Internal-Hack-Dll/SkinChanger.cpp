@@ -229,6 +229,9 @@ void SkinChangerB(void)
 		case WeaponID::SSG08:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 624, 0, 4396, 4, 0.01f, "Hammann-SSG08");
 			break;
+		case WeaponID::MP7:
+			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Bloodsports"], 0, 4396, 4, 0.01f, "Hammann-SSG08");
+			break;
 		default:
 			break;
 		}

@@ -199,7 +199,7 @@ void ReadOtherPlayerInfo(void)
 
 		DWORD boneMatrixAddr = *(DWORD*)(otherPlayerAddr + hazedumper::netvars::m_dwBoneMatrix);
 
-		int boneID = 7;
+		int boneID = aimLockParts;
 		tempPlayer->headGameCoords.x = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x0c);
 		tempPlayer->headGameCoords.y = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x1c);
 		tempPlayer->headGameCoords.z = *(FLOAT*)(boneMatrixAddr + (0x30 * boneID) + 0x2c);
