@@ -133,16 +133,24 @@ void AimBot(void)
 			if (FunctionEnableFlag::bAimBotSmooth)
 			{
 				DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
+
 				float deltax = abs(enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x) > 180 ? enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x : enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngle.x;
-				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = localPlayer->aimAngle.x + deltax * aimLockSmooth;
 				float deltay = abs(enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y) > 180 ? enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y : enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngle.y;
+
+				if (FunctionEnableFlag::bRCS)
+				{
+					deltax -= localPlayer->aimAngleRCS.y;
+					deltay -= localPlayer->aimAngleRCS.x;
+				}
+
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = localPlayer->aimAngle.x + deltax * aimLockSmooth;
 				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = localPlayer->aimAngle.y + deltay * aimLockSmooth;
 			}
 			else
 			{
 				DWORD clientStateAddr = *(DWORD*)(engineAddr + hazedumper::signatures::dwClientState);
-				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = enemy.at(nearestEnemy)->angleDelta.x;
-				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = enemy.at(nearestEnemy)->angleDelta.y;
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 0) = enemy.at(nearestEnemy)->angleDelta.x - localPlayer->aimAngleRCS.y;
+				*(FLOAT*)(clientStateAddr + hazedumper::signatures::dwClientState_ViewAngles + sizeof(float) * 1) = enemy.at(nearestEnemy)->angleDelta.y - localPlayer->aimAngleRCS.x;
 			}
 		}
 	}

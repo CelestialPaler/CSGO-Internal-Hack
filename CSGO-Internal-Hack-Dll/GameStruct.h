@@ -57,6 +57,7 @@ public:
 	Vec3 headGameCoords;
 
 	Vec2 aimAngle;
+	Vec2 aimAngleRCS;
 	Vec2 angleDelta;
 
 	// Base Address of the player entity

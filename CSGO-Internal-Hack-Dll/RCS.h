@@ -75,6 +75,9 @@ void Recoil(void)
 		aimPunchAngle.x *= 2.f * rcsSensitivity;
 		aimPunchAngle.y *= 2.f * rcsSensitivity;
 
+		localPlayer->aimAngleRCS.x = aimPunchAngle.x;
+		localPlayer->aimAngleRCS.y = aimPunchAngle.y;
+
 		Vec2 newAngles;
 
 		newAngles.x = ((currentViewAngle.x - aimPunchAngle.x) + oldViewAngle.x);
@@ -95,5 +98,8 @@ void Recoil(void)
 	{
 		oldViewAngle.x = 0;
 		oldViewAngle.y = 0;
+
+		localPlayer->aimAngleRCS.x = 0;
+		localPlayer->aimAngleRCS.y = 0;
 	}
 }

@@ -156,6 +156,23 @@ void GameDataInit(void)
 
 		skins.emplace(tempCSVData.at(2), std::atoi(tempCSVData.at(3).c_str()));
 	}
+
+	{
+		bones.emplace("Ass", BoneID::Ass);
+		bones.emplace("Chest", BoneID::Chest);
+		bones.emplace("Neck", BoneID::Neck);
+		bones.emplace("Head", BoneID::Head);
+		bones.emplace("LElbow", BoneID::LElbow);
+		bones.emplace("LShoulder", BoneID::LShoulder);
+		bones.emplace("LHand", BoneID::LHand);
+		bones.emplace("LNee", BoneID::LNee);
+		bones.emplace("LFoot", BoneID::LFoot);
+		bones.emplace("RElbow", BoneID::RElbow);
+		bones.emplace("RShoulder", BoneID::RShoulder);
+		bones.emplace("RHand", BoneID::RHand);
+		bones.emplace("RNee", BoneID::RNee);
+		bones.emplace("RFoot", BoneID::RFoot);
+	}
 }
 
 #pragma endregion
@@ -195,6 +212,10 @@ void ShowLocalPlayerInfo(void)
 	ss.str("");
 
 	ss << "  View Angle : (" << std::setprecision(4) << std::fixed << (float)localPlayer->aimAngle.x << "," << (float)localPlayer->aimAngle.y << ")";
+	ImGui::Text(ss.str().c_str());
+	ss.str("");
+
+	ss << "  RCS Comp : (" << std::setprecision(4) << std::fixed << (float)localPlayer->aimAngleRCS.x << "," << (float)localPlayer->aimAngleRCS.y << ")";
 	ImGui::Text(ss.str().c_str());
 	ss.str("");
 
@@ -542,6 +563,14 @@ void ShowMainWindow(void)
 					ImGui::RadioButton("Static FOV", &aimBotMode, 0); ImGui::SameLine();
 					ImGui::RadioButton("Dynamic FOV", &aimBotMode, 1); ImGui::SameLine();
 					ImGui::RadioButton("AimLock", &aimBotMode, 2);
+
+					static const char* items_bone[32];
+					static int item_current_bone = 0;
+					if (ImGui::Combo("Aim Parts", &item_current_bone, items_bone, 14))
+					{
+						// 更换武器
+						aimLockParts = bones.at(items_bone[item_current_bone]);
+					}
 
 					if (aimBotMode == 0)
 					{

@@ -84,6 +84,9 @@ float aimLockDistanceSensitivity = 0.5;
 int aimLockDistanceBase = 10;
 float aimLockSmooth = 0.15;
 
+int aimLockParts = 8;
+std::map<std::string, int> bones;
+
 // RCS
 float rcsSensitivity = 1.0;
 

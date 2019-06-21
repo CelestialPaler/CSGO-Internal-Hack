@@ -94,6 +94,9 @@ extern int aimLockDistanceBase;
 
 extern float aimLockSmooth;
 
+extern int aimLockParts;
+extern std::map<std::string, int> bones;
+
 // RCS
 extern float rcsSensitivity;;
 

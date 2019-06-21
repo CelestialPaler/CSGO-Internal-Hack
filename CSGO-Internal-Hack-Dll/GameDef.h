@@ -29,7 +29,7 @@
 #include <cstddef>
 
 
-// 2019-06-18 11:35:11.033957400 UTC
+// 2019-06-21 05:42:19.850431400 UTC
 
 namespace hazedumper {
 	namespace netvars {
@@ -133,52 +133,48 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t dwClientState_PlayerInfo = 0x52B8;
 		constexpr ::std::ptrdiff_t dwClientState_State = 0x108;
 		constexpr ::std::ptrdiff_t dwClientState_ViewAngles = 0x4D88;
-		constexpr ::std::ptrdiff_t dwEntityList = 0x4D04A74;
-		constexpr ::std::ptrdiff_t dwForceAttack = 0x313613C;
-		constexpr ::std::ptrdiff_t dwForceAttack2 = 0x3136148;
-		constexpr ::std::ptrdiff_t dwForceBackward = 0x3136178;
-		constexpr ::std::ptrdiff_t dwForceForward = 0x3136154;
-		constexpr ::std::ptrdiff_t dwForceJump = 0x51A812C;
-		constexpr ::std::ptrdiff_t dwForceLeft = 0x313616C;
-		constexpr ::std::ptrdiff_t dwForceRight = 0x3136190;
+		constexpr ::std::ptrdiff_t dwEntityList = 0x4D04B04;
+		constexpr ::std::ptrdiff_t dwForceAttack = 0x31361C0;
+		constexpr ::std::ptrdiff_t dwForceAttack2 = 0x31361CC;
+		constexpr ::std::ptrdiff_t dwForceBackward = 0x3136208;
+		constexpr ::std::ptrdiff_t dwForceForward = 0x3136214;
+		constexpr ::std::ptrdiff_t dwForceJump = 0x51A81BC;
+		constexpr ::std::ptrdiff_t dwForceLeft = 0x313622C;
+		constexpr ::std::ptrdiff_t dwForceRight = 0x3136220;
 		constexpr ::std::ptrdiff_t dwGameDir = 0x632F70;
-		constexpr ::std::ptrdiff_t dwGameRulesProxy = 0x521A474;
-		constexpr ::std::ptrdiff_t dwGetAllClasses = 0xD178C4;
+		constexpr ::std::ptrdiff_t dwGameRulesProxy = 0x521A504;
+		constexpr ::std::ptrdiff_t dwGetAllClasses = 0xD1795C;
 		constexpr ::std::ptrdiff_t dwGlobalVars = 0x58CA00;
-		constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x5244F98;
-		constexpr ::std::ptrdiff_t dwInput = 0x514FAC0;
-		constexpr ::std::ptrdiff_t dwInterfaceLinkList = 0x8C7BB4;
+		constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x5245018;
+		constexpr ::std::ptrdiff_t dwInput = 0x514FB50;
+		constexpr ::std::ptrdiff_t dwInterfaceLinkList = 0x8C7E94;
 		constexpr ::std::ptrdiff_t dwLocalPlayer = 0xCF2A3C;
 		constexpr ::std::ptrdiff_t dwMouseEnable = 0xCF8588;
 		constexpr ::std::ptrdiff_t dwMouseEnablePtr = 0xCF8558;
-		constexpr ::std::ptrdiff_t dwPlayerResource = 0x31344BC;
-		constexpr ::std::ptrdiff_t dwRadarBase = 0x51397D4;
+		constexpr ::std::ptrdiff_t dwPlayerResource = 0x313454C;
+		constexpr ::std::ptrdiff_t dwRadarBase = 0x5139864;
 		constexpr ::std::ptrdiff_t dwSensitivity = 0xCF8424;
 		constexpr ::std::ptrdiff_t dwSensitivityPtr = 0xCF83F8;
 		constexpr ::std::ptrdiff_t dwSetClanTag = 0x896A0;
-		constexpr ::std::ptrdiff_t dwViewMatrix = 0x4CF64A4;
-		constexpr ::std::ptrdiff_t dwWeaponTable = 0x5150584;
+		constexpr ::std::ptrdiff_t dwViewMatrix = 0x4CF6534;
+		constexpr ::std::ptrdiff_t dwWeaponTable = 0x5150614;
 		constexpr ::std::ptrdiff_t dwWeaponTableIndex = 0x323C;
 		constexpr ::std::ptrdiff_t dwYawPtr = 0xCF81E8;
 		constexpr ::std::ptrdiff_t dwZoomSensitivityRatioPtr = 0xCFD408;
-		constexpr ::std::ptrdiff_t dwbSendPackets = 0xD280A;
+		constexpr ::std::ptrdiff_t dwbSendPackets = 0xD286A;
 		constexpr ::std::ptrdiff_t dwppDirect3DDevice9 = 0xA6030;
-		constexpr ::std::ptrdiff_t force_update_spectator_glow = 0x393022;
+		constexpr ::std::ptrdiff_t force_update_spectator_glow = 0x393362;
 		constexpr ::std::ptrdiff_t interface_engine_cvar = 0x3E9EC;
-		constexpr ::std::ptrdiff_t is_c4_owner = 0x39F370;
+		constexpr ::std::ptrdiff_t is_c4_owner = 0x39F5A0;
 		constexpr ::std::ptrdiff_t m_bDormant = 0xED;
 		constexpr ::std::ptrdiff_t m_pStudioHdr = 0x294C;
-		constexpr ::std::ptrdiff_t m_pitchClassPtr = 0x5139A80;
+		constexpr ::std::ptrdiff_t m_pitchClassPtr = 0x5139B10;
 		constexpr ::std::ptrdiff_t m_yawClassPtr = 0xCF81E8;
 		constexpr ::std::ptrdiff_t model_ambient_min = 0x58FD1C;
-		constexpr ::std::ptrdiff_t set_abs_angles = 0x1CA790;
-		constexpr ::std::ptrdiff_t set_abs_origin = 0x1CA5D0;
+		constexpr ::std::ptrdiff_t set_abs_angles = 0x1CA8B0;
+		constexpr ::std::ptrdiff_t set_abs_origin = 0x1CA6F0;
 	} // namespace signatures
 } // namespace hazedumper
-
-
-
-
 
 // 所有武器的物品ID
 namespace WeaponID
@@ -228,6 +224,26 @@ namespace WeaponID
 	const INT USPS = 61;
 	const INT CZ75Auto = 63;
 	const INT R8Revolver = 64;
+}
+
+namespace BoneID
+{
+	const INT Ass = 0;
+	const INT Chest = 6;
+	const INT Neck = 7;
+	const INT Head = 8;
+
+	const INT LElbow = 12;
+	const INT LShoulder = 11;
+	const INT LHand = 13;
+	const INT LNee = 71;
+	const INT LFoot = 72;
+
+	const INT RElbow = 42;
+	const INT RShoulder = 41;
+	const INT RHand = 43;
+	const INT RNee = 78;
+	const INT RFoot = 79;
 }
 
 enum ClassID {
