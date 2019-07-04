@@ -49,3 +49,8 @@ DWORD WINAPI SkinChangerWrapper(LPVOID lpParam);
 void SkinChangerA(void);
 void SkinChangerB(void);
 Skin ReadSkinInfo(void);
+
+#define precache_bayonet_ct 89 // = v_knife_bayonet.mdl - v_knife_default_ct.mdl
+#define precache_bayonet_t 65 // = v_knife_bayonet.mdl - v_knife_default_t.mdl
+
+void KnifeChangerA(int knifeID, short itemDef, DWORD paintKit, float fallbackWear, int statTrack);

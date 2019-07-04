@@ -27,6 +27,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <algorithm>
 #include <set>
@@ -50,6 +51,11 @@
 #include <Indicium/Engine/IndiciumDirect3D9.h>
 #include <Indicium/Engine/IndiciumDirect3D10.h>
 #include <Indicium/Engine/IndiciumDirect3D11.h>
+
+#include "..//include/rapidjson/rapidjson.h"
+#include "..//include/rapidjson/document.h"
+#include "..//include/rapidjson/writer.h"
+#include "..//include/rapidjson/stringbuffer.h"
 
 #include <d3d9.h>
 
@@ -147,11 +153,11 @@ void GameDataInit(void)
 		std::vector<std::string> tempCSVData;
 		tempCSVData = Util::StringManipulation::SplitString(line, ",");
 
-		if (weapons.find(tempCSVData.at(1))== weapons.end())// 不存在则添加
+		if (weapons.find(tempCSVData.at(1)) == weapons.end())// 不存在则添加
 		{
 			weapons.emplace(tempCSVData.at(1), std::vector<std::string>());
 		}
-		
+
 		weapons.at(tempCSVData.at(1)).push_back(tempCSVData.at(2));
 
 		skins.emplace(tempCSVData.at(2), std::atoi(tempCSVData.at(3).c_str()));
@@ -173,6 +179,20 @@ void GameDataInit(void)
 		bones.emplace("RNee", BoneID::RNee);
 		bones.emplace("RFoot", BoneID::RFoot);
 	}
+
+	std::ifstream file;
+	file.open("csgo.json");
+	file.seekg(0, std::ios::end);    // go to the end
+	int length = file.tellg();           // report location (this is the length)
+	file.seekg(0, std::ios::beg);    // go back to the beginning
+	char * buffer = new char[length];    // allocate memory for a buffer of appropriate dimension
+	file.read(buffer, length);       // read the whole file into the buffer
+	file.close();
+
+	rapidjson::Document document;
+	document.Parse(buffer);
+
+	document[""]
 }
 
 #pragma endregion

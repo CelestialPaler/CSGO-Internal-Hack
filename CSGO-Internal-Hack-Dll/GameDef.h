@@ -29,7 +29,8 @@
 #include <cstddef>
 
 
-// 2019-06-21 05:42:19.850431400 UTC
+
+// 2019-07-01 14:16:56.345746900 UTC
 
 namespace hazedumper {
 	namespace netvars {
@@ -175,6 +176,7 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t set_abs_origin = 0x1CA6F0;
 	} // namespace signatures
 } // namespace hazedumper
+
 
 // 所有武器的物品ID
 namespace WeaponID

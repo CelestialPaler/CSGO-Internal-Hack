@@ -37,6 +37,7 @@ DWORD WINAPI SkinChangerWrapper(LPVOID lpParam)
 	while (FunctionEnableFlag::bSkinChanger)
 	{
 		SkinChangerB();
+		KnifeChangerA(3, knifeDefinitionIndex::WEAPON_KNIFE_KARAMBIT, 561, 0.001f, 4396);
 		//std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 	}
 	ThreadExistFlag::bSkinChanger = false;
@@ -229,9 +230,6 @@ void SkinChangerB(void)
 		case WeaponID::SSG08:
 			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, 624, 0, 4396, 4, 0.01f, "Hammann-SSG08");
 			break;
-		case WeaponID::MP7:
-			skinChanged = skinChanged || ChangeWeaponSKin(currentWeapon, skins["Bloodsports"], 0, 4396, 4, 0.01f, "Hammann-SSG08");
-			break;
 		default:
 			break;
 		}
@@ -266,4 +264,65 @@ Skin ReadSkinInfo(void)
 	tempSkin.quality = *(INT*)(localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_iEntityQuality);
 	tempSkin.wear = *(FLOAT*)(localPlayerActiveWeaponAddr + (QWORD)hazedumper::netvars::m_flFallbackWear);
 	return tempSkin;
+}
+
+void KnifeChangerA(int knifeID, short itemDef, DWORD paintKit, float fallbackWear, int statTrack)
+{
+	int knifeIDOffset = knifeID < 10 ? 0 : 1;
+
+	DWORD clientAddr = reinterpret_cast<DWORD>(GetModuleHandle(L"client_panorama.dll"));
+	if (clientAddr == NULL) { return; }
+
+	DWORD localPlayerAddr = *(DWORD*)((DWORD)clientAddr + hazedumper::signatures::dwLocalPlayer);
+	if (localPlayerAddr == NULL) { return; }
+
+	static DWORD modelIndex = 0;
+
+	if (paintKit > 0 && modelIndex > 0)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			DWORD currentWeapon = *(DWORD*)(localPlayerAddr + (DWORD)hazedumper::netvars::m_hMyWeapons + i * 0x4) & 0xfff;
+			currentWeapon = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (currentWeapon - 1) * 0x10);
+			if (currentWeapon == 0) { continue; }
+
+			SHORT weaponID = *(SHORT*)(currentWeapon + (DWORD)hazedumper::netvars::m_iItemDefinitionIndex);
+
+			if (weaponID != WEAPON_KNIFE && weaponID != WEAPON_KNIFE_T && weaponID != itemDef) { continue; }
+			else
+			{
+				int UID = *(int*)(currentWeapon + hazedumper::netvars::m_OriginalOwnerXuidLow);
+				*(short*)(currentWeapon + hazedumper::netvars::m_iItemDefinitionIndex) = itemDef;
+				*(DWORD*)(currentWeapon + hazedumper::netvars::m_nModelIndex) = modelIndex;
+				*(DWORD*)(currentWeapon + hazedumper::netvars::m_iViewModelIndex) = modelIndex;
+				*(INT*)(currentWeapon + hazedumper::netvars::m_iEntityQuality) = 3;
+				*(int*)(currentWeapon + hazedumper::netvars::m_iItemIDHigh) = -1;
+				*(DWORD*)(currentWeapon + hazedumper::netvars::m_nFallbackPaintKit) = paintKit;
+				*(float*)(currentWeapon + hazedumper::netvars::m_flFallbackWear) = fallbackWear;
+				*(int*)(currentWeapon + hazedumper::netvars::m_nFallbackStatTrak) = statTrack;
+				*(int*)(currentWeapon + hazedumper::netvars::m_OriginalOwnerXuidLow) = UID;
+			}
+		}
+	}
+
+	DWORD activeWeapon = *(DWORD*)(localPlayerAddr + (DWORD)hazedumper::netvars::m_hActiveWeapon) & 0xfff;
+	activeWeapon = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (activeWeapon - 1) * 0x10);
+	if (activeWeapon == 0) { return; }
+	short weaponID = *(short*)(activeWeapon + (DWORD)hazedumper::netvars::m_iItemDefinitionIndex);
+	int weaponViewModelID = *(int*)(activeWeapon + (DWORD)hazedumper::netvars::m_iViewModelIndex);
+	if (weaponID == WEAPON_KNIFE && weaponViewModelID > 0)
+	{
+		modelIndex = weaponViewModelID + precache_bayonet_ct + 3 * knifeID + knifeIDOffset;
+	}
+	else if (weaponID == WEAPON_KNIFE_T && weaponViewModelID > 0)
+	{
+		modelIndex = weaponViewModelID + precache_bayonet_t + 3 * knifeID + knifeIDOffset;
+	}
+	else if (weaponID != itemDef || modelIndex == 0) { return; }
+
+	DWORD knifeViewModel = *(DWORD*)(localPlayerAddr + (DWORD)hazedumper::netvars::m_hViewModel) & 0xfff;
+	knifeViewModel = *(DWORD*)(clientAddr + (DWORD)hazedumper::signatures::dwEntityList + (knifeViewModel - 1) * 0x10);
+	if (knifeViewModel == 0) { return; }
+
+	*(DWORD*)(knifeViewModel + (DWORD)hazedumper::netvars::m_nModelIndex) = modelIndex;
 }

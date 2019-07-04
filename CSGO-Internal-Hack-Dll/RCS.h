@@ -47,7 +47,7 @@ void Recoil(void)
 
 	static Vec2 oldViewAngle;
 
-	if (*isShotsFired > 1)
+	if (*isShotsFired > 2)
 	{
 		DWORD* clientStateAddr = reinterpret_cast<DWORD*>(engineAddr + hazedumper::signatures::dwClientState);
 		if (clientStateAddr == nullptr) { return; }
