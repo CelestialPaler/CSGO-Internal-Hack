@@ -25,7 +25,7 @@
 #include "GameData.h"
 
 // Dev Version
-const std::wstring devVersion = L"0.8a";
+const std::wstring devVersion = L"0.9a";
 
 // Target process id
 DWORD targetPID;

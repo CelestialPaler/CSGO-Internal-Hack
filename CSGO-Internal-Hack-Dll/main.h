@@ -141,7 +141,7 @@ void GameDataInit(void)
 	for (size_t i = 0; i < 256; i++)
 		glowObjects.push_back(std::make_unique<GlowObject>());
 
-	std::ifstream skinIDFile("C:\\Users\\sun11\\Desktop\\SkinID.csv");
+	std::ifstream skinIDFile("..//CSGO-Hack//SkinID.csv");
 	std::string line;
 	std::string weaponName;
 
@@ -180,19 +180,20 @@ void GameDataInit(void)
 		bones.emplace("RFoot", BoneID::RFoot);
 	}
 
-	std::ifstream file;
-	file.open("csgo.json");
-	file.seekg(0, std::ios::end);    // go to the end
-	int length = file.tellg();           // report location (this is the length)
-	file.seekg(0, std::ios::beg);    // go back to the beginning
-	char * buffer = new char[length];    // allocate memory for a buffer of appropriate dimension
-	file.read(buffer, length);       // read the whole file into the buffer
-	file.close();
+	if (false)
+	{
+		std::ifstream file;
+		file.open("csgo.json");
+		file.seekg(0, std::ios::end);  
+		int length = file.tellg();         
+		file.seekg(0, std::ios::beg);   
+		char* buffer = new char[length];   
+		file.read(buffer, length);  
+		file.close();
 
-	rapidjson::Document document;
-	document.Parse(buffer);
-
-	document[""]
+		rapidjson::Document document;
+		document.Parse(buffer);
+	}
 }
 
 #pragma endregion
@@ -431,9 +432,13 @@ void ShowGlowObjectInfo(void)
 		ss << "  Occluded : " << (glowObjects.at(i)->m_bRenderWhenOccluded ? "True" : "False");
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
-
+		
 		ImGui::SameLine();
 		ss << "  Unoccluded : " << (glowObjects.at(i)->m_bRenderWhenUnoccluded ? "True" : "False");
+		ImGui::Text(ss.str().c_str());
+		ss.str("");
+
+		ss << "  Glow ID : " << (glowObjects.at(i)->padding1[0]);
 		ImGui::Text(ss.str().c_str());
 		ss.str("");
 	}
@@ -705,39 +710,39 @@ void ShowMainWindow(void)
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Debug"))
-	{
-		ImGui::Separator();
-		ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
-		ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
-		ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
-		ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
+	//if (ImGui::CollapsingHeader("Debug"))
+	//{
+	//	ImGui::Separator();
+	//	ImGui::Checkbox("  Read LocalPlayer Info", &FunctionEnableFlag::bReadLocalPlayerInfo);
+	//	ImGui::Checkbox("  Read OtherPlayer Info", &FunctionEnableFlag::bReadOtherPlayerInfo);
+	//	ImGui::Checkbox("  Read Skin Info", &FunctionEnableFlag::bReadSkinInfo);
+	//	ImGui::Checkbox("  Read Glow Object Info", &FunctionEnableFlag::bReadGlowObjectInfo);
 
-		ImGui::Checkbox("  Show Aim Info", &FunctionEnableFlag::bShowAimInfo);
-		ImGui::Checkbox("  Show LocalPlayer Info", &FunctionEnableFlag::bShowLocalPlayerInfo);
-		ImGui::Checkbox("  Show OtherPlayer Info", &FunctionEnableFlag::bShowOtherPlayerInfo);
-		ImGui::Checkbox("  Show Skin Info", &FunctionEnableFlag::bShowSkinInfo);
-		ImGui::Checkbox("  Show Glow Object Info", &FunctionEnableFlag::bShowGlowObjectInfo);
+	//	ImGui::Checkbox("  Show Aim Info", &FunctionEnableFlag::bShowAimInfo);
+	//	ImGui::Checkbox("  Show LocalPlayer Info", &FunctionEnableFlag::bShowLocalPlayerInfo);
+	//	ImGui::Checkbox("  Show OtherPlayer Info", &FunctionEnableFlag::bShowOtherPlayerInfo);
+	//	ImGui::Checkbox("  Show Skin Info", &FunctionEnableFlag::bShowSkinInfo);
+	//	ImGui::Checkbox("  Show Glow Object Info", &FunctionEnableFlag::bShowGlowObjectInfo);
 
-		ImGui::Separator();
-		if (ImGui::Button("SkinChanger Test")) { SkinChangerB(); }
-		ImGui::SameLine();
-		if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
-		ImGui::SameLine();
-		if (ImGui::Button("GlowOnce Test")) { GlowB(); }
-		ImGui::Separator();
+	//	ImGui::Separator();
+	//	if (ImGui::Button("SkinChanger Test")) { SkinChangerB(); }
+	//	ImGui::SameLine();
+	//	if (ImGui::Button("ForceFullUpdate")) { ForceFullUpdate(); }
+	//	ImGui::SameLine();
+	//	if (ImGui::Button("GlowOnce Test")) { GlowB(); }
+	//	ImGui::Separator();
 
-		if (FunctionEnableFlag::bShowLocalPlayerInfo)
-			ShowLocalPlayerInfo();
-		if (FunctionEnableFlag::bShowOtherPlayerInfo)
-			ShowOtherPlayerInfo();
-		if (FunctionEnableFlag::bShowSkinInfo)
-			ShowSkinInfo();
-		if (FunctionEnableFlag::bShowGlowObjectInfo)
-			ShowGlowObjectInfo();
-		if (FunctionEnableFlag::bShowAimInfo)
-			ShowAimInfo();
-	}
+	//	if (FunctionEnableFlag::bShowLocalPlayerInfo)
+	//		ShowLocalPlayerInfo();
+	//	if (FunctionEnableFlag::bShowOtherPlayerInfo)
+	//		ShowOtherPlayerInfo();
+	//	if (FunctionEnableFlag::bShowSkinInfo)
+	//		ShowSkinInfo();
+	//	if (FunctionEnableFlag::bShowGlowObjectInfo)
+	//		ShowGlowObjectInfo();
+	//	if (FunctionEnableFlag::bShowAimInfo)
+	//		ShowAimInfo();
+	//}
 	ImGui::End();
 }
 

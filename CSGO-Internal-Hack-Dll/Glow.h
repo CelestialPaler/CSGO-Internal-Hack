@@ -75,6 +75,7 @@ void GlowA(void)
 		if (classID == ClassID::CCSPlayer)
 		{
 			INT entityTeam = *(INT*)(tempObj.dwEntityAddr + (DWORD)hazedumper::netvars::m_iTeamNum);
+			tempObj.padding1[0] = classID;
 			if (entityTeam == localPlayer->team)
 			{
 				if (!FunctionEnableFlag::bGlowTeammates) { continue; };
@@ -109,40 +110,40 @@ void GlowA(void)
 				tempObj.m_bFullBloom = false;
 			}
 		}
-		else if (classID == ClassID::CC4 || classID == ClassID::CPlantedC4)
-		{
-			if (!FunctionEnableFlag::bGlowC4) { continue; };
-			tempObj.r = glowColorC4[0];
-			tempObj.g = glowColorC4[1];
-			tempObj.b = glowColorC4[2];
-			tempObj.a = glowColorC4[3];
-			tempObj.m_bRenderWhenOccluded = true;
-			tempObj.m_bRenderWhenUnoccluded = false;
-			tempObj.m_bFullBloom = false;
-		}
-		else if (classID >= ClassID::CWeaponAug && classID <= ClassID::CWeaponXM1014)
-		{
-			if (FunctionEnableFlag::bGlowWeapons)
-			{
-				tempObj.r = glowColorWeapons[0];
-				tempObj.g = glowColorWeapons[1];
-				tempObj.b = glowColorWeapons[2];
-				tempObj.a = glowColorWeapons[3];
-				tempObj.m_bRenderWhenOccluded = true;
-				tempObj.m_bRenderWhenUnoccluded = false;
-				tempObj.m_bFullBloom = false;
-			}
-			else
-			{
-				tempObj.r = glowColorWeapons[0];
-				tempObj.g = glowColorWeapons[1];
-				tempObj.b = glowColorWeapons[2];
-				tempObj.a = glowColorWeapons[3];
-				tempObj.m_bRenderWhenOccluded = false;
-				tempObj.m_bRenderWhenUnoccluded = false;
-				tempObj.m_bFullBloom = false;
-			}
-		}
+		//else if (classID == ClassID::CC4 || classID == ClassID::CPlantedC4)
+		//{
+		//	if (!FunctionEnableFlag::bGlowC4) { continue; };
+		//	tempObj.r = glowColorC4[0];
+		//	tempObj.g = glowColorC4[1];
+		//	tempObj.b = glowColorC4[2];
+		//	tempObj.a = glowColorC4[3];
+		//	tempObj.m_bRenderWhenOccluded = true;
+		//	tempObj.m_bRenderWhenUnoccluded = false;
+		//	tempObj.m_bFullBloom = false;
+		//}
+		//else if (classID >= ClassID::CWeaponAug && classID <= ClassID::CWeaponXM1014)
+		//{
+		//	if (FunctionEnableFlag::bGlowWeapons)
+		//	{
+		//		tempObj.r = glowColorWeapons[0];
+		//		tempObj.g = glowColorWeapons[1];
+		//		tempObj.b = glowColorWeapons[2];
+		//		tempObj.a = glowColorWeapons[3];
+		//		tempObj.m_bRenderWhenOccluded = true;
+		//		tempObj.m_bRenderWhenUnoccluded = false;
+		//		tempObj.m_bFullBloom = false;
+		//	}
+		//	else
+		//	{
+		//		tempObj.r = glowColorWeapons[0];
+		//		tempObj.g = glowColorWeapons[1];
+		//		tempObj.b = glowColorWeapons[2];
+		//		tempObj.a = glowColorWeapons[3];
+		//		tempObj.m_bRenderWhenOccluded = false;
+		//		tempObj.m_bRenderWhenUnoccluded = false;
+		//		tempObj.m_bFullBloom = false;
+		//	}
+		//}
 		else
 		{
 			if (!FunctionEnableFlag::bGlowDefault) { continue; };
