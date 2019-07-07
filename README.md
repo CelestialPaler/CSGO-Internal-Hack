@@ -56,6 +56,7 @@
 </p> 
 
 <h4>◉ RCS</h4>
+<img src="https://github.com/CelestialTS/CSGO-Internal-Hack/blob/master/Image/rcs.jpg" alt="RCS" width=1600 height="=900">
 <p>
     &emsp;With RCS, which stands for the Recoil Control System, you can spray any weapon with high accuracy, the recoil has been compensated automatically by RCS, just aim to the enemy then push the button and let it does the anti-recoil stuff for you.
 </p>
@@ -86,20 +87,16 @@
 </p>
 
 <h2>How to use</h2>
-    <p>&emsp;1. Download the repo and extract it. </p>
-    <p>&emsp;2. Download all the dependency mentioned bellowpli>
-    <p>&emsp;3. Open with VS 2017 or higher and complie the code. Make sure to build as <b>release x86</b> configuration.</p>
-    <p>&emsp;4. Create a new folder, put Indicium-Supra.dll, CSGO-Internal-Hack-Dll.dll and Injector.exe in it. </p>
-    <p>&emsp;5. Open up CMD and use cd command to navigate to this folder. </p>
-
-    <b>&emsp;&emsp;&emsp;cd (PATH_TO_THE_FOLDER)</b>
-
-    <p>&emsp;6. Use the injector to inject both dll in to csgo.exe. (Indicium-Supra.dll must be injected first)</p>
-
-    <b>&emsp;&emsp;&emsp;Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll</b>
-
-    <p>&emsp;7. An in-game overlay will appear.</p>
-    <p>&emsp;8. Hacks on babe.</p>
+<p>&emsp;1. Download the repo and extract it. </p>
+<p>&emsp;2. Download all the dependency mentioned bellowpli>
+<p>&emsp;3. Open with VS 2017 or higher and complie the code. Make sure to build as <b>release x86</b> configuration.</p>
+<p>&emsp;4. Create a new folder, put Indicium-Supra.dll, CSGO-Internal-Hack-Dll.dll and Injector.exe in it. </p>
+<p>&emsp;5. Open up CMD and use cd command to navigate to this folder. </p>
+<b>&emsp;&emsp;&emsp;cd (PATH_TO_THE_FOLDER)</b>
+<p>&emsp;6. Use the injector to inject both dll in to csgo.exe. (Indicium-Supra.dll must be injected first)</p>
+<b>&emsp;&emsp;&emsp;Injector -n csgo.exe -i Indicium-Supra.dll CSGO-Internal-Hack-Dll.dll</b>
+<p>&emsp;7. An in-game overlay will appear.</p>
+<p>&emsp;8. Hacks on babe.</p>
  
 <h2>To be more convenient</h2>
     <p>
@@ -148,7 +145,7 @@
 <p>&emsp;Check Indicium-Supra on github: <a href="https://github.com/nefarius/Indicium-Supra">Indicium-Supra</a></p>
 
 <h2>About</h2>
-    <p>It`s welcomed for anyone to contribute to this project. Feel free to upload your code and pull a request. More than anything, please share your idea and give me some precious advices. </p>
+    <p>&emsp;It`s welcomed for anyone to contribute to this project. Feel free to upload your code and pull a request. More than anything, please share your idea and give me some precious advices. </p>
     <img src="https://github.com/CelestialTS/CTHackFramework/blob/master/res/logo.png" alt="Celestial Tech" width=400 height="=100">
-    <p>For more please check out website: <a href="http://www.tianshicangxie.com">Celestial Tech</a></p>
-    <p>Copyright © 2019 Celestial Tech</p>
+    <p>&emsp;For more please check out website: <a href="http://www.tianshicangxie.com">Celestial Tech</a></p>
+    <p>&emsp;Copyright © 2019 Celestial Tech</p>
