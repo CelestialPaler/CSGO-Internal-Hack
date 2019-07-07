@@ -52,7 +52,10 @@
 </p> 
 <p>
     &emsp;Smooth value controlls how fast your crosshair moves to the target, imagine the aimbot is allways tries to drag yor crosshair to the enemys head, or any 
-    body parts you want. 
+    body parts you want. This can make the hacks more covert, and seems more legit, which you can call it a micro-aimbot.
+</p> 
+<p>
+    &emsp;What`s more, you can now combine aimbot and RCS together to be more legit and effective. Just like a pro, aim to the enemy and spray em down. Do the transfer, do the clutch, just enjoy.
 </p> 
 
 <h4>◉ RCS</h4>
