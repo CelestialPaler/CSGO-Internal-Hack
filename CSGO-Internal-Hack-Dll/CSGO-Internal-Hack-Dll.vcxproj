@@ -74,6 +74,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\MinHook;$(SolutionDir)bin\Indicium\x86;$(SolutionDir)bin\Detours;$(LibraryPath)</LibraryPath>
+    <TargetName>CSGO-Hack</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,6 +83,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\MinHook;$(SolutionDir)bin\Indicium\x86;$(SolutionDir)bin\Detours;$(LibraryPath)</LibraryPath>
+    <TargetName>CSGO-Hack</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

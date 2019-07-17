@@ -89,7 +89,6 @@ TOGGLE_STATE(int key, bool& toggle)
 	if (!pressedPast && pressedNow)
 	{
 		toggle = !toggle;
-
 		pressedPast = true;
 	}
 }
