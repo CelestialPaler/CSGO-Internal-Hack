@@ -25,7 +25,7 @@
 #pragma once
 #include <cstddef>
 
-// 2019-07-17 02:48:49.543845300 UTC
+// 2019-07-19 14:20:26.474844800 UTC
 
 namespace hazedumper {
 	namespace netvars {
@@ -141,7 +141,7 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t dwGameRulesProxy = 0x521B4D4;
 		constexpr ::std::ptrdiff_t dwGetAllClasses = 0xD1895C;
 		constexpr ::std::ptrdiff_t dwGlobalVars = 0x58CA00;
-		constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x5245FE8;
+		constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x5246000;
 		constexpr ::std::ptrdiff_t dwInput = 0x5150B20;
 		constexpr ::std::ptrdiff_t dwInterfaceLinkList = 0x8C8014;
 		constexpr ::std::ptrdiff_t dwLocalPlayer = 0xCF3A3C;

@@ -140,7 +140,7 @@ void GameDataInit(void)
 	for (size_t i = 0; i < 256; i++)
 		glowObjects.push_back(std::make_unique<GlowObject>());
 
-	std::ifstream skinIDFile("..//CSGO-Hack//SkinID.csv");
+	std::ifstream skinIDFile("..//CSGOHack//SkinID.csv");
 	std::string line;
 	std::string weaponName;
 
