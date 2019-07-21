@@ -98,7 +98,7 @@ extern int aimLockParts;
 extern std::map<std::string, int> bones;
 
 // RCS
-extern float rcsSensitivity;;
+extern float rcsSensitivity;
 
 namespace FunctionEnableFlag
 {

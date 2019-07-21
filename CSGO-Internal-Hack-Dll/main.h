@@ -502,7 +502,7 @@ void ShowMainWindow(void)
 		ImGui::Checkbox("F2 - TriggerBot", &FunctionEnableFlag::bTriggerBot);
 		ImGui::SameLine(); HelpMarker("Automatically trigger(fire) your weapon if your crosshair is pointing to an enemy.");
 		ImGui::Checkbox("F3 - AimBot", &FunctionEnableFlag::bAimBot);
-		ImGui::SameLine(); HelpMarker("Aim assistant such as:\n   - FOV-snap\n   - Head Lock\n   - Anti-recoil");
+		ImGui::SameLine(); HelpMarker("Aim assistant.");
 		ImGui::Checkbox("F4 - Glow", &FunctionEnableFlag::bGlow);
 		ImGui::SameLine(); HelpMarker("All the entities in game will glow in X-ray style.");
 		ImGui::Checkbox("F5 - RCS", &FunctionEnableFlag::bRCS);
